@@ -1,19 +1,151 @@
 "use client";
-import { getEstilo } from "@/lib/estilos";
-import { StubPage } from "@/components/stub-page";
 
-export default function Page() {
+import { motion } from "motion/react";
+import { getEstilo } from "@/lib/estilos";
+import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+
+export default function WebFirstMobilePage() {
   const e = getEstilo("web-first-mobile")!;
+
   return (
-    <StubPage
-      estilo={e}
-      bg="#ffffff"
-      fg="#0f1419"
-      cardBg="#ffffff"
-      borderColor="#eff3f4"
-      mutedColor="#536471"
-      accent="#1d9bf0"
-      radius="9999px"
-    />
+    <div style={{ backgroundColor: "#ffffff", color: "#0f1419", minHeight: "100vh" }} className="font-inter">
+      <StyleHeader estilo={e} borderColor="#eff3f4" navColor="#536471" />
+
+      <main className="max-w-md mx-auto px-0 sm:px-4 py-0 sm:py-6">
+        {/* App-like top bar */}
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="sticky top-0 z-10 px-4 py-3 flex items-center justify-between backdrop-blur-md"
+          style={{ backgroundColor: "rgba(255,255,255,0.85)", borderBottom: "1px solid #eff3f4" }}
+        >
+          <div
+            className="w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm"
+            style={{ background: "linear-gradient(135deg, #1d9bf0, #1da1f2)", color: "#fff" }}
+          >
+            N
+          </div>
+          <h2 className="font-semibold text-base">Para vos</h2>
+          <button aria-label="Filtrar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f1419" strokeWidth="2">
+              <path d="M21 4H3M18 8H6M14 12H10M16 16H8" />
+            </svg>
+          </button>
+        </motion.div>
+
+        {/* Tabs */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="grid grid-cols-2 text-sm font-semibold"
+          style={{ borderBottom: "1px solid #eff3f4" }}
+        >
+          <button className="py-3 relative" style={{ color: "#0f1419" }}>
+            Para vos
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-12 rounded-full" style={{ backgroundColor: "#1d9bf0" }} />
+          </button>
+          <button className="py-3" style={{ color: "#536471" }}>Siguiendo</button>
+        </motion.div>
+
+        {/* Feed */}
+        <div>
+          {[
+            {
+              autor: "Guadalupe Alanís",
+              user: "@guada_inmob",
+              time: "2h",
+              texto: "Lanzamos sitio nuevo con catálogo en vivo y blog de barrio. La idea: que cada propiedad cuente algo del lugar, no solo metros cuadrados.",
+              likes: "184",
+              rt: "23",
+              replies: "12",
+              destacado: true,
+            },
+            {
+              autor: "Nacho Galland",
+              user: "@kine_galland",
+              time: "5h",
+              texto: "Si el dolor lumbar baja con movimiento y sube en reposo, no es debilidad, es información. Empezá por ahí.",
+              likes: "92",
+              rt: "18",
+              replies: "7",
+            },
+            {
+              autor: "TECHO Salta",
+              user: "@techo_salta",
+              time: "1d",
+              texto: "Cuadrillas para mayo: 4 jornadas de construcción + 2 colectas. Si querés sumarte, link en bio.",
+              likes: "412",
+              rt: "98",
+              replies: "34",
+            },
+            {
+              autor: "Buen Boy",
+              user: "@buenboy_arg",
+              time: "2d",
+              texto: "Probamos el sistema nuevo de turnos online esta semana, primera vez sin overbooking en mucho tiempo. Recomiendo.",
+              likes: "56",
+              rt: "4",
+              replies: "9",
+            },
+          ].map((p, i) => (
+            <motion.article
+              key={p.user + p.time}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.15 + i * 0.06 }}
+              className="px-4 py-4 flex gap-3 transition-colors hover:bg-slate-50/40 cursor-pointer"
+              style={{ borderBottom: "1px solid #eff3f4" }}
+            >
+              <div
+                className="w-10 h-10 rounded-full shrink-0 flex items-center justify-center font-semibold text-sm"
+                style={{
+                  background: p.destacado
+                    ? "linear-gradient(135deg, #1d9bf0, #8b5cf6)"
+                    : "linear-gradient(135deg, #94a3b8, #64748b)",
+                  color: "#fff",
+                }}
+              >
+                {p.autor.split(" ").map((s) => s[0]).join("").slice(0, 2)}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 text-[13px] mb-0.5 flex-wrap">
+                  <span className="font-bold">{p.autor}</span>
+                  {p.destacado && (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#1d9bf0">
+                      <path d="M9 16.17l-3.88-3.88a1 1 0 00-1.41 1.41l4.59 4.59a1 1 0 001.41 0L20.41 7.59A1 1 0 1019 6.17z" />
+                    </svg>
+                  )}
+                  <span style={{ color: "#536471" }}>{p.user} · {p.time}</span>
+                </div>
+                <p className="text-[15px] leading-snug mb-3">{p.texto}</p>
+                <div className="flex items-center justify-between text-xs max-w-[280px]" style={{ color: "#536471" }}>
+                  <button className="flex items-center gap-1.5 hover:text-blue-500 transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" /></svg>
+                    {p.replies}
+                  </button>
+                  <button className="flex items-center gap-1.5 hover:text-green-500 transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3" /></svg>
+                    {p.rt}
+                  </button>
+                  <button className="flex items-center gap-1.5 hover:text-pink-500 transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                    {p.likes}
+                  </button>
+                  <button className="hover:text-blue-500 transition-colors" aria-label="Compartir">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" /></svg>
+                  </button>
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="px-4 mt-12">
+          <StyleFooter estilo={e} textColor="#536471" borderColor="#eff3f4" />
+        </div>
+      </main>
+    </div>
   );
 }
