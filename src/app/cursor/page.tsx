@@ -51,8 +51,7 @@ export default function CursorPage() {
         {/* Code preview card */}
         <motion.section
           initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-20"
         >
@@ -91,8 +90,7 @@ export default function CursorPage() {
         {/* Features list */}
         <motion.section
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="mb-20 grid grid-cols-1 md:grid-cols-3 gap-8"
         >
@@ -104,8 +102,7 @@ export default function CursorPage() {
             <motion.div
               key={f.titulo}
               initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
             >
               <div className="w-1.5 h-8 mb-4 rounded-full" style={{ backgroundColor: "#f54e00" }} />

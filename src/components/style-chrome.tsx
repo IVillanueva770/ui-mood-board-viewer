@@ -45,8 +45,7 @@ export function StyleFooter({ estilo, textColor, borderColor, monoFont, headingC
   return (
     <motion.section
       initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
       className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 text-xs"
       style={{ borderTop: `1px solid ${borderColor}`, color: textColor }}

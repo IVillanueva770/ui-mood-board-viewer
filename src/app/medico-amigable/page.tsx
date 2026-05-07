@@ -185,8 +185,7 @@ export default function MedicoAmigablePage() {
         {/* Reassurance footer */}
         <motion.section
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="rounded-2xl p-5 mb-10 flex items-start gap-3"
           style={{ backgroundColor: "#fef3c7", border: "1px solid #fde68a" }}

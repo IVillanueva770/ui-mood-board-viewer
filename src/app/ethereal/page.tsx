@@ -39,8 +39,7 @@ export default function EtherealPage() {
         {/* Manifiesto */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-150px" }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           className="mb-32 grid grid-cols-12 gap-4"
         >
@@ -60,8 +59,7 @@ export default function EtherealPage() {
         {/* Index proyectos */}
         <motion.section
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
           className="mb-24"
         >
@@ -81,8 +79,7 @@ export default function EtherealPage() {
               <motion.div
                 key={p.num}
                 initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
                 whileHover={{ x: 8, color: "#ff3b00" }}
                 className="grid grid-cols-12 gap-4 py-6 cursor-pointer transition-colors"

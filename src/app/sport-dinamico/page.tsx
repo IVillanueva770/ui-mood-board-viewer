@@ -93,8 +93,7 @@ export default function SportDinamicoPage() {
         {/* Stats brutales */}
         <motion.section
           initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-0 mb-12"
           style={{ border: "1px solid #2a2a2a" }}
@@ -108,8 +107,7 @@ export default function SportDinamicoPage() {
             <motion.div
               key={s.label}
               initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
               className="p-5 sm:p-6"
               style={{
@@ -127,8 +125,7 @@ export default function SportDinamicoPage() {
         {/* Workout list */}
         <motion.section
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
@@ -147,8 +144,7 @@ export default function SportDinamicoPage() {
               <motion.div
                 key={w.num}
                 initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
                 whileHover={{ x: 6, borderColor: "#ff5722" }}
                 className="grid grid-cols-12 gap-4 p-5 cursor-pointer transition-colors"
@@ -176,8 +172,7 @@ export default function SportDinamicoPage() {
         {/* Quote */}
         <motion.section
           initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
           className="text-center py-10 mb-12 px-6"
           style={{ borderTop: "1px solid #2a2a2a", borderBottom: "1px solid #2a2a2a" }}

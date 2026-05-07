@@ -72,8 +72,7 @@ export function StubPage({ estilo, bg, fg, cardBg, borderColor, mutedColor, acce
         {/* Cards grid */}
         <motion.section
           initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-16"
         >
@@ -86,8 +85,7 @@ export function StubPage({ estilo, bg, fg, cardBg, borderColor, mutedColor, acce
               <motion.div
                 key={c.titulo}
                 initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
                 whileHover={{ y: -3, borderColor: accent }}
                 className="p-5 transition-all"
@@ -110,8 +108,7 @@ export function StubPage({ estilo, bg, fg, cardBg, borderColor, mutedColor, acce
         {/* Stats strip */}
         <motion.section
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-6 py-10 mb-16"
           style={{ borderTop: `1px solid ${borderColor}`, borderBottom: `1px solid ${borderColor}` }}

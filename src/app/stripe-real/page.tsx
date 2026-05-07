@@ -56,8 +56,7 @@ export default function StripeRealPage() {
         {/* Stats grid */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 mb-20"
           style={{ borderTop: "1px solid #e3e8ee", borderBottom: "1px solid #e3e8ee" }}
@@ -78,8 +77,7 @@ export default function StripeRealPage() {
         {/* Products grid */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-20"
         >
@@ -97,8 +95,7 @@ export default function StripeRealPage() {
               <motion.div
                 key={f.titulo}
                 initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
                 whileHover={{ y: -4, boxShadow: "0 20px 40px -12px rgba(6,27,49,0.1)" }}
                 className="p-6 rounded-md bg-white transition-shadow"

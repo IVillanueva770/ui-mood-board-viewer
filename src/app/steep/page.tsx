@@ -50,8 +50,7 @@ export default function SteepPage() {
         {/* Sample chart card */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-24"
         >
@@ -80,8 +79,7 @@ export default function SteepPage() {
                 <motion.div
                   key={i}
                   initial={{ height: 0 }}
-                  whileInView={{ height: `${h}%` }}
-                  viewport={{ once: true }}
+                  animate={{ height: `${h}%` }}
                   transition={{ duration: 0.5, delay: 0.1 + i * 0.04, ease: "easeOut" }}
                   className="flex-1 rounded-t-md"
                   style={{ backgroundColor: i === 11 ? "#5d2a1a" : "#fbe1d1" }}
@@ -104,8 +102,7 @@ export default function SteepPage() {
         {/* Pricing teaser */}
         <motion.section
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="mb-20 text-center"
         >

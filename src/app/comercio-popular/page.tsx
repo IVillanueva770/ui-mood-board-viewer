@@ -70,8 +70,7 @@ export default function ComercioPopularPage() {
             <motion.div
               key={p.nombre}
               initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: i * 0.05 }}
               whileHover={{ y: -3, boxShadow: "0 8px 20px rgba(0,0,0,0.08)" }}
               className="border rounded-lg p-3 bg-white"

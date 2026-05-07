@@ -113,8 +113,7 @@ export default function AirbnbFriendlyPage() {
         {/* Helpful tip card */}
         <motion.section
           initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="bg-white rounded-2xl p-6 mb-10 flex items-start gap-4"
           style={{ border: "1px solid #ebebeb" }}
@@ -139,8 +138,7 @@ export default function AirbnbFriendlyPage() {
         {/* Stats friendly */}
         <motion.section
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="bg-white rounded-2xl p-6 mb-10"
           style={{ border: "1px solid #ebebeb" }}

@@ -37,8 +37,7 @@ export default function Home() {
             <motion.section
               key={cat.id}
               initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: catIdx * 0.05 }}
               className="mb-12 sm:mb-16"
             >
@@ -61,8 +60,7 @@ export default function Home() {
                   <motion.div
                     key={e.slug}
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: idx * 0.05 }}
                     whileHover={{ y: -3 }}
                   >
@@ -103,8 +101,7 @@ export default function Home() {
                               className="w-3 h-3 rounded-full ring-1 ring-black/10"
                               style={{ backgroundColor: c }}
                               initial={{ scale: 0 }}
-                              whileInView={{ scale: 1 }}
-                              viewport={{ once: true }}
+                              animate={{ scale: 1 }}
                               transition={{ delay: 0.2 + i * 0.04, type: "spring", stiffness: 300 }}
                             />
                           ))}
@@ -143,8 +140,7 @@ export default function Home() {
 
         <motion.footer
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           className="mt-16 sm:mt-20 text-xs text-neutral-400 border-t border-neutral-200 pt-6"
         >
           <p>Mood Board Viewer · vive en <code className="text-neutral-600">Karpathy/ui-mood-board-viewer</code> · iterá a gusto.</p>
