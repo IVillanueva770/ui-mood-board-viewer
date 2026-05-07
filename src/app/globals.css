@@ -19,3 +19,91 @@ html, body {
 .font-bebas { font-family: var(--font-bebas), Impact, sans-serif; }
 .font-roboto-mono { font-family: var(--font-roboto-mono), ui-monospace, monospace; }
 .font-inter { font-family: var(--font-inter), system-ui, sans-serif; }
+
+/* ====== View Transitions API ====== */
+:root {
+  --vt-duration-exit: 200ms;
+  --vt-duration-enter: 320ms;
+}
+
+/* Default cross-page (al navegar entre estilos): fade + sutil blur */
+::view-transition-old(.page-fade) {
+  animation: var(--vt-duration-exit) cubic-bezier(0.4, 0, 1, 1) both vt-fade-out;
+}
+::view-transition-new(.page-fade) {
+  animation: var(--vt-duration-enter) cubic-bezier(0, 0, 0.2, 1) calc(var(--vt-duration-exit) - 60ms) both vt-fade-in;
+}
+
+@keyframes vt-fade-out {
+  from {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+/* Forward (index → estilo): slide left */
+::view-transition-old(.nav-forward) {
+  --vt-slide: -50px;
+  animation:
+    var(--vt-duration-exit) cubic-bezier(0.4, 0, 1, 1) both vt-fade-out,
+    420ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide;
+}
+::view-transition-new(.nav-forward) {
+  --vt-slide: 60px;
+  animation:
+    var(--vt-duration-enter) cubic-bezier(0, 0, 0.2, 1) var(--vt-duration-exit) both vt-fade-in-simple,
+    420ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide-back;
+}
+
+/* Back (estilo → index): slide right */
+::view-transition-old(.nav-back) {
+  --vt-slide: 50px;
+  animation:
+    var(--vt-duration-exit) cubic-bezier(0.4, 0, 1, 1) both vt-fade-out,
+    420ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide;
+}
+::view-transition-new(.nav-back) {
+  --vt-slide: -60px;
+  animation:
+    var(--vt-duration-enter) cubic-bezier(0, 0, 0.2, 1) var(--vt-duration-exit) both vt-fade-in-simple,
+    420ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide-back;
+}
+
+@keyframes vt-slide {
+  from { translate: 0; }
+  to { translate: var(--vt-slide); }
+}
+@keyframes vt-slide-back {
+  from { translate: var(--vt-slide); }
+  to { translate: 0; }
+}
+@keyframes vt-fade-in-simple {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Reduced motion: kill durations */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

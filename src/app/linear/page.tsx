@@ -40,7 +40,7 @@ export default function LinearPage() {
         style={{ borderBottom: "1px solid #1a1b1d" }}
         className="px-4 py-2 flex items-center justify-between text-xs"
       >
-        <Link href="/" style={{ color: "#8a8f98" }} className="hover:text-white transition-colors focus-visible:outline-none focus-visible:[box-shadow:0_0_0_1.5px_#e4f222] focus-visible:rounded-sm">
+        <Link href="/" transitionTypes={["nav-back"]} style={{ color: "#8a8f98" }} className="hover:text-white transition-colors focus-visible:outline-none focus-visible:[box-shadow:0_0_0_1.5px_#e4f222] focus-visible:rounded-sm">
           ← Volver al index
         </Link>
         <div style={{ color: "#8a8f98" }}>Linear (real) · midnight command center · refero</div>

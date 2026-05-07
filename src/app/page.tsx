@@ -65,6 +65,7 @@ export default function Home() {
                   >
                     <Link
                       href={`/${e.slug}`}
+                      transitionTypes={["nav-forward"]}
                       className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white block transition-all duration-200 hover:border-neutral-400 hover:shadow-xl"
                     >
                       <div

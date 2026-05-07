@@ -5,7 +5,7 @@ export default function CalmPage() {
     <div style={{ backgroundColor: "#f7f3ee", color: "#2c2925", minHeight: "100vh" }} className="font-inter">
       {/* Top nav */}
       <div className="px-6 py-4 flex items-center justify-between text-xs" style={{ borderBottom: "1px solid #e8ddd0" }}>
-        <Link href="/" style={{ color: "#7d7468" }} className="hover:text-current">
+        <Link href="/" transitionTypes={["nav-back"]} style={{ color: "#7d7468" }} className="hover:text-current">
           ← Volver al index
         </Link>
         <div style={{ color: "#7d7468" }}>Calm · wellness premium</div>

@@ -21,6 +21,7 @@ export function StyleHeader({ estilo, borderColor, navColor }: Props) {
     >
       <Link
         href="/"
+        transitionTypes={["nav-back"]}
         style={{ color: navColor }}
         className="hover:opacity-80 transition-opacity"
       >

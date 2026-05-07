@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import { Geist, Geist_Mono, Roboto_Mono, Cormorant_Garamond, Bebas_Neue, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -24,7 +25,23 @@ export default function RootLayout({
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} ${cormorant.variable} ${bebas.variable} ${inter.variable} antialiased`}
     >
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">
+        <ViewTransition
+          enter={{
+            "nav-forward": "nav-forward",
+            "nav-back": "nav-back",
+            default: "page-fade",
+          }}
+          exit={{
+            "nav-forward": "nav-forward",
+            "nav-back": "nav-back",
+            default: "page-fade",
+          }}
+          default="none"
+        >
+          {children}
+        </ViewTransition>
+      </body>
     </html>
   );
 }

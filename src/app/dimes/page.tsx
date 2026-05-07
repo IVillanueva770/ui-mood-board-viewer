@@ -8,7 +8,7 @@ export default function DimesPage() {
     <div style={{ backgroundColor: "#fffbed", color: "#0a0a0a", minHeight: "100vh" }} className="font-inter">
       {/* Top nav */}
       <div className="px-6 py-3 flex items-center justify-between text-xs uppercase tracking-wider" style={{ borderBottom: "2px solid #0a0a0a" }}>
-        <Link href="/" className="hover:underline">← Volver al index</Link>
+        <Link href="/" transitionTypes={["nav-back"]} className="hover:underline">← Volver al index</Link>
         <div>Dimes · brutalist</div>
       </div>
 
