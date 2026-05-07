@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
@@ -7,6 +8,7 @@ import { DividerReveal } from "@/components/divider-reveal";
 
 export default function StripeRealPage() {
   const e = getEstilo("stripe-real")!;
+  const [hoveredCh, setHoveredCh] = useState<string | null>(null);
   return (
     <div style={{ backgroundColor: "#ffffff", color: "#061b31", minHeight: "100vh" }} className="font-inter">
       <StyleHeader estilo={e} borderColor="#e3e8ee" navColor="#425466" />
@@ -304,20 +306,41 @@ export default function StripeRealPage() {
                       Ver todos →
                     </motion.button>
                   </div>
-                  {[
-                    { id: "ch_3OL...", cliente: "guadalupe@inmob.com", monto: "USD 1.250,00", estado: "Exitoso", color: "#d1fae5", colorFg: "#065f46", time: "12 min" },
-                    { id: "ch_3OK...", cliente: "fatima@tienda.com", monto: "USD 340,50", estado: "Exitoso", color: "#d1fae5", colorFg: "#065f46", time: "1h" },
-                    { id: "ch_3OJ...", cliente: "buenboy@gmail.com", monto: "USD 89,00", estado: "Pending", color: "#fef3c7", colorFg: "#92400e", time: "2h" },
-                    { id: "ch_3OI...", cliente: "kine@galland.ar", monto: "USD 540,00", estado: "Disputado", color: "#fee2e2", colorFg: "#991b1b", time: "Ayer" },
-                  ].map((p, i) => (
-                    <div key={p.id} className="px-4 py-2.5 grid grid-cols-12 gap-2 items-center text-sm hover:bg-slate-50" style={{ borderTop: i > 0 ? "1px solid #f1f5f9" : "none" }}>
-                      <span className="col-span-3 hidden md:block text-[11px] font-mono" style={{ color: "#425466" }}>{p.id}</span>
-                      <span className="col-span-6 md:col-span-4 truncate">{p.cliente}</span>
-                      <span className="col-span-3 md:col-span-2 text-[11px] px-2 py-0.5 rounded font-medium justify-self-start whitespace-nowrap" style={{ backgroundColor: p.color, color: p.colorFg }}>{p.estado}</span>
-                      <span className="col-span-2 md:col-span-2 text-xs text-right" style={{ color: "#425466" }}>{p.time}</span>
-                      <span className="col-span-1 md:col-span-1 text-right font-semibold tabular-nums">{p.monto.split(" ")[1]}</span>
-                    </div>
-                  ))}
+                  <div
+                    className="relative"
+                    onMouseLeave={() => setHoveredCh(null)}
+                  >
+                    {[
+                      { id: "ch_3OL...", cliente: "guadalupe@inmob.com", monto: "USD 1.250,00", estado: "Exitoso", color: "#d1fae5", colorFg: "#065f46", time: "12 min" },
+                      { id: "ch_3OK...", cliente: "fatima@tienda.com", monto: "USD 340,50", estado: "Exitoso", color: "#d1fae5", colorFg: "#065f46", time: "1h" },
+                      { id: "ch_3OJ...", cliente: "buenboy@gmail.com", monto: "USD 89,00", estado: "Pending", color: "#fef3c7", colorFg: "#92400e", time: "2h" },
+                      { id: "ch_3OI...", cliente: "kine@galland.ar", monto: "USD 540,00", estado: "Disputado", color: "#fee2e2", colorFg: "#991b1b", time: "Ayer" },
+                    ].map((p, i) => {
+                      const active = hoveredCh === p.id;
+                      return (
+                      <div
+                        key={p.id}
+                        onMouseEnter={() => setHoveredCh(p.id)}
+                        className="relative px-4 py-2.5 grid grid-cols-12 gap-2 items-center text-sm cursor-pointer"
+                        style={{ borderTop: i > 0 ? "1px solid #f1f5f9" : "none" }}
+                      >
+                        {active && (
+                          <motion.div
+                            layoutId="ch-highlight"
+                            transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                            className="absolute inset-0 pointer-events-none"
+                            style={{ backgroundColor: "#f5f3ff" }}
+                          />
+                        )}
+                        <span className="col-span-3 hidden md:block text-[11px] font-mono relative" style={{ color: "#425466" }}>{p.id}</span>
+                        <span className="col-span-6 md:col-span-4 truncate relative">{p.cliente}</span>
+                        <span className="col-span-3 md:col-span-2 text-[11px] px-2 py-0.5 rounded font-medium justify-self-start whitespace-nowrap relative" style={{ backgroundColor: p.color, color: p.colorFg }}>{p.estado}</span>
+                        <span className="col-span-2 md:col-span-2 text-xs text-right relative" style={{ color: "#425466" }}>{p.time}</span>
+                        <span className="col-span-1 md:col-span-1 text-right font-semibold tabular-nums relative">{p.monto.split(" ")[1]}</span>
+                      </div>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 {/* Actions row */}

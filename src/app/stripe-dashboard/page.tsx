@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
@@ -10,6 +11,7 @@ const SPARK = [12, 18, 14, 22, 28, 24, 35, 30, 42, 38, 48, 52, 49, 58, 64, 62, 7
 export default function StripeDashboardPage() {
   const e = getEstilo("stripe-dashboard")!;
   const max = Math.max(...SPARK);
+  const [hoveredPago, setHoveredPago] = useState<string | null>(null);
 
   return (
     <div style={{ backgroundColor: "#f7f7f7", color: "#0a0a0a", minHeight: "100vh" }} className="font-inter">
@@ -256,20 +258,39 @@ export default function StripeDashboardPage() {
                 Ver todos →
               </motion.button>
             </div>
-            <div className="divide-y" style={{ borderColor: "#e3e8ee" }}>
+            <div
+              className="divide-y relative"
+              style={{ borderColor: "#e3e8ee" }}
+              onMouseLeave={() => setHoveredPago(null)}
+            >
               {[
                 { cliente: "G. Alanís", monto: "$1,250.00", estado: "exitoso", fecha: "Hace 12 min" },
                 { cliente: "F. Vergara", monto: "$340.50", estado: "exitoso", fecha: "Hace 1 h" },
                 { cliente: "N. Galland", monto: "$890.00", estado: "pendiente", fecha: "Hace 3 h" },
                 { cliente: "Buen Boy", monto: "$520.00", estado: "exitoso", fecha: "Hoy 09:14" },
                 { cliente: "Sec. Cultura", monto: "$2,100.00", estado: "fallido", fecha: "Ayer" },
-              ].map((p) => (
-                <div key={p.cliente + p.fecha} className="px-5 py-3 flex items-center justify-between text-sm hover:bg-gray-50 transition-colors">
-                  <div>
+              ].map((p) => {
+                const id = p.cliente + p.fecha;
+                const active = hoveredPago === id;
+                return (
+                <div
+                  key={id}
+                  onMouseEnter={() => setHoveredPago(id)}
+                  className="px-5 py-3 flex items-center justify-between text-sm relative cursor-pointer"
+                >
+                  {active && (
+                    <motion.div
+                      layoutId="pago-highlight"
+                      transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                      className="absolute inset-0 pointer-events-none"
+                      style={{ backgroundColor: "#f7f7fa" }}
+                    />
+                  )}
+                  <div className="relative">
                     <p className="font-medium">{p.cliente}</p>
                     <p className="text-xs mt-0.5" style={{ color: "#6b7280" }}>{p.fecha}</p>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 relative">
                     <span
                       className="text-[11px] px-2 py-0.5 rounded font-medium"
                       style={{
@@ -282,7 +303,8 @@ export default function StripeDashboardPage() {
                     <span className="font-semibold tabular-nums">{p.monto}</span>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </motion.div>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
@@ -7,6 +8,7 @@ import { DividerReveal } from "@/components/divider-reveal";
 
 export default function OperativoCalidoPage() {
   const e = getEstilo("operativo-calido")!;
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
     <div style={{ backgroundColor: "#fafafa", color: "#171717", minHeight: "100vh" }} className="font-inter">
@@ -183,23 +185,41 @@ export default function OperativoCalidoPage() {
             </div>
           </div>
 
-          <div className="divide-y" style={{ borderColor: "#e5e7eb" }}>
+          <div
+            className="divide-y relative"
+            style={{ borderColor: "#e5e7eb" }}
+            onMouseLeave={() => setHoveredId(null)}
+          >
             {[
               { id: "#1284", cliente: "Marta G.", productos: "2 productos", monto: "$3.450", estado: "pendiente", color: "#fef3c7", colorFg: "#92400e", hora: "10:14" },
               { id: "#1283", cliente: "Roberto P.", productos: "5 productos", monto: "$8.900", estado: "en camino", color: "#ffedd5", colorFg: "#9a3412", hora: "09:42" },
               { id: "#1282", cliente: "Lucía F.", productos: "1 producto", monto: "$1.250", estado: "entregado", color: "#dcfce7", colorFg: "#166534", hora: "09:18" },
               { id: "#1281", cliente: "Ana M.", productos: "3 productos", monto: "$5.620", estado: "entregado", color: "#dcfce7", colorFg: "#166534", hora: "08:50" },
               { id: "#1280", cliente: "Diego S.", productos: "7 productos", monto: "$12.180", estado: "pendiente", color: "#fef3c7", colorFg: "#92400e", hora: "08:21" },
-            ].map((p) => (
-              <div key={p.id} className="px-5 py-3 flex items-center justify-between text-sm hover:bg-neutral-50 transition-colors">
-                <div className="flex items-center gap-3 min-w-0 flex-1">
+            ].map((p) => {
+              const active = hoveredId === p.id;
+              return (
+              <div
+                key={p.id}
+                onMouseEnter={() => setHoveredId(p.id)}
+                className="px-5 py-3 flex items-center justify-between text-sm cursor-pointer relative"
+              >
+                {active && (
+                  <motion.div
+                    layoutId="op-row-highlight"
+                    transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ backgroundColor: "#fafaf9" }}
+                  />
+                )}
+                <div className="flex items-center gap-3 min-w-0 flex-1 relative">
                   <span className="font-mono text-xs" style={{ color: "#737373" }}>{p.id}</span>
                   <div className="min-w-0 flex-1">
                     <p className="font-medium truncate">{p.cliente}</p>
                     <p className="text-xs" style={{ color: "#737373" }}>{p.productos} · {p.hora}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 relative">
                   <span
                     className="text-[11px] px-2 py-0.5 rounded-md font-medium whitespace-nowrap"
                     style={{ backgroundColor: p.color, color: p.colorFg }}
@@ -209,7 +229,8 @@ export default function OperativoCalidoPage() {
                   <span className="font-semibold tabular-nums whitespace-nowrap">{p.monto}</span>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </motion.section>
 
