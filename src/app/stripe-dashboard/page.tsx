@@ -15,7 +15,76 @@ export default function StripeDashboardPage() {
       <StyleHeader estilo={e} borderColor="#e3e8ee" navColor="#6b7280" />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
-        {/* Page header */}
+        {/* ====== HERO COMERCIAL — landing del Dashboard ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-16 sm:mb-20 text-center py-12 sm:py-16 relative"
+        >
+          <div
+            aria-hidden
+            className="absolute inset-x-0 -top-6 h-72 -z-0 opacity-40 blur-3xl"
+            style={{ background: "radial-gradient(circle at 30% 50%, rgba(99,91,255,0.4), transparent 60%)" }}
+          />
+          <div className="relative">
+            <p className="text-xs uppercase tracking-[0.2em] mb-5 font-semibold" style={{ color: "#635bff" }}>
+              Dashboard
+            </p>
+            <h1 className="text-4xl sm:text-6xl font-semibold tracking-[-0.02em] leading-[1.05] mb-5 max-w-3xl mx-auto">
+              Tu negocio en pagos,<br />
+              <span style={{ color: "#635bff" }}>en una sola pantalla.</span>
+            </h1>
+            <p className="text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-9" style={{ color: "#52545a" }}>
+              Volumen, clientes, fallos, refunds, suscripciones. Todo lo que necesitás para gestionar tu plata, sin leer logs ni armar dashboards aparte.
+            </p>
+
+            <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
+              <button
+                className="px-6 py-3 text-sm font-semibold rounded-md text-white"
+                style={{ backgroundColor: "#635bff", boxShadow: "0 4px 12px rgba(99,91,255,0.3)" }}
+              >
+                Crear cuenta
+              </button>
+              <button
+                className="px-6 py-3 text-sm font-semibold rounded-md"
+                style={{ border: "1px solid #e3e8ee", color: "#0a0a0a" }}
+              >
+                Ver pricing →
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto text-left">
+              {[
+                { tit: "Métricas en vivo", desc: "Volumen y fallos minuto a minuto. Sin caché de 24h." },
+                { tit: "Pagos recientes con contexto", desc: "Por qué falló cada pago. Si reintentar. Si avisar al cliente." },
+                { tit: "Reportes contables", desc: "Conciliación con el banco. Export a tu contador o ERP." },
+              ].map((f) => (
+                <motion.div
+                  key={f.tit}
+                  whileHover={{ y: -3 }}
+                  className="bg-white rounded-md p-5"
+                  style={{ border: "1px solid #e3e8ee" }}
+                >
+                  <div className="w-9 h-9 rounded-md mb-3 flex items-center justify-center text-white" style={{ backgroundColor: "#635bff" }}>◆</div>
+                  <h4 className="font-semibold mb-1.5">{f.tit}</h4>
+                  <p className="text-sm leading-relaxed" style={{ color: "#52545a" }}>{f.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3 mb-8">
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e3e8ee" }} />
+          <span className="text-xs uppercase tracking-[0.15em] font-semibold" style={{ color: "#635bff" }}>
+            Login → Dashboard
+          </span>
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e3e8ee" }} />
+        </div>
+
+        {/* ====== VISTA OPERATIVA ====== */}
         <motion.section
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}

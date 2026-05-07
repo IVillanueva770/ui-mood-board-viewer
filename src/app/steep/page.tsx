@@ -120,6 +120,132 @@ export default function SteepPage() {
           </motion.button>
         </motion.section>
 
+        {/* Divider */}
+        <div className="flex items-center gap-4 mb-16">
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e8e8e8" }} />
+          <span className="font-cormorant text-base italic" style={{ color: "#5d2a1a" }}>
+            adentro del producto
+          </span>
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e8e8e8" }} />
+        </div>
+
+        {/* ====== VISTA OPERATIVA — workspace del producto ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="mb-20"
+        >
+          <div className="mb-10 max-w-3xl">
+            <p className="text-xs uppercase tracking-[0.25em] mb-3" style={{ color: "#5d2a1a" }}>Workspace</p>
+            <h2 className="font-cormorant text-4xl sm:text-5xl font-medium mb-4 leading-tight">
+              Conversás con tus datos. <em style={{ color: "#5d2a1a" }}>Steep</em> hace los joins.
+            </h2>
+            <p className="text-base leading-relaxed" style={{ color: "#52545a" }}>
+              Una pregunta en la barra de arriba. Steep escribe el SQL, lo corre, te da el chart con la lectura. El SQL queda visible si querés revisarlo.
+            </p>
+          </div>
+
+          <div className="rounded-2xl overflow-hidden bg-white" style={{ border: "1px solid #e8e8e8", boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 12px 32px rgba(0,0,0,0.05)" }}>
+            {/* Top bar */}
+            <div className="px-5 py-3 flex items-center gap-3 text-sm" style={{ borderBottom: "1px solid #e8e8e8", backgroundColor: "#fafafa" }}>
+              <div className="w-7 h-7 rounded-md flex items-center justify-center text-white text-xs font-bold" style={{ backgroundColor: "#5d2a1a" }}>S</div>
+              <span className="font-cormorant text-lg italic">acme · production warehouse</span>
+              <span className="ml-auto text-xs" style={{ color: "#6b6b6b", fontFamily: "var(--font-geist-mono)" }}>connected · 2 min ago</span>
+            </div>
+
+            <div className="grid grid-cols-12">
+              {/* Sidebar */}
+              <aside className="col-span-3 hidden md:block p-4 text-sm" style={{ borderRight: "1px solid #e8e8e8" }}>
+                <p className="text-[11px] uppercase tracking-wider mb-3" style={{ color: "#5d2a1a", fontFamily: "var(--font-geist-mono)" }}>collections</p>
+                <div className="space-y-1">
+                  {[
+                    { l: "Revenue", n: 12 },
+                    { l: "Funnel", n: 8 },
+                    { l: "Cohorts", n: 5 },
+                    { l: "Customers", n: 23 },
+                    { l: "Drafts", n: 4 },
+                  ].map((c) => (
+                    <button key={c.l} className="w-full text-left px-2 py-1.5 rounded flex items-center justify-between hover:bg-orange-50/40">
+                      <span className="font-cormorant text-base">{c.l}</span>
+                      <span className="text-xs" style={{ color: "#6b6b6b", fontFamily: "var(--font-geist-mono)" }}>{c.n}</span>
+                    </button>
+                  ))}
+                </div>
+                <p className="text-[11px] uppercase tracking-wider mt-6 mb-3" style={{ color: "#5d2a1a", fontFamily: "var(--font-geist-mono)" }}>history</p>
+                <div className="space-y-2 text-xs leading-snug" style={{ color: "#52545a" }}>
+                  <p>· top customers by ARR</p>
+                  <p>· churn rate week over week</p>
+                  <p>· avg deal size by region</p>
+                  <p>· conversion 30d</p>
+                </div>
+              </aside>
+
+              {/* Workspace */}
+              <div className="col-span-12 md:col-span-9 p-6">
+                {/* Question bar */}
+                <div className="rounded-md p-3 mb-5 flex items-center gap-3" style={{ backgroundColor: "#fbe1d1" }}>
+                  <span className="text-lg">✶</span>
+                  <p className="font-cormorant text-lg italic flex-1" style={{ color: "#5d2a1a" }}>
+                    ¿Qué cohorte de mayo'25 retuvo mejor a los 90 días?
+                  </p>
+                  <span className="text-[11px] px-2 py-1 rounded-full" style={{ backgroundColor: "#fff", color: "#5d2a1a", fontFamily: "var(--font-geist-mono)" }}>2.8s</span>
+                </div>
+
+                {/* Result chart */}
+                <div className="rounded-md p-5 mb-5" style={{ backgroundColor: "#f7f7f8" }}>
+                  <div className="flex items-baseline justify-between mb-4">
+                    <p className="font-cormorant text-xl">Retención por cohorte de signup</p>
+                    <span className="text-xs" style={{ color: "#6b6b6b" }}>5 cohortes · D0–D90</span>
+                  </div>
+                  <svg viewBox="0 0 400 120" className="w-full" preserveAspectRatio="none">
+                    {[
+                      { label: "may", color: "#5d2a1a", points: [100, 78, 65, 60, 58, 56] },
+                      { label: "jun", color: "#a04a32", points: [100, 72, 58, 50, 46, 44] },
+                      { label: "jul", color: "#c97c5d", points: [100, 75, 62, 55, 50, 48] },
+                      { label: "ago", color: "#dba684", points: [100, 70, 54, 46, 41, 38] },
+                      { label: "sep", color: "#ecc6ad", points: [100, 68, 50, 42, 36, 32] },
+                    ].map((line) => (
+                      <polyline
+                        key={line.label}
+                        fill="none"
+                        stroke={line.color}
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        points={line.points.map((y, i) => `${i * 80},${120 - y * 1.05}`).join(" ")}
+                      />
+                    ))}
+                  </svg>
+                  <div className="flex items-center justify-between text-xs mt-3" style={{ color: "#6b6b6b", fontFamily: "var(--font-geist-mono)" }}>
+                    <span>D0</span>
+                    <span>D14</span>
+                    <span>D30</span>
+                    <span>D60</span>
+                    <span>D75</span>
+                    <span>D90</span>
+                  </div>
+                </div>
+
+                {/* Insight reading */}
+                <div className="p-5 rounded-md mb-5" style={{ border: "1px solid #e8e8e8" }}>
+                  <p className="text-xs uppercase tracking-wider mb-2" style={{ color: "#5d2a1a" }}>Lectura</p>
+                  <p className="font-cormorant text-xl leading-relaxed" style={{ color: "#17191c" }}>
+                    Mayo retuvo <em>56% a 90 días</em>. Septiembre cayó a <em>32%</em>. Coincide con el cambio de onboarding del 12 de septiembre.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 text-xs" style={{ color: "#6b6b6b" }}>
+                  <button className="px-3 py-1.5 rounded text-white font-medium" style={{ backgroundColor: "#17191c" }}>Guardar en Cohorts</button>
+                  <button className="px-3 py-1.5 rounded font-medium" style={{ border: "1px solid #e8e8e8", color: "#17191c" }}>Ver SQL</button>
+                  <button className="px-3 py-1.5 rounded font-medium" style={{ border: "1px solid #e8e8e8", color: "#17191c" }}>Compartir →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
         <StyleFooter estilo={e} textColor="#52545a" borderColor="#e8e8e8" />
       </main>
     </div>

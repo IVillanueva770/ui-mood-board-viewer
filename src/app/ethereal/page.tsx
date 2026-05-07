@@ -162,6 +162,86 @@ export default function EtherealPage() {
           </div>
         </motion.section>
 
+        {/* Divider asimétrico */}
+        <div className="grid grid-cols-12 gap-4 mb-20">
+          <div className="col-span-12 md:col-span-2" />
+          <div className="col-span-12 md:col-span-10 flex items-center gap-5">
+            <span className="text-[10px] uppercase tracking-[0.4em]" style={{ color: "#666666" }}>
+              02 / op
+            </span>
+            <div className="flex-1 h-px" style={{ backgroundColor: "#333333" }} />
+          </div>
+        </div>
+
+        {/* ====== VISTA OPERATIVA — atelier interno ====== */}
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="mb-32 grid grid-cols-12 gap-4"
+        >
+          <div className="col-span-12 md:col-span-2">
+            <p className="text-[10px] uppercase tracking-[0.4em]" style={{ color: "#888888" }}>atelier</p>
+          </div>
+          <div className="col-span-12 md:col-span-10">
+            <h2
+              className="font-bebas leading-[0.85] tracking-tight mb-12"
+              style={{
+                letterSpacing: "-0.04em",
+                fontSize: "clamp(2.5rem, 7vw, 7rem)",
+              }}
+            >
+              CADA OBRA <em className="italic" style={{ color: "#ff3b00" }}>tiene</em><br />
+              SU CADENA DE GESTOS.
+            </h2>
+
+            {/* Pipeline asimétrico — bloques con offsets distintos */}
+            <div className="space-y-12 mb-16">
+              {[
+                { tit: "AURORA BOTANICAL", etapa: "Presentación final", fecha: "14 may", autor: "Macarena R.", offset: "" },
+                { tit: "CIEN SOLES", etapa: "Maquetas v3", fecha: "22 may", autor: "Joaco G.", offset: "md:ml-16" },
+                { tit: "MATRIA RECORDS", etapa: "Storyboard motion", fecha: "30 may", autor: "Tomi M.", offset: "md:ml-32" },
+                { tit: "TABACAL", etapa: "Discovery / etiquetas", fecha: "12 jun", autor: "Macarena R.", offset: "md:ml-8" },
+              ].map((p, i) => (
+                <motion.div
+                  key={p.tit}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                  className={`group max-w-2xl ${p.offset}`}
+                >
+                  <div className="flex items-baseline gap-4 mb-1.5">
+                    <span className="text-[10px] uppercase tracking-[0.3em] font-mono" style={{ color: "#666666" }}>{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-[11px] uppercase tracking-[0.25em]" style={{ color: "#ff3b00" }}>{p.etapa}</span>
+                  </div>
+                  <h3 className="font-bebas text-3xl sm:text-5xl tracking-wide leading-none mb-2 transition-colors group-hover:[color:#ff3b00]">{p.tit}</h3>
+                  <div className="flex items-baseline justify-between gap-4 text-xs" style={{ color: "#888888" }}>
+                    <span className="font-mono">due {p.fecha}</span>
+                    <span>{p.autor}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Capacidad atelier */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-10" style={{ borderTop: "1px solid #333333" }}>
+              {[
+                { v: "04", l: "Manos en obra" },
+                { v: "12 / 17", l: "Sem. comprometidas" },
+                { v: "Q3·26", l: "Próximo libre" },
+                { v: "≈ 6 sem", l: "Cola estimada" },
+              ].map((s) => (
+                <div key={s.l}>
+                  <p className="font-bebas text-4xl tracking-wide mb-1.5">{s.v}</p>
+                  <p className="text-[10px] uppercase tracking-[0.3em]" style={{ color: "#888888" }}>{s.l}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.section>
+
         <StyleFooter estilo={e} textColor="#aaaaaa" borderColor="#333333" />
       </main>
     </div>

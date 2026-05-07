@@ -12,7 +12,78 @@ export default function OperativoCalidoPage() {
       <StyleHeader estilo={e} borderColor="#e5e7eb" navColor="#737373" />
 
       <main className="max-w-5xl mx-auto px-5 sm:px-8 py-8 sm:py-10">
-        {/* Header simple */}
+        {/* ====== HERO COMERCIAL — landing del producto e-commerce ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-16 sm:mb-20 text-center py-8 sm:py-12"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5" style={{ backgroundColor: "#dcfce7", color: "#166534" }}>
+            <span className="text-sm">🌞</span>
+            <span className="text-xs font-semibold">Vendé sin volverte loca</span>
+          </div>
+          <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight leading-[1.05] mb-5 max-w-3xl mx-auto">
+            Tu negocio,<br />
+            <span style={{ color: "#16a34a" }}>en una sola pantalla.</span>
+          </h1>
+          <p className="text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-9" style={{ color: "#525252" }}>
+            Pedidos, WhatsApp, envíos, cobros: todo junto. Sin abrir 4 apps. Sin perder mensajes en el río de chats.
+          </p>
+
+          <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
+            <button
+              className="px-6 py-3 rounded-lg text-sm font-semibold text-white"
+              style={{ backgroundColor: "#16a34a" }}
+            >
+              Probar gratis 30 días
+            </button>
+            <button
+              className="px-6 py-3 rounded-lg text-sm font-semibold"
+              style={{ border: "1px solid #e5e7eb", color: "#171717" }}
+            >
+              Hablar con ventas →
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto text-left">
+            {[
+              { icon: "💬", tit: "WhatsApp adentro", desc: "Cada mensaje del cliente queda atado a su pedido. No te perdés ninguno." },
+              { icon: "🛵", tit: "Envíos con un toque", desc: "Marcás el pedido como listo y se asigna al cadete. Te avisa cuando llega." },
+              { icon: "📊", tit: "Ves cómo va el día", desc: "Pedidos, ventas, deudas. Sin Excel, sin contar pesos a mano de noche." },
+            ].map((p) => (
+              <motion.div
+                key={p.tit}
+                whileHover={{ y: -3 }}
+                className="bg-white rounded-lg p-5"
+                style={{ border: "1px solid #e5e7eb" }}
+              >
+                <div className="text-2xl mb-3">{p.icon}</div>
+                <h4 className="font-semibold mb-1.5">{p.tit}</h4>
+                <p className="text-sm leading-relaxed" style={{ color: "#737373" }}>{p.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-center gap-6 flex-wrap mt-10 text-sm" style={{ color: "#737373" }}>
+            <span><span className="font-semibold" style={{ color: "#171717" }}>3.400+</span> negocios en Argentina</span>
+            <span>·</span>
+            <span><span className="font-semibold" style={{ color: "#171717" }}>4.8/5</span> en Google Play</span>
+            <span>·</span>
+            <span>Soporte por WhatsApp</span>
+          </div>
+        </motion.section>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3 mb-10">
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
+          <span className="text-xs uppercase tracking-wider font-semibold" style={{ color: "#16a34a" }}>
+            🌞 panel del negocio
+          </span>
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
+        </div>
+
+        {/* ====== VISTA OPERATIVA ====== */}
         <motion.section
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
