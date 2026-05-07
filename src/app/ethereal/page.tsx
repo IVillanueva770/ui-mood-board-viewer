@@ -10,7 +10,7 @@ export default function EtherealPage() {
     <div style={{ backgroundColor: "#0a0a0a", color: "#fafaf7", minHeight: "100vh" }} className="font-inter">
       <StyleHeader estilo={e} borderColor="#222222" navColor="#888888" />
 
-      <main className="max-w-7xl mx-auto px-6 py-12 sm:py-20">
+      <main className="max-w-7xl mx-auto px-6 py-12 sm:py-20 overflow-x-hidden">
         {/* Hero asimétrico */}
         <motion.section
           initial={{ opacity: 0 }}
@@ -28,7 +28,13 @@ export default function EtherealPage() {
             transition={{ duration: 0.8 }}
             className="col-span-12 md:col-span-10"
           >
-            <h1 className="font-bebas text-7xl sm:text-[10rem] md:text-[14rem] leading-[0.85] tracking-tight" style={{ letterSpacing: "-0.04em" }}>
+            <h1
+              className="font-bebas leading-[0.85] tracking-tight"
+              style={{
+                letterSpacing: "-0.04em",
+                fontSize: "clamp(3.5rem, 11vw, 12.5rem)",
+              }}
+            >
               ESTUDIO<br />
               <span style={{ color: "#ff3b00", fontStyle: "italic" }}>en construcción</span><br />
               PERMANENTE.

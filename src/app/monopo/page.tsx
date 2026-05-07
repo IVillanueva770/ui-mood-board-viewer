@@ -8,6 +8,22 @@ export default function MonopoPage() {
   const e = getEstilo("monopo")!;
   return (
     <div style={{ backgroundColor: "#000000", color: "#ffffff", minHeight: "100vh", position: "relative", overflow: "hidden" }} className="font-inter">
+      {/* SVG filter para grano del shimmer — se aplica con filter:url(#monopo-grain) */}
+      <svg aria-hidden width="0" height="0" style={{ position: "absolute" }}>
+        <defs>
+          <filter id="monopo-grain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+            <feColorMatrix
+              type="matrix"
+              values="0 0 0 0 1
+                      0 0 0 0 1
+                      0 0 0 0 1
+                      0 0 0 0.55 0"
+            />
+            <feComposite in2="SourceGraphic" operator="in" />
+          </filter>
+        </defs>
+      </svg>
       {/* Animated gradient bg */}
       <motion.div
         aria-hidden
@@ -128,18 +144,69 @@ export default function MonopoPage() {
               border: "1px solid rgba(255,255,255,0.1)",
             }}
           >
-            {/* Shimmer firma — franja diagonal que cruza el glass */}
+            {/* Capa 1 — estela trasera, ancha y muy translúcida */}
             <motion.div
               aria-hidden
               variants={{
-                rest: { x: "-120%", opacity: 0 },
-                hover: { x: "120%", opacity: 1 },
+                rest: { x: "-130%", opacity: 0 },
+                hover: { x: "130%", opacity: 1 },
               }}
-              transition={{ duration: 1.4, ease: [0.22, 0.61, 0.36, 1] }}
-              className="absolute inset-y-0 w-2/3 pointer-events-none"
+              transition={{ duration: 1.6, ease: [0.22, 0.61, 0.36, 1] }}
+              className="absolute -inset-y-10 w-[85%] pointer-events-none"
               style={{
                 background:
-                  "linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.1) 35%, rgba(255,255,255,0.32) 50%, rgba(167,139,250,0.18) 65%, transparent 100%)",
+                  "linear-gradient(108deg, transparent 0%, rgba(167,139,250,0.05) 30%, rgba(167,139,250,0.15) 50%, rgba(96,165,250,0.08) 70%, transparent 100%)",
+                filter: "blur(20px)",
+                mixBlendMode: "screen",
+                transform: "rotate(-2deg)",
+              }}
+            />
+            {/* Capa 2 — banda principal con grano y blur sutil */}
+            <motion.div
+              aria-hidden
+              variants={{
+                rest: { x: "-115%", opacity: 0 },
+                hover: { x: "115%", opacity: 1 },
+              }}
+              transition={{ duration: 1.3, ease: [0.22, 0.61, 0.36, 1], delay: 0.05 }}
+              className="absolute -inset-y-4 w-[55%] pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.28) 48%, rgba(255,255,255,0.32) 52%, rgba(167,139,250,0.18) 70%, transparent 100%)",
+                filter: "blur(8px) url(#monopo-grain)",
+                mixBlendMode: "screen",
+                transform: "rotate(-2deg)",
+              }}
+            />
+            {/* Capa 3 — punto de luz radial caliente que viaja con la banda */}
+            <motion.div
+              aria-hidden
+              variants={{
+                rest: { x: "-115%", opacity: 0 },
+                hover: { x: "115%", opacity: 1 },
+              }}
+              transition={{ duration: 1.3, ease: [0.22, 0.61, 0.36, 1], delay: 0.05 }}
+              className="absolute inset-y-0 w-1/2 pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(ellipse 45% 70% at 50% 50%, rgba(255,255,255,0.55) 0%, rgba(167,139,250,0.28) 35%, transparent 65%)",
+                mixBlendMode: "screen",
+                filter: "blur(2px)",
+              }}
+            />
+            {/* Capa 4 — segundo pase a contramano, muy sutil, da textura "respirada" */}
+            <motion.div
+              aria-hidden
+              variants={{
+                rest: { x: "120%", opacity: 0 },
+                hover: { x: "-120%", opacity: 0.6 },
+              }}
+              transition={{ duration: 2, ease: [0.22, 0.61, 0.36, 1], delay: 0.2 }}
+              className="absolute inset-y-0 w-1/3 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(75deg, transparent 0%, rgba(96,165,250,0.12) 50%, transparent 100%)",
+                filter: "blur(14px)",
                 mixBlendMode: "screen",
               }}
             />
