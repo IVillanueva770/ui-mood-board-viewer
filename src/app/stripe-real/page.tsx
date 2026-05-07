@@ -207,6 +207,118 @@ export default function StripeRealPage() {
           </div>
         </motion.section>
 
+        {/* Divider */}
+        <div className="flex items-center gap-3 mb-12">
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e3e8ee" }} />
+          <span className="text-xs uppercase tracking-[0.2em] font-semibold" style={{ color: "#533afd" }}>
+            Dashboard del producto
+          </span>
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e3e8ee" }} />
+        </div>
+
+        {/* ====== VISTA OPERATIVA — workspace de un comerciante en Stripe ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-20"
+        >
+          <div className="mb-8 max-w-3xl">
+            <p className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: "#533afd" }}>Workspace</p>
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-3" style={{ color: "#061b31" }}>
+              Lo que ves cuando entrás a operar.
+            </h2>
+            <p className="text-base leading-relaxed" style={{ color: "#425466" }}>
+              El balance disponible, los próximos pagos a la cuenta, y la actividad de las últimas 24 horas. Sin gráficos de feria, sin métricas de vanidad.
+            </p>
+          </div>
+
+          <div className="rounded-lg overflow-hidden bg-white" style={{ border: "1px solid #e3e8ee", boxShadow: "0 1px 3px rgba(6,27,49,0.04), 0 12px 32px rgba(83,58,253,0.06)" }}>
+            <div className="px-5 py-3 flex items-center gap-3 text-sm" style={{ borderBottom: "1px solid #e3e8ee", backgroundColor: "#fafbff" }}>
+              <div className="w-7 h-7 rounded-md flex items-center justify-center text-white text-xs font-bold" style={{ background: "linear-gradient(135deg, #533afd, #00d4ff)" }}>S</div>
+              <span className="font-semibold">Acme Co · Live mode</span>
+              <span className="ml-auto text-xs px-2 py-0.5 rounded font-medium" style={{ backgroundColor: "#d1fae5", color: "#065f46" }}>● activo</span>
+            </div>
+
+            <div className="grid grid-cols-12">
+              <aside className="col-span-3 hidden md:block py-5 text-sm" style={{ borderRight: "1px solid #e3e8ee" }}>
+                {[
+                  { l: "Inicio", active: true },
+                  { l: "Pagos" },
+                  { l: "Suscripciones" },
+                  { l: "Facturas" },
+                  { l: "Clientes" },
+                  { l: "Productos" },
+                  { l: "Reportes" },
+                  { l: "Connect" },
+                  { l: "Developers" },
+                ].map((it) => (
+                  <button
+                    key={it.l}
+                    className="w-full text-left px-5 py-1.5 transition-colors"
+                    style={{
+                      backgroundColor: it.active ? "#f5f3ff" : "transparent",
+                      color: it.active ? "#533afd" : "#425466",
+                      fontWeight: it.active ? 600 : 400,
+                      borderLeft: it.active ? "2px solid #533afd" : "2px solid transparent",
+                    }}
+                  >
+                    {it.l}
+                  </button>
+                ))}
+              </aside>
+
+              <div className="col-span-12 md:col-span-9 p-6">
+                {/* Balance principal */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  {[
+                    { l: "Saldo disponible", v: "$ 18.420,50", sub: "USD · transferible" },
+                    { l: "En tránsito", v: "$ 3.120,00", sub: "Llega 12 may" },
+                    { l: "Próximo payout", v: "$ 14.200,00", sub: "10 may · BBVA ····2487" },
+                  ].map((s, i) => (
+                    <div key={s.l} className="rounded-md p-4" style={{ border: "1px solid #e3e8ee", backgroundColor: i === 0 ? "#f5f3ff" : "#ffffff" }}>
+                      <p className="text-xs mb-1" style={{ color: "#425466" }}>{s.l}</p>
+                      <p className="text-2xl font-semibold tracking-tight tabular-nums" style={{ color: i === 0 ? "#533afd" : "#061b31" }}>{s.v}</p>
+                      <p className="text-[11px] mt-1" style={{ color: "#425466" }}>{s.sub}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Pagos recientes */}
+                <div className="rounded-md mb-5" style={{ border: "1px solid #e3e8ee" }}>
+                  <div className="px-4 py-2.5 flex items-center justify-between text-sm" style={{ borderBottom: "1px solid #e3e8ee" }}>
+                    <p className="font-semibold">Últimos pagos</p>
+                    <button className="text-xs hover:underline" style={{ color: "#533afd" }}>Ver todos →</button>
+                  </div>
+                  {[
+                    { id: "ch_3OL...", cliente: "guadalupe@inmob.com", monto: "USD 1.250,00", estado: "Exitoso", color: "#d1fae5", colorFg: "#065f46", time: "12 min" },
+                    { id: "ch_3OK...", cliente: "fatima@tienda.com", monto: "USD 340,50", estado: "Exitoso", color: "#d1fae5", colorFg: "#065f46", time: "1h" },
+                    { id: "ch_3OJ...", cliente: "buenboy@gmail.com", monto: "USD 89,00", estado: "Pending", color: "#fef3c7", colorFg: "#92400e", time: "2h" },
+                    { id: "ch_3OI...", cliente: "kine@galland.ar", monto: "USD 540,00", estado: "Disputado", color: "#fee2e2", colorFg: "#991b1b", time: "Ayer" },
+                  ].map((p, i) => (
+                    <div key={p.id} className="px-4 py-2.5 grid grid-cols-12 gap-2 items-center text-sm hover:bg-slate-50" style={{ borderTop: i > 0 ? "1px solid #f1f5f9" : "none" }}>
+                      <span className="col-span-3 hidden md:block text-[11px] font-mono" style={{ color: "#425466" }}>{p.id}</span>
+                      <span className="col-span-6 md:col-span-4 truncate">{p.cliente}</span>
+                      <span className="col-span-3 md:col-span-2 text-[11px] px-2 py-0.5 rounded font-medium justify-self-start whitespace-nowrap" style={{ backgroundColor: p.color, color: p.colorFg }}>{p.estado}</span>
+                      <span className="col-span-2 md:col-span-2 text-xs text-right" style={{ color: "#425466" }}>{p.time}</span>
+                      <span className="col-span-1 md:col-span-1 text-right font-semibold tabular-nums">{p.monto.split(" ")[1]}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Actions row */}
+                <div className="flex items-center gap-2 flex-wrap text-sm">
+                  <button className="px-4 py-2 rounded text-white font-semibold" style={{ backgroundColor: "#533afd", boxShadow: "0 1px 2px rgba(83,58,253,0.2)" }}>+ Nueva factura</button>
+                  <button className="px-4 py-2 rounded font-semibold" style={{ border: "1px solid #e3e8ee", color: "#061b31" }}>Crear payment link</button>
+                  <button className="px-4 py-2 rounded font-semibold" style={{ border: "1px solid #e3e8ee", color: "#061b31" }}>Refund</button>
+                  <span className="ml-auto text-xs" style={{ color: "#425466", fontFamily: "var(--font-geist-mono)" }}>API: 99.998% uptime · 30d</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
         <StyleFooter estilo={e} textColor="#425466" borderColor="#e3e8ee" />
       </main>
     </div>

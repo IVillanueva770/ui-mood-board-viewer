@@ -110,6 +110,66 @@ export default function WebFirstMobilePage() {
     <div style={{ backgroundColor: "#ffffff", color: "#0f1419", minHeight: "100vh" }} className="font-inter">
       <StyleHeader estilo={e} borderColor="#eff3f4" navColor="#536471" />
 
+      {/* ====== HERO COMERCIAL — landing tipo "join the conversation" ====== */}
+      <motion.section
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-4xl mx-auto px-5 pt-12 pb-14 sm:pt-20 sm:pb-20 text-center"
+      >
+        <div className="inline-flex items-center gap-2 mb-7">
+          <div
+            className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-base text-white"
+            style={{ background: "linear-gradient(135deg, #1d9bf0, #8b5cf6)" }}
+          >
+            N
+          </div>
+          <span className="font-bold text-xl">Nube</span>
+        </div>
+        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05] mb-5 max-w-3xl mx-auto">
+          Lo que está pasando,<br />
+          <span style={{ color: "#1d9bf0" }}>contado por gente real.</span>
+        </h1>
+        <p className="text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-8" style={{ color: "#536471" }}>
+          Una red social sin algoritmos predatorios. Seguís a gente que querés leer, ves lo que escriben en orden cronológico, sin sugerencias forzadas.
+        </p>
+
+        <div className="flex items-center justify-center gap-3 flex-wrap mb-10">
+          <button
+            className="px-6 py-3 rounded-full text-sm font-bold text-white"
+            style={{ backgroundColor: "#1d9bf0" }}
+          >
+            Crear cuenta
+          </button>
+          <button
+            className="px-6 py-3 rounded-full text-sm font-bold"
+            style={{ border: "1px solid #cfd9de", color: "#0f1419" }}
+          >
+            Ya tengo cuenta
+          </button>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto pt-8" style={{ borderTop: "1px solid #eff3f4" }}>
+          {[
+            { v: "240k", l: "personas activas / día" },
+            { v: "0", l: "anuncios en el feed" },
+            { v: "100%", l: "cronológico" },
+          ].map((s) => (
+            <div key={s.l}>
+              <p className="text-xl sm:text-2xl font-bold tracking-tight">{s.v}</p>
+              <p className="text-xs mt-1" style={{ color: "#536471" }}>{s.l}</p>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Divider */}
+      <div className="max-w-md mx-auto px-4 mb-2 flex items-center gap-3">
+        <div className="flex-1 h-px" style={{ backgroundColor: "#eff3f4" }} />
+        <span className="text-[10px] uppercase tracking-[0.2em] font-bold" style={{ color: "#536471" }}>así se ve el feed</span>
+        <div className="flex-1 h-px" style={{ backgroundColor: "#eff3f4" }} />
+      </div>
+
       <main className="max-w-md mx-auto px-0 sm:px-4 py-0 sm:py-6">
         {/* App-like top bar */}
         <motion.div

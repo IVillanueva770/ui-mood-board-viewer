@@ -107,9 +107,18 @@ export default function SinEstiloPage() {
           </div>
         </section>
 
+        {/* Divider del patrón hero+operativo */}
+        <div className="mb-12 py-2 flex items-center gap-3" style={{ borderTop: "1px solid #000000", borderBottom: "1px solid #000000" }}>
+          <span className="text-xs" style={{ color: "#666666" }}>[ARRIBA]</span>
+          <span className="text-xs">CARA COMERCIAL</span>
+          <span className="text-xs flex-1" style={{ color: "#666666" }}>· · · · · · · · · ·</span>
+          <span className="text-xs">VISTA OPERATIVA</span>
+          <span className="text-xs" style={{ color: "#666666" }}>[ABAJO]</span>
+        </div>
+
         {/* Form */}
         <section className="mb-16">
-          <div className="text-xs mb-4">[FORM]</div>
+          <div className="text-xs mb-4">[FORM ADMIN]</div>
           <div className="p-5 max-w-md" style={{ border: "1px solid #000000" }}>
             <label className="block text-xs mb-1" style={{ color: "#666666" }}>NOMBRE</label>
             <input
