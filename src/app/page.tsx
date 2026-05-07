@@ -19,12 +19,11 @@ export default function Home() {
             Estilos del usuario
           </h1>
           <p className="text-base sm:text-lg text-neutral-600 max-w-2xl leading-relaxed">
-            Cada estilo se ve aplicado a un layout sample con paleta y tipografía reales. Los <span className="font-medium text-neutral-900">aprobados</span> ya están confirmados; los <span className="font-medium text-neutral-900">pendientes</span> esperan tu thumbs-up al verlos.
+            Cada estilo se ve aplicado a un layout sample con paleta y tipografía reales. Hovereá las cards y entrá a cada uno para sentir las microinteracciones firma del estilo.
           </p>
 
           <div className="flex flex-wrap gap-2 mt-6 text-xs">
             <Badge dot="#22c55e" label={`${ESTILOS.filter((e) => e.estado === "aprobado").length} aprobados`} />
-            <Badge dot="#eab308" label={`${ESTILOS.filter((e) => e.estado === "pendiente-revision").length} a revisar`} />
             <Badge dot="#737373" label="Click para entrar" />
           </div>
         </motion.header>

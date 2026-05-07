@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "motion/react";
 
 export default function DimesPage() {
   return (
@@ -12,9 +15,12 @@ export default function DimesPage() {
       <main className="max-w-6xl mx-auto px-6 py-12 sm:py-16">
         {/* Hero gigante */}
         <section className="mb-16 sm:mb-24">
-          <div
+          <motion.div
+            initial={{ boxShadow: "8px 8px 0 0 #0a0a0a", x: 0, y: 0 }}
+            whileHover={{ boxShadow: "14px 14px 0 0 #0a0a0a", x: -2, y: -2 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
             className="p-6 sm:p-10 mb-8"
-            style={{ border: "3px solid #0a0a0a", boxShadow: "8px 8px 0 0 #0a0a0a" }}
+            style={{ border: "3px solid #0a0a0a" }}
           >
             <p className="text-xs uppercase tracking-[0.3em] mb-4">Estudio · diseño · marca</p>
             <h1 className="font-bebas text-6xl sm:text-9xl leading-[0.9] tracking-wide mb-6">
@@ -25,26 +31,33 @@ export default function DimesPage() {
             <p className="text-lg sm:text-xl max-w-2xl leading-snug font-medium">
               Hacemos branding crudo, sin filtros y sin frases hechas. Si querés un sitio que parezca otro más, no llames.
             </p>
-          </div>
+          </motion.div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <button
+            <motion.button
+              initial={{ boxShadow: "5px 5px 0 0 #ff6b35", x: 0, y: 0 }}
+              whileHover={{ boxShadow: "8px 8px 0 0 #ff6b35", x: -2, y: -2 }}
+              whileTap={{ boxShadow: "0px 0px 0 0 #ff6b35", x: 5, y: 5 }}
+              transition={{ type: "spring", stiffness: 500, damping: 22 }}
               className="px-8 py-4 font-bebas text-2xl tracking-wide"
               style={{
                 backgroundColor: "#0a0a0a",
                 color: "#fffbed",
                 border: "2px solid #0a0a0a",
-                boxShadow: "5px 5px 0 0 #ff6b35",
               }}
             >
               VER PROYECTOS
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              initial={{ boxShadow: "0px 0px 0 0 #0a0a0a", x: 0, y: 0 }}
+              whileHover={{ boxShadow: "5px 5px 0 0 #0a0a0a", x: -2, y: -2, backgroundColor: "#0a0a0a", color: "#fffbed" }}
+              whileTap={{ boxShadow: "0px 0px 0 0 #0a0a0a", x: 0, y: 0 }}
+              transition={{ type: "spring", stiffness: 500, damping: 22 }}
               className="px-8 py-4 font-bebas text-2xl tracking-wide"
               style={{ backgroundColor: "transparent", color: "#0a0a0a", border: "2px solid #0a0a0a" }}
             >
               ESCRIBINOS →
-            </button>
+            </motion.button>
           </div>
         </section>
 
@@ -56,9 +69,11 @@ export default function DimesPage() {
             { num: "∞", label: "Cafés" },
             { num: "0", label: "Templates" },
           ].map((s, i) => (
-            <div
+            <motion.div
               key={s.label}
-              className="p-6 sm:p-8 text-center"
+              whileHover={{ backgroundColor: "#dfff00", color: "#0a0a0a" }}
+              transition={{ duration: 0.05 }}
+              className="p-6 sm:p-8 text-center cursor-pointer"
               style={{
                 borderRight: i < 3 ? "3px solid #0a0a0a" : "none",
                 backgroundColor: i % 2 === 0 ? "#fffbed" : "#0a0a0a",
@@ -67,7 +82,7 @@ export default function DimesPage() {
             >
               <div className="font-bebas text-6xl sm:text-7xl leading-none mb-1">{s.num}</div>
               <div className="text-xs uppercase tracking-widest">{s.label}</div>
-            </div>
+            </motion.div>
           ))}
         </section>
 
@@ -85,10 +100,14 @@ export default function DimesPage() {
               { titulo: "Beat Records", tag: "Web · Motion", color: "#0a0a0a" },
               { titulo: "Calle 14", tag: "Branding", color: "#dfff00" },
             ].map((p) => (
-              <div
+              <motion.div
                 key={p.titulo}
-                className="overflow-hidden"
-                style={{ border: "3px solid #0a0a0a", boxShadow: "6px 6px 0 0 #0a0a0a" }}
+                initial={{ boxShadow: "6px 6px 0 0 #0a0a0a", x: 0, y: 0 }}
+                whileHover={{ boxShadow: "12px 12px 0 0 #0a0a0a", x: -3, y: -3 }}
+                whileTap={{ boxShadow: "0px 0px 0 0 #0a0a0a", x: 6, y: 6 }}
+                transition={{ type: "spring", stiffness: 400, damping: 22 }}
+                className="overflow-hidden cursor-pointer"
+                style={{ border: "3px solid #0a0a0a" }}
               >
                 <div className="h-44 sm:h-56 flex items-center justify-center" style={{ backgroundColor: p.color }}>
                   <span
@@ -103,9 +122,15 @@ export default function DimesPage() {
                     <div className="font-bebas text-2xl tracking-wide leading-none mb-1">{p.titulo.toUpperCase()}</div>
                     <div className="text-xs uppercase tracking-widest">{p.tag}</div>
                   </div>
-                  <span className="font-bebas text-3xl">→</span>
+                  <motion.span
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 4 }}
+                    className="font-bebas text-3xl"
+                  >
+                    →
+                  </motion.span>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
@@ -117,12 +142,16 @@ export default function DimesPage() {
         >
           <h3 className="font-bebas text-4xl sm:text-6xl mb-4 tracking-wide">¿TE TIRA?</h3>
           <p className="mb-6 max-w-xl mx-auto">Coordinamos una llamada de 20 minutos sin compromiso. Te decimos qué se puede y qué no.</p>
-          <button
+          <motion.button
+            initial={{ boxShadow: "0px 0px 0 0 #fffbed", x: 0, y: 0 }}
+            whileHover={{ boxShadow: "6px 6px 0 0 #fffbed", x: -2, y: -2 }}
+            whileTap={{ boxShadow: "0px 0px 0 0 #fffbed", x: 0, y: 0 }}
+            transition={{ type: "spring", stiffness: 500, damping: 22 }}
             className="px-8 py-4 font-bebas text-2xl tracking-wide"
             style={{ backgroundColor: "#dfff00", color: "#0a0a0a", border: "2px solid #dfff00" }}
           >
             AGENDAR LLAMADA
-          </button>
+          </motion.button>
         </section>
 
         {/* Meta info */}

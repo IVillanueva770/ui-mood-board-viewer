@@ -1,11 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { Ripple } from "@/components/ripple";
 
 export default function Material3Page() {
   const e = getEstilo("material-3")!;
+  const [activeChip, setActiveChip] = useState("Hoy");
+  const [activeTab, setActiveTab] = useState("Inicio");
 
   return (
     <div style={{ backgroundColor: "#fef7ff", color: "#1d1b20", minHeight: "100vh" }} className="font-inter">
@@ -33,13 +37,14 @@ export default function Material3Page() {
                 <p className="text-base font-medium">Nacho</p>
               </div>
             </div>
-            <button
+            <Ripple
+              color="rgba(33, 0, 93, 0.18)"
               className="w-10 h-10 rounded-full flex items-center justify-center"
               style={{ backgroundColor: "#e8def8" }}
-              aria-label="Notificaciones"
+              ariaLabel="Notificaciones"
             >
               <span style={{ color: "#21005d" }}>🔔</span>
-            </button>
+            </Ripple>
           </motion.div>
 
           {/* Hero card filled (M3) */}
@@ -74,23 +79,27 @@ export default function Material3Page() {
             className="flex gap-2 mb-6 overflow-x-auto pb-1"
           >
             {[
-              { label: "Hoy", active: true },
+              { label: "Hoy" },
               { label: "Ejercicios" },
               { label: "Citas" },
               { label: "Progreso" },
-            ].map((c) => (
-              <motion.button
-                key={c.label}
-                whileTap={{ scale: 0.96 }}
-                className="px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium"
-                style={{
-                  backgroundColor: c.active ? "#6750a4" : "#e8def8",
-                  color: c.active ? "#ffffff" : "#21005d",
-                }}
-              >
-                {c.label}
-              </motion.button>
-            ))}
+            ].map((c) => {
+              const active = activeChip === c.label;
+              return (
+                <Ripple
+                  key={c.label}
+                  color={active ? "rgba(255,255,255,0.4)" : "rgba(33,0,93,0.18)"}
+                  className="px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium"
+                  style={{
+                    backgroundColor: active ? "#6750a4" : "#e8def8",
+                    color: active ? "#ffffff" : "#21005d",
+                  }}
+                  onClick={() => setActiveChip(c.label)}
+                >
+                  {c.label}
+                </Ripple>
+              );
+            })}
           </motion.section>
 
           {/* Outlined cards (M3) */}
@@ -106,23 +115,27 @@ export default function Material3Page() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.3 + i * 0.06 }}
-                whileTap={{ scale: 0.98 }}
-                className="rounded-2xl p-4 flex items-center gap-3"
-                style={{ backgroundColor: "#ffffff", border: "1px solid #cac4d0" }}
               >
-                <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${s.color}1a` }}
+                <Ripple
+                  as="div"
+                  color={`${s.color}26`}
+                  className="rounded-2xl p-4 flex items-center gap-3 cursor-pointer"
+                  style={{ backgroundColor: "#ffffff", border: "1px solid #cac4d0" }}
                 >
-                  <span className="text-lg" style={{ color: s.color }}>●</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm truncate">{s.titulo}</p>
-                  <p className="text-xs mt-0.5" style={{ color: "#79747e" }}>
-                    {s.hora} · {s.duracion} · {s.tipo}
-                  </p>
-                </div>
-                <span style={{ color: "#79747e" }}>›</span>
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${s.color}1a` }}
+                  >
+                    <span className="text-lg" style={{ color: s.color }}>●</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm truncate">{s.titulo}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "#79747e" }}>
+                      {s.hora} · {s.duracion} · {s.tipo}
+                    </p>
+                  </div>
+                  <span style={{ color: "#79747e" }}>›</span>
+                </Ripple>
               </motion.div>
             ))}
           </div>
@@ -150,25 +163,32 @@ export default function Material3Page() {
             </div>
           </motion.section>
 
-          {/* Floating Action Button (M3 signature) — absolute respecto al phone mock */}
-          <motion.button
+          {/* Floating Action Button (M3 signature) */}
+          <motion.div
             initial={{ scale: 0, rotate: -45 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 200, delay: 0.7 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.92 }}
-            className="absolute bottom-20 right-4 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl"
+            whileHover={{ scale: 1.05, boxShadow: "0 10px 24px rgba(103,80,164,0.45), 0 2px 6px rgba(0,0,0,0.18)" }}
+            className="absolute bottom-20 right-4"
             style={{
-              backgroundColor: "#6750a4",
-              color: "#ffffff",
+              borderRadius: "1rem",
               boxShadow: "0 6px 16px rgba(103,80,164,0.35), 0 1px 3px rgba(0,0,0,0.12)",
             }}
-            aria-label="Nueva sesión"
           >
-            +
-          </motion.button>
+            <Ripple
+              color="rgba(255,255,255,0.4)"
+              className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl"
+              style={{
+                backgroundColor: "#6750a4",
+                color: "#ffffff",
+              }}
+              ariaLabel="Nueva sesión"
+            >
+              +
+            </Ripple>
+          </motion.div>
 
-          {/* Bottom navigation bar (M3) — absolute respecto al phone mock */}
+          {/* Bottom navigation bar (M3) */}
           <motion.nav
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -178,23 +198,37 @@ export default function Material3Page() {
           >
             <div className="flex items-center justify-around py-2 px-2">
               {[
-                { icon: "⌂", label: "Inicio", active: true },
+                { icon: "⌂", label: "Inicio" },
                 { icon: "📅", label: "Agenda" },
                 { icon: "📊", label: "Progreso" },
                 { icon: "👤", label: "Perfil" },
-              ].map((t) => (
-                <button key={t.label} className="flex flex-col items-center gap-0.5 px-3 py-2 relative">
-                  <div
-                    className="px-4 py-1 rounded-full transition-colors"
-                    style={{ backgroundColor: t.active ? "#e8def8" : "transparent" }}
+              ].map((t) => {
+                const active = activeTab === t.label;
+                return (
+                  <button
+                    key={t.label}
+                    onClick={() => setActiveTab(t.label)}
+                    className="flex flex-col items-center gap-0.5 px-3 py-2 relative"
                   >
-                    <span className="text-xl">{t.icon}</span>
-                  </div>
-                  <span className="text-[10px] font-medium" style={{ color: t.active ? "#21005d" : "#49454f" }}>
-                    {t.label}
-                  </span>
-                </button>
-              ))}
+                    <motion.div
+                      animate={{
+                        backgroundColor: active ? "#e8def8" : "rgba(232,222,248,0)",
+                        scaleX: active ? 1 : 0.6,
+                      }}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      className="px-4 py-1 rounded-full"
+                    >
+                      <span className="text-xl">{t.icon}</span>
+                    </motion.div>
+                    <span
+                      className="text-[10px] font-medium transition-colors"
+                      style={{ color: active ? "#21005d" : "#49454f" }}
+                    >
+                      {t.label}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </motion.nav>
         </div>

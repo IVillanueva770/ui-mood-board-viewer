@@ -1,9 +1,35 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 
+const ISSUES = [
+  { id: "ENG-142", title: "Mobile drawer animation feels janky on Android", status: "In Progress", color: "#eab308", priority: "High", updated: "2h" },
+  { id: "ENG-141", title: "Auth: refresh token rotation breaks SSE stream", status: "Todo", color: "#e4f222", priority: "Urgent", updated: "5h" },
+  { id: "ENG-138", title: "Settings page: avatar upload returns 500 on retry", status: "Review", color: "#a855f7", priority: "Med", updated: "1d" },
+  { id: "ENG-135", title: "Dashboard query >2s when org has 10k+ rows", status: "Backlog", color: "#62666d", priority: "Med", updated: "3d" },
+  { id: "ENG-130", title: "Tooltip: cursor jumps to top on first hover", status: "Done", color: "#22c55e", priority: "Low", updated: "1w" },
+];
+
+const NAV_ITEMS = [
+  { label: "Inbox", count: "12", active: false },
+  { label: "My issues", count: "3", active: true },
+  { label: "Active", count: "47", active: false },
+  { label: "Backlog", count: "128", active: false },
+];
+
+const PROJECTS = ["Mobile redesign", "API v2", "Onboarding flow", "Auth migration"];
+
+const focusRingStyle = {
+  outline: "none",
+  boxShadow: "0 0 0 1.5px #e4f222, 0 0 0 4px rgba(228, 242, 34, 0.18)",
+};
+
 export default function LinearPage() {
+  const [hoveredIssue, setHoveredIssue] = useState<string | null>(null);
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
+
   return (
     <div style={{ backgroundColor: "#08090a", color: "#f7f8f8", minHeight: "100vh", fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
       {/* Top nav bar */}
@@ -14,7 +40,7 @@ export default function LinearPage() {
         style={{ borderBottom: "1px solid #1a1b1d" }}
         className="px-4 py-2 flex items-center justify-between text-xs"
       >
-        <Link href="/" style={{ color: "#8a8f98" }} className="hover:text-white transition-colors">
+        <Link href="/" style={{ color: "#8a8f98" }} className="hover:text-white transition-colors focus-visible:outline-none focus-visible:[box-shadow:0_0_0_1.5px_#e4f222] focus-visible:rounded-sm">
           ← Volver al index
         </Link>
         <div style={{ color: "#8a8f98" }}>Linear (real) · midnight command center · refero</div>
@@ -30,35 +56,52 @@ export default function LinearPage() {
             <span className="font-semibold text-sm">Acme Workspace</span>
           </div>
 
-          <nav className="space-y-0.5 mb-6">
-            {[
-              { label: "Inbox", count: "12", active: false },
-              { label: "My issues", count: "3", active: true },
-              { label: "Active", count: "47", active: false },
-              { label: "Backlog", count: "128", active: false },
-            ].map((it) => (
-              <motion.div
-                key={it.label}
-                whileHover={{ x: 2 }}
-                className="flex items-center justify-between px-2 py-1.5 text-sm rounded cursor-pointer transition-colors"
-                style={{
-                  backgroundColor: it.active ? "#0f1011" : "transparent",
-                  color: it.active ? "#fff" : "#a4a5ad",
-                }}
-              >
-                <span>{it.label}</span>
-                <span className="text-xs" style={{ color: "#62666d", fontFamily: "var(--font-geist-mono)" }}>{it.count}</span>
-              </motion.div>
-            ))}
+          <nav
+            className="space-y-0.5 mb-6"
+            onMouseLeave={() => setHoveredNav(null)}
+          >
+            {NAV_ITEMS.map((it) => {
+              const dim = hoveredNav !== null && hoveredNav !== it.label;
+              return (
+                <motion.button
+                  key={it.label}
+                  onMouseEnter={() => setHoveredNav(it.label)}
+                  onFocus={() => setHoveredNav(it.label)}
+                  onBlur={() => setHoveredNav(null)}
+                  whileHover={{ x: 2 }}
+                  animate={{ opacity: dim ? 0.4 : 1 }}
+                  transition={{ duration: 0.12 }}
+                  className="flex w-full items-center justify-between px-2 py-1.5 text-sm rounded cursor-pointer text-left focus-visible:outline-none"
+                  style={{
+                    backgroundColor: it.active ? "#0f1011" : "transparent",
+                    color: it.active ? "#fff" : "#a4a5ad",
+                  }}
+                  onFocusCapture={(e) => Object.assign(e.currentTarget.style, focusRingStyle)}
+                  onBlurCapture={(e) => {
+                    e.currentTarget.style.outline = "";
+                    e.currentTarget.style.boxShadow = "";
+                  }}
+                >
+                  <span>{it.label}</span>
+                  <span className="text-xs" style={{ color: "#62666d", fontFamily: "var(--font-geist-mono)" }}>{it.count}</span>
+                </motion.button>
+              );
+            })}
           </nav>
 
           <div className="text-[11px] uppercase tracking-wider mb-2 px-2" style={{ color: "#62666d" }}>Projects</div>
           <nav className="space-y-0.5">
-            {["Mobile redesign", "API v2", "Onboarding flow", "Auth migration"].map((p) => (
+            {PROJECTS.map((p) => (
               <motion.div
                 key={p}
                 whileHover={{ x: 2 }}
-                className="flex items-center gap-2 px-2 py-1.5 text-sm rounded cursor-pointer"
+                tabIndex={0}
+                onFocusCapture={(e) => Object.assign(e.currentTarget.style, focusRingStyle)}
+                onBlurCapture={(e) => {
+                  e.currentTarget.style.outline = "";
+                  e.currentTarget.style.boxShadow = "";
+                }}
+                className="flex items-center gap-2 px-2 py-1.5 text-sm rounded cursor-pointer focus-visible:outline-none"
                 style={{ color: "#a4a5ad" }}
               >
                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#e4f222" }} />
@@ -84,18 +127,32 @@ export default function LinearPage() {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <motion.div
+              <motion.button
                 whileHover={{ borderColor: "#e4f222" }}
-                className="flex items-center gap-2 px-3 py-1.5 text-sm rounded transition-colors"
+                onFocusCapture={(e) => {
+                  e.currentTarget.style.borderColor = "#e4f222";
+                  e.currentTarget.style.boxShadow = "0 0 0 3px rgba(228, 242, 34, 0.18)";
+                }}
+                onBlurCapture={(e) => {
+                  e.currentTarget.style.borderColor = "#1a1b1d";
+                  e.currentTarget.style.boxShadow = "";
+                }}
+                className="flex items-center gap-2 px-3 py-1.5 text-sm rounded transition-colors focus-visible:outline-none"
                 style={{ backgroundColor: "#0f1011", color: "#8a8f98", border: "1px solid #1a1b1d" }}
               >
                 <span style={{ fontFamily: "var(--font-geist-mono)" }} className="text-xs">⌘ K</span>
                 <span>Search...</span>
-              </motion.div>
+              </motion.button>
               <motion.button
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.02, boxShadow: "0 0 0 3px rgba(228, 242, 34, 0.25)" }}
                 whileTap={{ scale: 0.98 }}
-                className="px-3 py-1.5 text-sm rounded font-semibold transition-colors"
+                onFocusCapture={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 0 3px rgba(228, 242, 34, 0.45)";
+                }}
+                onBlurCapture={(e) => {
+                  e.currentTarget.style.boxShadow = "";
+                }}
+                className="px-3 py-1.5 text-sm rounded font-semibold transition-colors focus-visible:outline-none"
                 style={{ backgroundColor: "#e4f222", color: "#08090a" }}
               >
                 + New issue
@@ -116,8 +173,8 @@ export default function LinearPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 + i * 0.06 }}
-                whileHover={{ borderColor: "#2a2b2e" }}
-                className="rounded-lg p-4 transition-colors"
+                whileHover={{ borderColor: "#2a2b2e", y: -2 }}
+                className="rounded-lg p-4 transition-colors cursor-pointer"
                 style={{ backgroundColor: "#0f1011", border: "1px solid #1a1b1d" }}
               >
                 <div className="text-xs mb-1" style={{ color: "#8a8f98" }}>{s.label}</div>
@@ -129,13 +186,14 @@ export default function LinearPage() {
             ))}
           </div>
 
-          {/* Issues list */}
+          {/* Issues list with sibling-dim */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.3 }}
             className="rounded-lg overflow-hidden"
             style={{ border: "1px solid #1a1b1d" }}
+            onMouseLeave={() => setHoveredIssue(null)}
           >
             <div className="px-4 py-3 text-xs uppercase tracking-wider grid grid-cols-12 gap-3" style={{ backgroundColor: "#0f1011", color: "#62666d" }}>
               <div className="col-span-1">ID</div>
@@ -144,35 +202,41 @@ export default function LinearPage() {
               <div className="col-span-2">Priority</div>
               <div className="col-span-2">Updated</div>
             </div>
-            {[
-              { id: "ENG-142", title: "Mobile drawer animation feels janky on Android", status: "In Progress", color: "#eab308", priority: "High", updated: "2h" },
-              { id: "ENG-141", title: "Auth: refresh token rotation breaks SSE stream", status: "Todo", color: "#e4f222", priority: "Urgent", updated: "5h" },
-              { id: "ENG-138", title: "Settings page: avatar upload returns 500 on retry", status: "Review", color: "#a855f7", priority: "Med", updated: "1d" },
-              { id: "ENG-135", title: "Dashboard query >2s when org has 10k+ rows", status: "Backlog", color: "#62666d", priority: "Med", updated: "3d" },
-              { id: "ENG-130", title: "Tooltip: cursor jumps to top on first hover", status: "Done", color: "#22c55e", priority: "Low", updated: "1w" },
-            ].map((i, idx) => (
-              <motion.div
-                key={i.id}
-                whileHover={{ backgroundColor: "#0c0d0e" }}
-                className="px-4 py-3 grid grid-cols-12 gap-3 text-sm items-center cursor-pointer transition-colors"
-                style={{ borderTop: idx === 0 ? "none" : "1px solid #1a1b1d" }}
-              >
-                <div className="col-span-1 text-xs" style={{ fontFamily: "var(--font-geist-mono)", color: "#8a8f98" }}>
-                  {i.id}
-                </div>
-                <div className="col-span-5">{i.title}</div>
-                <div className="col-span-2">
-                  <span className="inline-flex items-center gap-1.5 text-xs">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: i.color }} />
-                    {i.status}
-                  </span>
-                </div>
-                <div className="col-span-2 text-xs" style={{ color: "#a4a5ad" }}>{i.priority}</div>
-                <div className="col-span-2 text-xs" style={{ color: "#8a8f98", fontFamily: "var(--font-geist-mono)" }}>
-                  {i.updated}
-                </div>
-              </motion.div>
-            ))}
+            {ISSUES.map((i, idx) => {
+              const dim = hoveredIssue !== null && hoveredIssue !== i.id;
+              const focused = hoveredIssue === i.id;
+              return (
+                <motion.div
+                  key={i.id}
+                  tabIndex={0}
+                  onMouseEnter={() => setHoveredIssue(i.id)}
+                  onFocus={() => setHoveredIssue(i.id)}
+                  onBlur={() => setHoveredIssue(null)}
+                  animate={{
+                    backgroundColor: focused ? "#0c0d0e" : "transparent",
+                    opacity: dim ? 0.45 : 1,
+                  }}
+                  transition={{ duration: 0.15 }}
+                  className="px-4 py-3 grid grid-cols-12 gap-3 text-sm items-center cursor-pointer focus-visible:outline-none"
+                  style={{ borderTop: idx === 0 ? "none" : "1px solid #1a1b1d" }}
+                >
+                  <div className="col-span-1 text-xs" style={{ fontFamily: "var(--font-geist-mono)", color: "#8a8f98" }}>
+                    {i.id}
+                  </div>
+                  <div className="col-span-5">{i.title}</div>
+                  <div className="col-span-2">
+                    <span className="inline-flex items-center gap-1.5 text-xs">
+                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: i.color }} />
+                      {i.status}
+                    </span>
+                  </div>
+                  <div className="col-span-2 text-xs" style={{ color: "#a4a5ad" }}>{i.priority}</div>
+                  <div className="col-span-2 text-xs" style={{ color: "#8a8f98", fontFamily: "var(--font-geist-mono)" }}>
+                    {i.updated}
+                  </div>
+                </motion.div>
+              );
+            })}
           </motion.div>
 
           {/* Meta info */}
