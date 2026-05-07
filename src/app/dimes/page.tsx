@@ -184,7 +184,7 @@ export default function DimesPage() {
                 {["TODO", "ESTA SEMANA", "ATRASADO"].map((f, i) => (
                   <button
                     key={f}
-                    className="px-3 py-1.5 text-[11px] uppercase tracking-widest font-bold"
+                    className="px-3.5 py-2 text-xs uppercase tracking-widest font-bold"
                     style={{
                       backgroundColor: i === 0 ? "#0a0a0a" : "transparent",
                       color: i === 0 ? "#fffbed" : "#0a0a0a",
@@ -238,11 +238,11 @@ export default function DimesPage() {
                     style={{ borderBottom: "2px solid #0a0a0a" }}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="block w-3 h-3" style={{ backgroundColor: column.accent, border: "1.5px solid #0a0a0a" }} />
-                      <span className="font-bebas text-xl tracking-wider">{column.col}</span>
+                      <span className="block w-3.5 h-3.5" style={{ backgroundColor: column.accent, border: "1.5px solid #0a0a0a" }} />
+                      <span className="font-bebas text-2xl tracking-wider">{column.col}</span>
                     </div>
                     <span
-                      className="font-mono text-[11px] px-1.5 py-0.5"
+                      className="font-mono text-xs px-2 py-0.5"
                       style={{ backgroundColor: "#0a0a0a", color: "#fffbed" }}
                     >
                       {String(column.cards.length).padStart(2, "0")}
@@ -260,11 +260,11 @@ export default function DimesPage() {
                         className="p-3 cursor-grab"
                         style={{ border: "2px solid #0a0a0a", backgroundColor: "#fffbed" }}
                       >
-                        <div className="font-bebas text-lg leading-tight tracking-wide mb-1">{card.cliente.toUpperCase()}</div>
-                        <div className="text-[11px] uppercase tracking-wider mb-3 leading-snug">{card.proyecto}</div>
+                        <div className="font-bebas text-2xl leading-tight tracking-wide mb-1">{card.cliente.toUpperCase()}</div>
+                        <div className="text-sm uppercase tracking-wider mb-3 leading-snug">{card.proyecto}</div>
                         <div className="flex items-center justify-between">
                           <span
-                            className="font-bebas text-xs flex items-center justify-center w-7 h-7"
+                            className="font-bebas text-sm flex items-center justify-center w-9 h-9"
                             style={{
                               backgroundColor: column.accent,
                               color: column.accent === "#dfff00" || column.accent === "#ff6b35" ? "#0a0a0a" : "#fffbed",
@@ -274,7 +274,7 @@ export default function DimesPage() {
                             {card.avatar}
                           </span>
                           <span
-                            className="font-mono text-[10px] px-1.5 py-0.5"
+                            className="font-mono text-xs px-2 py-1"
                             style={{
                               backgroundColor: column.col === "REVISIÓN" || column.col === "ENTREGADO" ? "#dfff00" : "transparent",
                               border: "1.5px solid #0a0a0a",
@@ -289,7 +289,7 @@ export default function DimesPage() {
                     <motion.button
                       whileHover={{ backgroundColor: "#0a0a0a", color: "#fffbed" }}
                       transition={{ duration: 0.05 }}
-                      className="w-full py-2 font-bebas text-sm tracking-widest"
+                      className="w-full py-2.5 font-bebas text-base tracking-widest"
                       style={{ border: "2px dashed #0a0a0a", color: "#0a0a0a", backgroundColor: "transparent" }}
                     >
                       + SUMAR
@@ -313,13 +313,13 @@ export default function DimesPage() {
             <div style={{ border: "3px solid #0a0a0a" }}>
               {/* header */}
               <div
-                className="grid grid-cols-12 text-[11px] uppercase tracking-widest font-bold"
+                className="grid grid-cols-12 text-xs uppercase tracking-widest font-bold"
                 style={{ backgroundColor: "#0a0a0a", color: "#fffbed" }}
               >
-                <div className="col-span-4 px-3 py-3" style={{ borderRight: "2px solid #fffbed" }}>CLIENTE / PROYECTO</div>
-                <div className="col-span-2 px-3 py-3 text-right" style={{ borderRight: "2px solid #fffbed" }}>HS</div>
-                <div className="col-span-3 px-3 py-3 text-right hidden sm:block" style={{ borderRight: "2px solid #fffbed" }}>TARIFA</div>
-                <div className="col-span-3 sm:col-span-3 px-3 py-3">ESTADO</div>
+                <div className="col-span-4 px-4 py-3.5" style={{ borderRight: "2px solid #fffbed" }}>CLIENTE / PROYECTO</div>
+                <div className="col-span-2 px-4 py-3.5 text-right" style={{ borderRight: "2px solid #fffbed" }}>HS</div>
+                <div className="col-span-3 px-4 py-3.5 text-right hidden sm:block" style={{ borderRight: "2px solid #fffbed" }}>TARIFA</div>
+                <div className="col-span-3 sm:col-span-3 px-4 py-3.5">ESTADO</div>
               </div>
 
               {[
@@ -334,28 +334,28 @@ export default function DimesPage() {
                   key={r.cliente}
                   whileHover={{ backgroundColor: "#dfff00" }}
                   transition={{ duration: 0.05 }}
-                  className="grid grid-cols-12 text-sm cursor-pointer"
+                  className="grid grid-cols-12 cursor-pointer"
                   style={{
                     borderTop: i > 0 ? "2px solid #0a0a0a" : "none",
                     backgroundColor: "#fffbed",
                   }}
                 >
-                  <div className="col-span-4 px-3 py-3" style={{ borderRight: "2px solid #0a0a0a" }}>
-                    <div className="font-bebas text-base leading-tight tracking-wide">{r.cliente}</div>
-                    <div className="text-[11px] uppercase tracking-wider opacity-70">{r.proyecto}</div>
+                  <div className="col-span-4 px-4 py-4" style={{ borderRight: "2px solid #0a0a0a" }}>
+                    <div className="font-bebas text-xl leading-tight tracking-wide">{r.cliente}</div>
+                    <div className="text-sm uppercase tracking-wider opacity-70 mt-0.5">{r.proyecto}</div>
                   </div>
-                  <div className="col-span-2 px-3 py-3 text-right font-mono font-bold" style={{ borderRight: "2px solid #0a0a0a" }}>
+                  <div className="col-span-2 px-4 py-4 text-right font-mono font-bold text-base" style={{ borderRight: "2px solid #0a0a0a" }}>
                     {r.hs}
                   </div>
                   <div
-                    className="col-span-3 px-3 py-3 text-right font-mono hidden sm:block"
+                    className="col-span-3 px-4 py-4 text-right font-mono text-base hidden sm:block"
                     style={{ borderRight: "2px solid #0a0a0a" }}
                   >
                     {r.tarifa}
                   </div>
-                  <div className="col-span-3 sm:col-span-3 px-3 py-3 flex items-center">
+                  <div className="col-span-3 sm:col-span-3 px-4 py-4 flex items-center">
                     <span
-                      className="font-bebas text-[11px] tracking-widest px-2 py-1"
+                      className="font-bebas text-xs tracking-widest px-2.5 py-1"
                       style={{
                         backgroundColor: r.chip,
                         color: r.chip === "#dfff00" || r.chip === "#ff6b35" ? "#0a0a0a" : "#fffbed",
@@ -370,13 +370,13 @@ export default function DimesPage() {
 
               {/* footer total */}
               <div
-                className="grid grid-cols-12 text-sm font-bold"
+                className="grid grid-cols-12 font-bold"
                 style={{ borderTop: "3px solid #0a0a0a", backgroundColor: "#fffbed" }}
               >
-                <div className="col-span-4 px-3 py-3 font-bebas text-lg tracking-wide" style={{ borderRight: "2px solid #0a0a0a" }}>TOTAL</div>
-                <div className="col-span-2 px-3 py-3 text-right font-mono" style={{ borderRight: "2px solid #0a0a0a" }}>42.5</div>
-                <div className="col-span-3 px-3 py-3 text-right font-mono hidden sm:block" style={{ borderRight: "2px solid #0a0a0a" }}>$ 1.475.000</div>
-                <div className="col-span-3 sm:col-span-3 px-3 py-3"></div>
+                <div className="col-span-4 px-4 py-4 font-bebas text-2xl tracking-wide" style={{ borderRight: "2px solid #0a0a0a" }}>TOTAL</div>
+                <div className="col-span-2 px-4 py-4 text-right font-mono text-base" style={{ borderRight: "2px solid #0a0a0a" }}>42.5</div>
+                <div className="col-span-3 px-4 py-4 text-right font-mono text-base hidden sm:block" style={{ borderRight: "2px solid #0a0a0a" }}>$ 1.475.000</div>
+                <div className="col-span-3 sm:col-span-3 px-4 py-4"></div>
               </div>
             </div>
           </div>
@@ -385,10 +385,10 @@ export default function DimesPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <div className="lg:col-span-2 p-5" style={{ border: "3px solid #0a0a0a", backgroundColor: "#fffbed" }}>
               <div className="flex items-center justify-between mb-4 pb-2" style={{ borderBottom: "2px solid #0a0a0a" }}>
-                <span className="font-bebas text-2xl tracking-wide">ACTIVIDAD</span>
-                <span className="font-mono text-[11px] uppercase opacity-70">en vivo</span>
+                <span className="font-bebas text-3xl tracking-wide">ACTIVIDAD</span>
+                <span className="font-mono text-xs uppercase opacity-70">en vivo</span>
               </div>
-              <ul className="space-y-3">
+              <ul className="space-y-3.5">
                 {[
                   { iniciales: "MR", color: "#ff6b35", texto: "movió", target: "STUDIO ROMA", a: "EN DISEÑO", time: "12 min" },
                   { iniciales: "JG", color: "#dfff00", texto: "facturó", target: "BOCHA BAR", a: "$ 120.000", time: "1 h" },
@@ -402,7 +402,7 @@ export default function DimesPage() {
                     className="flex items-center gap-3 cursor-pointer"
                   >
                     <span
-                      className="font-bebas text-xs flex items-center justify-center w-7 h-7 flex-shrink-0"
+                      className="font-bebas text-sm flex items-center justify-center w-9 h-9 flex-shrink-0"
                       style={{
                         backgroundColor: a.color,
                         color: a.color === "#dfff00" || a.color === "#ff6b35" ? "#0a0a0a" : "#fffbed",
@@ -411,13 +411,13 @@ export default function DimesPage() {
                     >
                       {a.iniciales}
                     </span>
-                    <span className="text-sm flex-1 leading-snug">
+                    <span className="text-base flex-1 leading-snug">
                       <span className="opacity-70">{a.texto} </span>
-                      <span className="font-bebas text-base tracking-wide">{a.target}</span>
+                      <span className="font-bebas text-xl tracking-wide">{a.target}</span>
                       <span className="opacity-70"> → </span>
-                      <span className="font-mono text-xs">{a.a}</span>
+                      <span className="font-mono text-sm">{a.a}</span>
                     </span>
-                    <span className="font-mono text-[10px] uppercase opacity-50 flex-shrink-0">{a.time}</span>
+                    <span className="font-mono text-xs uppercase opacity-50 flex-shrink-0">{a.time}</span>
                   </motion.li>
                 ))}
               </ul>
@@ -428,17 +428,17 @@ export default function DimesPage() {
               style={{ backgroundColor: "#dfff00", border: "3px solid #0a0a0a" }}
             >
               <div>
-                <div className="text-[11px] uppercase tracking-[0.3em] mb-2 font-bold">NOTA AL ESTUDIO</div>
-                <p className="font-bebas text-2xl tracking-wide leading-[0.95] mb-2">
+                <div className="text-xs uppercase tracking-[0.3em] mb-3 font-bold">NOTA AL ESTUDIO</div>
+                <p className="font-bebas text-3xl tracking-wide leading-[0.95] mb-2">
                   CHEQUEAR REVISIÓN <br />DE CALLE 14 ANTES <br />DE LAS 18.
                 </p>
               </div>
-              <div className="flex items-center justify-between mt-4">
-                <span className="font-mono text-[11px] uppercase opacity-80">— TM</span>
+              <div className="flex items-center justify-between mt-5">
+                <span className="font-mono text-xs uppercase opacity-80">— TM</span>
                 <motion.button
                   whileHover={{ backgroundColor: "#0a0a0a", color: "#dfff00" }}
                   transition={{ duration: 0.05 }}
-                  className="px-3 py-1.5 font-bebas text-sm tracking-widest"
+                  className="px-3.5 py-2 font-bebas text-base tracking-widest"
                   style={{ border: "2px solid #0a0a0a", backgroundColor: "transparent", color: "#0a0a0a" }}
                 >
                   HECHO ✓
