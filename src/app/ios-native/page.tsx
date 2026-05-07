@@ -16,7 +16,7 @@ export default function IOSPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="rounded-[2rem] overflow-hidden shadow-2xl"
+          className="relative rounded-[2rem] overflow-hidden shadow-2xl"
           style={{ backgroundColor: "#ffffff", border: "1px solid #d1d1d6" }}
         >
           {/* Status bar */}
