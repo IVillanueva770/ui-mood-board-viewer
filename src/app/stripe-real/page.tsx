@@ -328,8 +328,8 @@ export default function StripeRealPage() {
                           <motion.div
                             layoutId="ch-highlight"
                             transition={{ type: "spring", stiffness: 500, damping: 38 }}
-                            className="absolute inset-0 pointer-events-none"
-                            style={{ backgroundColor: "#f5f3ff" }}
+                            className="absolute pointer-events-none"
+                            style={{ top: 1, bottom: 1, left: 0, right: 0, backgroundColor: "#f5f3ff" }}
                           />
                         )}
                         <span className="col-span-3 hidden md:block text-[11px] font-mono relative" style={{ color: "#425466" }}>{p.id}</span>

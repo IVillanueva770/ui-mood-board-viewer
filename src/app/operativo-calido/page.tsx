@@ -208,8 +208,8 @@ export default function OperativoCalidoPage() {
                   <motion.div
                     layoutId="op-row-highlight"
                     transition={{ type: "spring", stiffness: 500, damping: 38 }}
-                    className="absolute inset-0 pointer-events-none"
-                    style={{ backgroundColor: "#fafaf9" }}
+                    className="absolute pointer-events-none"
+                    style={{ top: 1, bottom: 1, left: 0, right: 0, backgroundColor: "#fafaf9" }}
                   />
                 )}
                 <div className="flex items-center gap-3 min-w-0 flex-1 relative">

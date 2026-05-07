@@ -282,8 +282,8 @@ export default function StripeDashboardPage() {
                     <motion.div
                       layoutId="pago-highlight"
                       transition={{ type: "spring", stiffness: 500, damping: 38 }}
-                      className="absolute inset-0 pointer-events-none"
-                      style={{ backgroundColor: "#f7f7fa" }}
+                      className="absolute pointer-events-none"
+                      style={{ top: 1, bottom: 1, left: 0, right: 0, backgroundColor: "#f7f7fa" }}
                     />
                   )}
                   <div className="relative">

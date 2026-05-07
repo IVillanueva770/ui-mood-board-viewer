@@ -108,35 +108,38 @@ export default function ComercioPopularPage() {
       </div>
 
       <main className="max-w-6xl mx-auto px-6 py-10">
-        {/* Categorías chips con indicador animado */}
-        <div className="flex gap-2 overflow-x-auto pb-3 mb-8">
-          {CATEGORIAS.map((c) => {
-            const active = activeCat === c;
-            return (
-              <motion.button
-                key={c}
-                onClick={() => setActiveCat(c)}
-                whileTap={{ scale: 0.96 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                className="px-4 py-2 rounded-full text-sm whitespace-nowrap relative font-medium"
-                style={{
-                  color: active ? "#fff" : "#171717",
-                  border: active ? "1px solid transparent" : "1px solid #e5e7eb",
-                  backgroundColor: active ? "transparent" : "#f8f9fa",
-                }}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="cat-pill"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    className="absolute inset-0 rounded-full"
-                    style={{ backgroundColor: "#16a34a" }}
-                  />
-                )}
-                <span className="relative">{c}</span>
-              </motion.button>
-            );
-          })}
+        {/* Categorías chips — toggle group con pill viajera única */}
+        <div className="mb-8 overflow-x-auto pb-3">
+          <div
+            className="inline-flex p-1 rounded-full"
+            style={{ backgroundColor: "#f3f4f6", border: "1px solid #e5e7eb" }}
+          >
+            {CATEGORIAS.map((c) => {
+              const active = activeCat === c;
+              return (
+                <motion.button
+                  key={c}
+                  onClick={() => setActiveCat(c)}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.12 }}
+                  className="relative px-4 py-1.5 rounded-full text-sm whitespace-nowrap font-medium z-0"
+                  style={{
+                    color: active ? "#fff" : "#171717",
+                  }}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="cat-pill"
+                      transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                      className="absolute inset-0 rounded-full -z-10"
+                      style={{ backgroundColor: "#16a34a" }}
+                    />
+                  )}
+                  <span className="relative">{c}</span>
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Productos grid — alineados con flex-col */}
@@ -210,10 +213,10 @@ export default function ComercioPopularPage() {
                   {agregando === p.nombre ? (
                     <motion.span
                       key="ok"
-                      initial={{ y: -18, opacity: 0 }}
+                      initial={{ y: -32, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: 18, opacity: 0 }}
-                      transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+                      exit={{ y: 32, opacity: 0 }}
+                      transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
                       className="block"
                     >
                       ✓ Agregado
@@ -221,10 +224,10 @@ export default function ComercioPopularPage() {
                   ) : (
                     <motion.span
                       key="add"
-                      initial={{ y: -18, opacity: 0 }}
+                      initial={{ y: -32, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: 18, opacity: 0 }}
-                      transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+                      exit={{ y: 32, opacity: 0 }}
+                      transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
                       className="block"
                     >
                       Agregar al carrito
@@ -312,8 +315,8 @@ export default function ComercioPopularPage() {
                         <motion.div
                           layoutId="orden-highlight"
                           transition={{ type: "spring", stiffness: 500, damping: 38 }}
-                          className="absolute inset-0 pointer-events-none"
-                          style={{ backgroundColor: "#f9fafb" }}
+                          className="absolute pointer-events-none"
+                          style={{ top: 1, bottom: 1, left: 0, right: 0, backgroundColor: "#f9fafb" }}
                         />
                       )}
                       <motion.div
