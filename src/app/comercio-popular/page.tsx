@@ -21,6 +21,8 @@ export default function ComercioPopularPage() {
   const [carrito, setCarrito] = useState(3);
   const [agregando, setAgregando] = useState<string | null>(null);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [hoveredOrden, setHoveredOrden] = useState<string | null>(null);
+  const [hoveredStock, setHoveredStock] = useState<string | null>(null);
 
   const agregar = (nombre: string) => {
     setAgregando(nombre);
@@ -195,7 +197,7 @@ export default function ComercioPopularPage() {
                 )}
               </div>
 
-              {/* CTA con feedback de "agregado" */}
+              {/* CTA con feedback de "agregado" — cilindro girando consistente: sale por abajo, entra desde arriba */}
               <motion.button
                 onClick={() => agregar(p.nombre)}
                 whileHover={{ y: -1, boxShadow: "0 6px 14px -4px rgba(22,163,74,0.45)" }}
@@ -208,10 +210,10 @@ export default function ComercioPopularPage() {
                   {agregando === p.nombre ? (
                     <motion.span
                       key="ok"
-                      initial={{ y: 16, opacity: 0 }}
+                      initial={{ y: -18, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: -16, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                      exit={{ y: 18, opacity: 0 }}
+                      transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
                       className="block"
                     >
                       ✓ Agregado
@@ -219,10 +221,10 @@ export default function ComercioPopularPage() {
                   ) : (
                     <motion.span
                       key="add"
-                      initial={{ y: -16, opacity: 0 }}
+                      initial={{ y: -18, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: 16, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                      exit={{ y: 18, opacity: 0 }}
+                      transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
                       className="block"
                     >
                       Agregar al carrito
@@ -287,34 +289,55 @@ export default function ComercioPopularPage() {
                   11
                 </motion.span>
               </div>
-              <div className="divide-y" style={{ borderColor: "#f3f4f6" }}>
+              <div
+                className="divide-y relative"
+                style={{ borderColor: "#f3f4f6" }}
+                onMouseLeave={() => setHoveredOrden(null)}
+              >
                 {[
                   { num: "#1247", cliente: "Sra. Ramírez", items: "Yerba x2, Fideos x4, Leche x3", total: "$ 14.800", hora: "13:45", estado: "PARA ARMAR", chip: "#fef3c7", chipText: "#92400e" },
                   { num: "#1246", cliente: "Don Hugo", items: "Coca x6, Snacks variados", total: "$ 8.450", hora: "13:20", estado: "ARMADO", chip: "#dcfce7", chipText: "#166534" },
                   { num: "#1245", cliente: "Vecina del 12", items: "Almuerzo del día (lista)", total: "$ 5.200", hora: "12:55", estado: "ENVIADO", chip: "#dbeafe", chipText: "#1e40af" },
                   { num: "#1244", cliente: "Pizzería Marcelo", items: "Mozza x10, harina x4", total: "$ 32.100", hora: "12:30", estado: "PARA ARMAR", chip: "#fef3c7", chipText: "#92400e" },
-                ].map((o) => (
-                  <motion.div
-                    key={o.num}
-                    whileHover={{ backgroundColor: "#f9fafb", x: 2 }}
-                    transition={{ duration: 0.12 }}
-                    className="px-5 py-3 cursor-pointer"
-                  >
-                    <div className="flex items-start justify-between gap-3 mb-1">
-                      <div>
-                        <p className="text-sm font-semibold">{o.cliente} <span className="font-normal text-xs" style={{ color: "#737373" }}>· {o.num}</span></p>
-                        <p className="text-xs mt-0.5" style={{ color: "#737373" }}>{o.items}</p>
-                      </div>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded whitespace-nowrap" style={{ backgroundColor: o.chip, color: o.chipText }}>
-                        {o.estado}
-                      </span>
+                ].map((o) => {
+                  const active = hoveredOrden === o.num;
+                  return (
+                    <div
+                      key={o.num}
+                      onMouseEnter={() => setHoveredOrden(o.num)}
+                      className="px-5 py-3 cursor-pointer relative"
+                    >
+                      {/* Highlight único que viaja con layoutId */}
+                      {active && (
+                        <motion.div
+                          layoutId="orden-highlight"
+                          transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                          className="absolute inset-0 pointer-events-none"
+                          style={{ backgroundColor: "#f9fafb" }}
+                        />
+                      )}
+                      <motion.div
+                        animate={{ x: active ? 3 : 0 }}
+                        transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                        className="relative"
+                      >
+                        <div className="flex items-start justify-between gap-3 mb-1">
+                          <div>
+                            <p className="text-sm font-semibold">{o.cliente} <span className="font-normal text-xs" style={{ color: "#737373" }}>· {o.num}</span></p>
+                            <p className="text-xs mt-0.5" style={{ color: "#737373" }}>{o.items}</p>
+                          </div>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded whitespace-nowrap" style={{ backgroundColor: o.chip, color: o.chipText }}>
+                            {o.estado}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span style={{ color: "#737373" }}>Hora: {o.hora}</span>
+                          <span className="font-bold tabular-nums">{o.total}</span>
+                        </div>
+                      </motion.div>
                     </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span style={{ color: "#737373" }}>Hora: {o.hora}</span>
-                      <span className="font-bold tabular-nums">{o.total}</span>
-                    </div>
-                  </motion.div>
-                ))}
+                  );
+                })}
               </div>
               <motion.button
                 whileHover={{ backgroundColor: "#f9fafb" }}
@@ -346,26 +369,47 @@ export default function ComercioPopularPage() {
                   ⚠️
                 </motion.span>
               </div>
-              <div className="p-4 space-y-3 text-sm">
-                {[
-                  { p: "Leche La Serenísima 1L", q: "2 quedan", urg: true },
-                  { p: "Yerba Cruz de Malta 1kg", q: "5 quedan", urg: true },
-                  { p: "Pan lactal grande", q: "Sin stock", urg: true },
-                  { p: "Fideos Matarazzo", q: "8 quedan", urg: false },
-                  { p: "Cervezas Quilmes", q: "12 quedan", urg: false },
-                ].map((s) => (
-                  <motion.div
-                    key={s.p}
-                    whileHover={{ x: 2 }}
-                    transition={{ duration: 0.12 }}
-                    className="flex items-center justify-between gap-2 cursor-pointer"
-                  >
-                    <span className="line-clamp-1 flex-1">{s.p}</span>
-                    <span className="text-xs font-semibold whitespace-nowrap" style={{ color: s.urg ? "#dc2626" : "#737373" }}>
-                      {s.q}
-                    </span>
-                  </motion.div>
-                ))}
+              <div
+                className="p-4 text-sm relative"
+                onMouseLeave={() => setHoveredStock(null)}
+              >
+                <div className="space-y-1">
+                  {[
+                    { p: "Leche La Serenísima 1L", q: "2 quedan", urg: true },
+                    { p: "Yerba Cruz de Malta 1kg", q: "5 quedan", urg: true },
+                    { p: "Pan lactal grande", q: "Sin stock", urg: true },
+                    { p: "Fideos Matarazzo", q: "8 quedan", urg: false },
+                    { p: "Cervezas Quilmes", q: "12 quedan", urg: false },
+                  ].map((s) => {
+                    const active = hoveredStock === s.p;
+                    return (
+                      <div
+                        key={s.p}
+                        onMouseEnter={() => setHoveredStock(s.p)}
+                        className="relative px-2 py-2 -mx-2 rounded cursor-pointer"
+                      >
+                        {active && (
+                          <motion.div
+                            layoutId="stock-highlight"
+                            transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                            className="absolute inset-0 pointer-events-none rounded"
+                            style={{ backgroundColor: "#f9fafb" }}
+                          />
+                        )}
+                        <motion.div
+                          animate={{ x: active ? 3 : 0 }}
+                          transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                          className="flex items-center justify-between gap-2 relative"
+                        >
+                          <span className="line-clamp-1 flex-1">{s.p}</span>
+                          <span className="text-xs font-semibold whitespace-nowrap" style={{ color: s.urg ? "#dc2626" : "#737373" }}>
+                            {s.q}
+                          </span>
+                        </motion.div>
+                      </div>
+                    );
+                  })}
+                </div>
                 <motion.button
                   whileHover={{ y: -1, boxShadow: "0 6px 14px -4px rgba(22,163,74,0.45)" }}
                   whileTap={{ scale: 0.97 }}
