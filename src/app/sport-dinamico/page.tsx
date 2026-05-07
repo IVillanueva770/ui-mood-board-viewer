@@ -11,6 +11,74 @@ export default function SportDinamicoPage() {
     <div style={{ backgroundColor: "#0a0a0a", color: "#fafafa", minHeight: "100vh" }} className="font-inter">
       <StyleHeader estilo={e} borderColor="#222222" navColor="#a3a3a3" />
 
+      {/* ====== HERO COMERCIAL — landing app entreno ====== */}
+      <motion.section
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55 }}
+        className="relative max-w-5xl mx-auto px-5 sm:px-8 pt-12 pb-14 sm:pt-20 sm:pb-20 text-center overflow-hidden"
+      >
+        <div
+          aria-hidden
+          className="absolute -top-40 left-1/2 -translate-x-1/2 w-[120%] h-96 -z-0 opacity-25 blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(255,87,34,0.6), transparent 70%)" }}
+        />
+        <div className="relative">
+          <p className="text-xs uppercase tracking-[0.4em] mb-6 font-bold" style={{ color: "#ff5722" }}>
+            FUERZA · CARDIO · MOVILIDAD
+          </p>
+          <h1 className="font-bebas text-7xl sm:text-9xl leading-[0.85] tracking-wide mb-6">
+            ENTRENÁS<br />
+            <span style={{ color: "#ff5722" }}>VOS.</span> NO LA APP.
+          </h1>
+          <p className="text-base sm:text-lg max-w-xl mx-auto mb-10" style={{ color: "#a3a3a3" }}>
+            Plan diseñado por entrenadores reales. Progresión semanal real. Sin gamificación de niño que infla métricas falsas.
+          </p>
+
+          <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 400, damping: 22 }}
+              className="font-bebas text-2xl tracking-wider px-8 py-3.5"
+              style={{ backgroundColor: "#ff5722", color: "#0a0a0a" }}
+            >
+              EMPEZAR 7 DÍAS GRATIS
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 400, damping: 22 }}
+              className="font-bebas text-2xl tracking-wider px-8 py-3.5"
+              style={{ border: "2px solid #fafafa", color: "#fafafa", backgroundColor: "transparent" }}
+            >
+              VER PLANES →
+            </motion.button>
+          </div>
+
+          {/* Big proof stats */}
+          <div className="grid grid-cols-3 gap-0 max-w-3xl mx-auto" style={{ border: "1px solid #2a2a2a" }}>
+            {[
+              { val: "47K", label: "ENTRENAMIENTOS / MES" },
+              { val: "12+", label: "ENTRENADORES" },
+              { val: "★ 4.9", label: "APP STORE / PLAY" },
+            ].map((s, i) => (
+              <div key={s.label} className="p-5 text-center" style={{ borderRight: i < 2 ? "1px solid #2a2a2a" : "none" }}>
+                <p className="font-bebas text-4xl sm:text-5xl tracking-wide leading-none mb-1">{s.val}</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] font-bold" style={{ color: "#a3a3a3" }}>{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Divider */}
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 mb-6 flex items-center gap-3">
+        <div className="flex-1 h-px" style={{ backgroundColor: "#2a2a2a" }} />
+        <span className="font-bebas text-sm uppercase tracking-[0.3em]" style={{ color: "#ff5722" }}>↓ TU DÍA, ADENTRO</span>
+        <div className="flex-1 h-px" style={{ backgroundColor: "#2a2a2a" }} />
+      </div>
+
       <main className="max-w-5xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
         {/* Hero gigante con fondo dinámico */}
         <motion.section

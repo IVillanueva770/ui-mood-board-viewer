@@ -12,7 +12,70 @@ export default function MedicoAmigablePage() {
       <StyleHeader estilo={e} borderColor="#e2e8f0" navColor="#64748b" />
 
       <main className="max-w-4xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
-        {/* Header */}
+        {/* ====== HERO COMERCIAL — landing app de salud ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-16 sm:mb-20 text-center py-8 sm:py-12"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-6" style={{ backgroundColor: "#dbeafe", color: "#1e40af" }}>
+            <span>✦</span>
+            <span className="text-xs font-semibold tracking-wide">Salud · Pacientes · Profesionales</span>
+          </div>
+          <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight leading-[1.05] mb-5 max-w-3xl mx-auto">
+            Tu recuperación,<br />
+            <span style={{ color: "#3b82f6" }}>siempre con vos.</span>
+          </h1>
+          <p className="text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-9" style={{ color: "#475569" }}>
+            Vital es la app que tu médico, kinesiólogo o terapeuta te asigna. Tu plan, tu progreso, mensajes con tu profesional. Sin papeles, sin grupos de WhatsApp.
+          </p>
+
+          <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
+            <button
+              className="px-6 py-3 rounded-xl text-sm font-semibold text-white"
+              style={{ background: "linear-gradient(135deg, #3b82f6, #2563eb)" }}
+            >
+              Buscar mi profesional
+            </button>
+            <button
+              className="px-6 py-3 rounded-xl text-sm font-semibold"
+              style={{ border: "1px solid #e2e8f0", color: "#0f172a" }}
+            >
+              Soy profesional →
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto text-left">
+            {[
+              { icon: "🩺", tit: "Tu plan, claro", desc: "Sabés qué hacer hoy. Y cuánto te falta para volver a estar bien." },
+              { icon: "💬", tit: "Mensaje directo", desc: "Si algo te duele, le escribís. Te responde el profesional, no un bot." },
+              { icon: "📊", tit: "Tu progreso a la vista", desc: "Ves cómo avanzás semana a semana. Tu kine también lo ve." },
+            ].map((p) => (
+              <motion.div
+                key={p.tit}
+                whileHover={{ y: -3 }}
+                className="bg-white rounded-2xl p-5"
+                style={{ border: "1px solid #e2e8f0" }}
+              >
+                <div className="text-2xl mb-3">{p.icon}</div>
+                <h4 className="font-semibold mb-1.5">{p.tit}</h4>
+                <p className="text-sm leading-relaxed" style={{ color: "#64748b" }}>{p.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3 mb-10">
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e2e8f0" }} />
+          <span className="text-xs uppercase tracking-[0.2em] font-semibold" style={{ color: "#64748b" }}>
+            Así se ve siendo paciente
+          </span>
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e2e8f0" }} />
+        </div>
+
+        {/* ====== VISTA OPERATIVA ====== */}
         <motion.section
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}

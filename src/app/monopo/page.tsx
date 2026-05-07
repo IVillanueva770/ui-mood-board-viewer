@@ -233,6 +233,95 @@ export default function MonopoPage() {
           </motion.div>
         </motion.section>
 
+        {/* Divider de cambio de modo */}
+        <div className="flex items-center gap-4 mb-16">
+          <div className="flex-1 h-px" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
+          <span className="text-[10px] uppercase tracking-[0.4em] font-light" style={{ color: "#888888" }}>
+            inside the studio
+          </span>
+          <div className="flex-1 h-px" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
+        </div>
+
+        {/* ====== VISTA OPERATIVA — panel interno del estudio ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7 }}
+          className="mb-32"
+        >
+          <div className="grid grid-cols-12 gap-8 mb-14">
+            <div className="col-span-12 md:col-span-4">
+              <p className="text-xs uppercase tracking-[0.4em] mb-4" style={{ color: "#888888" }}>02 · operations</p>
+            </div>
+            <div className="col-span-12 md:col-span-8">
+              <h2 className="text-4xl sm:text-5xl font-light leading-tight mb-5" style={{ letterSpacing: "-0.02em" }}>
+                The studio is a system. <em className="italic" style={{ color: "#a78bfa" }}>This</em> is what runs underneath.
+              </h2>
+              <p className="text-base leading-relaxed max-w-xl" style={{ color: "#aaaaaa" }}>
+                Cómo gestionamos pipeline, capacidad de equipo, y cobranza. Sin Notion-frankenstein, sin Trellos compartidos a medio mantener.
+              </p>
+            </div>
+          </div>
+
+          {/* Pipeline minimal */}
+          <div className="mb-12">
+            <div className="flex items-end justify-between mb-6">
+              <p className="text-xs uppercase tracking-[0.3em]" style={{ color: "#888888" }}>Active projects</p>
+              <p className="text-xs" style={{ color: "#666666" }}>06 — Spring 2026</p>
+            </div>
+            <div className="space-y-0">
+              {[
+                { num: "01", cliente: "Aurora Botanical", tipo: "Brand identity", etapa: "Final review", deadline: "May 14", asignado: "MR · TM" },
+                { num: "02", cliente: "Cien Soles", tipo: "Web · editorial", etapa: "Design phase", deadline: "May 22", asignado: "JG" },
+                { num: "03", cliente: "Matria Records", tipo: "Branding · motion", etapa: "Design phase", deadline: "May 30", asignado: "TM · KS" },
+                { num: "04", cliente: "Tabacal", tipo: "Packaging · web", etapa: "Discovery", deadline: "Jun 12", asignado: "MR" },
+                { num: "05", cliente: "Norte Estudio", tipo: "Identity · print", etapa: "Brief", deadline: "Jun 28", asignado: "TBD" },
+                { num: "06", cliente: "Casa Verde", tipo: "Identity", etapa: "Hold", deadline: "—", asignado: "—" },
+              ].map((p) => (
+                <motion.div
+                  key={p.num}
+                  whileHover={{ x: 6 }}
+                  className="grid grid-cols-12 gap-3 py-5 cursor-pointer"
+                  style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+                >
+                  <div className="col-span-1 text-xs self-center" style={{ color: "#666666", fontFamily: "var(--font-geist-mono)" }}>{p.num}</div>
+                  <div className="col-span-11 md:col-span-5 self-center">
+                    <p className="text-2xl font-light leading-tight">{p.cliente}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "#888888" }}>{p.tipo}</p>
+                  </div>
+                  <div className="col-span-6 md:col-span-2 self-center">
+                    <span className="text-xs px-2 py-1 rounded-sm" style={{
+                      backgroundColor: p.etapa === "Final review" ? "rgba(167,139,250,0.15)" : p.etapa === "Hold" ? "rgba(255,255,255,0.04)" : "rgba(96,165,250,0.1)",
+                      color: p.etapa === "Final review" ? "#a78bfa" : p.etapa === "Hold" ? "#666" : "#60a5fa",
+                    }}>
+                      {p.etapa}
+                    </span>
+                  </div>
+                  <div className="col-span-3 md:col-span-2 self-center text-xs" style={{ color: "#aaaaaa", fontFamily: "var(--font-geist-mono)" }}>{p.deadline}</div>
+                  <div className="col-span-3 md:col-span-2 self-center text-xs text-right" style={{ color: "#888888", fontFamily: "var(--font-geist-mono)" }}>{p.asignado}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Capacity + revenue stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+            {[
+              { val: "82%", label: "Team capacity", sub: "spring 2026" },
+              { val: "$ 47.2k", label: "MRR projects", sub: "+12% q/q" },
+              { val: "14d", label: "Avg discovery", sub: "down from 21d" },
+              { val: "0.94", label: "On-time delivery", sub: "last 12 months" },
+            ].map((s) => (
+              <div key={s.label}>
+                <p className="text-3xl sm:text-4xl font-light tracking-tight mb-2">{s.val}</p>
+                <p className="text-xs uppercase tracking-wider mb-0.5" style={{ color: "#aaaaaa" }}>{s.label}</p>
+                <p className="text-[10px]" style={{ color: "#666666", fontFamily: "var(--font-geist-mono)" }}>{s.sub}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
         <StyleFooter estilo={e} textColor="#aaaaaa" borderColor="rgba(255,255,255,0.1)" />
       </main>
     </div>

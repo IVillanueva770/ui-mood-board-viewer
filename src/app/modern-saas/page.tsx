@@ -99,6 +99,134 @@ export default function ModernSaasPage() {
           </div>
         </motion.section>
 
+        {/* Divider */}
+        <div className="flex items-center gap-3 mb-10">
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
+          <span className="text-xs uppercase tracking-[0.2em] font-semibold" style={{ color: "#5e6ad2" }}>
+            Dashboard del producto
+          </span>
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
+        </div>
+
+        {/* ====== VISTA OPERATIVA — dashboard del SaaS ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-20"
+        >
+          <div className="mb-8">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-3" style={{ color: "#0f172a" }}>
+              Lo que ves después del signup.
+            </h2>
+            <p className="text-base leading-relaxed max-w-2xl" style={{ color: "#475569" }}>
+              Sin tutorial pesado, sin tour de 7 pasos. La consola con tus métricas, tus deployments, y un terminal listo para tu primer push.
+            </p>
+          </div>
+
+          {/* Console mock */}
+          <div
+            className="rounded-2xl overflow-hidden bg-white"
+            style={{ border: "1px solid #e5e7eb", boxShadow: "0 1px 3px rgba(15,23,42,0.04), 0 12px 32px rgba(94,106,210,0.08)" }}
+          >
+            {/* App bar */}
+            <div className="px-5 py-3 flex items-center justify-between text-sm" style={{ borderBottom: "1px solid #e5e7eb", backgroundColor: "#fafbff" }}>
+              <div className="flex items-center gap-3">
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold" style={{ background: "linear-gradient(135deg, #5e6ad2, #8b5cf6)" }}>◆</div>
+                <span className="font-semibold">acme-prod</span>
+                <span className="text-xs px-2 py-0.5 rounded font-medium" style={{ backgroundColor: "#dcfce7", color: "#166534" }}>● healthy</span>
+              </div>
+              <div className="hidden md:flex items-center gap-3 text-xs" style={{ color: "#6b7280" }}>
+                <span>Production</span>
+                <span>·</span>
+                <span style={{ fontFamily: "var(--font-geist-mono)" }}>v0.42.1</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-12 gap-0">
+              {/* Sidebar */}
+              <aside className="col-span-3 hidden md:block p-4 text-sm" style={{ borderRight: "1px solid #e5e7eb" }}>
+                <p className="text-[10px] uppercase tracking-wider mb-3 font-semibold" style={{ color: "#94a3b8" }}>WORKSPACE</p>
+                {[
+                  { l: "Overview", active: true },
+                  { l: "Deployments" },
+                  { l: "Functions" },
+                  { l: "Database" },
+                  { l: "Auth" },
+                  { l: "Logs" },
+                  { l: "Settings" },
+                ].map((it) => (
+                  <button key={it.l} className="w-full text-left px-2 py-1.5 rounded-md mb-0.5 transition-colors hover:bg-slate-50" style={{ backgroundColor: it.active ? "#eef2ff" : "transparent", color: it.active ? "#3730a3" : "#475569", fontWeight: it.active ? 600 : 400 }}>
+                    {it.l}
+                  </button>
+                ))}
+              </aside>
+
+              {/* Main */}
+              <div className="col-span-12 md:col-span-9 p-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  {[
+                    { val: "1.24M", label: "Requests / 24h", delta: "+18%", positive: true },
+                    { val: "p95 84ms", label: "Latency", delta: "-3ms", positive: true },
+                    { val: "0.02%", label: "Error rate", delta: "+0.01%", positive: false },
+                    { val: "$ 142", label: "Mes a la fecha", delta: "+$ 24", positive: false },
+                  ].map((s) => (
+                    <div key={s.label} className="rounded-lg p-3" style={{ border: "1px solid #e5e7eb" }}>
+                      <p className="text-[11px] mb-1" style={{ color: "#64748b" }}>{s.label}</p>
+                      <p className="text-xl font-semibold tracking-tight tabular-nums">{s.val}</p>
+                      <p className="text-[11px] mt-1 font-mono" style={{ color: s.positive ? "#16a34a" : "#dc2626" }}>{s.delta}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mini chart placeholder */}
+                <div className="rounded-lg p-4 mb-5" style={{ border: "1px solid #e5e7eb", backgroundColor: "#fafbff" }}>
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-sm font-semibold">Requests por hora</p>
+                    <div className="flex gap-1 text-xs">
+                      {["1h", "24h", "7d", "30d"].map((r, i) => (
+                        <span key={r} className="px-2 py-0.5 rounded" style={{ backgroundColor: i === 1 ? "#5e6ad2" : "transparent", color: i === 1 ? "#fff" : "#64748b" }}>{r}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <svg viewBox="0 0 400 80" className="w-full" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="saas-chart-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#5e6ad2" stopOpacity="0.4" />
+                        <stop offset="100%" stopColor="#5e6ad2" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M0,60 L20,55 L40,40 L60,48 L80,32 L100,38 L120,28 L140,22 L160,30 L180,18 L200,24 L220,12 L240,18 L260,8 L280,16 L300,6 L320,12 L340,4 L360,10 L380,2 L400,8 L400,80 L0,80 Z" fill="url(#saas-chart-grad)" />
+                    <path d="M0,60 L20,55 L40,40 L60,48 L80,32 L100,38 L120,28 L140,22 L160,30 L180,18 L200,24 L220,12 L240,18 L260,8 L280,16 L300,6 L320,12 L340,4 L360,10 L380,2 L400,8" fill="none" stroke="#5e6ad2" strokeWidth="1.5" />
+                  </svg>
+                </div>
+
+                {/* Recent deployments */}
+                <div className="rounded-lg" style={{ border: "1px solid #e5e7eb" }}>
+                  <div className="px-4 py-2.5 text-sm font-semibold" style={{ borderBottom: "1px solid #e5e7eb" }}>Deployments recientes</div>
+                  {[
+                    { sha: "a3f2c81", msg: "fix(auth): magic link expiration", branch: "main", time: "12 min", status: "Ready", color: "#16a34a" },
+                    { sha: "1b8e2d4", msg: "feat(db): connection pool tuning", branch: "main", time: "1h", status: "Ready", color: "#16a34a" },
+                    { sha: "9c4f1ab", msg: "wip: queue consumer retry", branch: "feat/queue", time: "3h", status: "Building", color: "#eab308" },
+                  ].map((d, i) => (
+                    <div key={d.sha} className="px-4 py-2.5 flex items-center justify-between text-sm" style={{ borderTop: i > 0 ? "1px solid #f1f5f9" : "none" }}>
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: d.color }} />
+                        <span className="text-xs font-mono shrink-0" style={{ color: "#64748b" }}>{d.sha}</span>
+                        <span className="truncate">{d.msg}</span>
+                      </div>
+                      <div className="flex items-center gap-3 text-xs shrink-0" style={{ color: "#64748b" }}>
+                        <span style={{ fontFamily: "var(--font-geist-mono)" }}>{d.branch}</span>
+                        <span>{d.time}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
         <StyleFooter estilo={e} textColor="#475569" borderColor="#e5e7eb" />
       </main>
     </div>
