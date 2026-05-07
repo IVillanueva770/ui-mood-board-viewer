@@ -60,7 +60,7 @@ export default function ComercioPopularPage() {
 
         {/* Productos grid */}
         <h2 className="text-xl font-bold mb-5">Más vendidos esta semana</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
           {[
             { nombre: "Yerba Mate Cruz de Malta", precio: "$3.450", oferta: "$2.890" },
             { nombre: "Fideos Matarazzo Spaghetti", precio: "$1.250" },
@@ -101,6 +101,106 @@ export default function ComercioPopularPage() {
               </button>
             </motion.div>
           ))}
+        </div>
+
+        {/* Divider de cambio de modo */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
+          <span className="text-xs uppercase tracking-wider font-semibold" style={{ color: "#16a34a" }}>
+            🔧 Panel del comerciante
+          </span>
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
+        </div>
+
+        {/* ====== VISTA OPERATIVA — panel admin del almacén ====== */}
+        <div className="mb-10">
+          <h2 className="text-xl sm:text-2xl font-bold mb-1">Hola Don Ricardo, así viene el día</h2>
+          <p className="text-sm mb-6" style={{ color: "#737373" }}>Miércoles 7 de mayo · 14:32 · El Almacén · Salta capital</p>
+
+          {/* Stats del día */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+            {[
+              { val: "$ 124.500", label: "Vendido hoy", trend: "+18% vs ayer", color: "#16a34a" },
+              { val: "23", label: "Pedidos del día", trend: "11 pendientes", color: "#171717" },
+              { val: "7", label: "Productos por agotarse", trend: "Reponer hoy", color: "#dc2626" },
+              { val: "$ 18.300", label: "Cuenta corriente", trend: "5 clientes", color: "#737373" },
+            ].map((s) => (
+              <motion.div
+                key={s.label}
+                whileHover={{ y: -2 }}
+                className="border rounded-lg p-4 bg-white"
+                style={{ borderColor: "#e5e7eb" }}
+              >
+                <p className="text-xs mb-1" style={{ color: "#737373" }}>{s.label}</p>
+                <p className="text-2xl font-bold tracking-tight tabular-nums" style={{ color: s.color }}>{s.val}</p>
+                <p className="text-[11px] mt-1" style={{ color: "#737373" }}>{s.trend}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Pedidos pendientes */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            <div className="lg:col-span-2 border rounded-lg bg-white" style={{ borderColor: "#e5e7eb" }}>
+              <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: "1px solid #e5e7eb" }}>
+                <p className="font-bold text-sm">Pedidos pendientes</p>
+                <span className="text-xs font-semibold px-2 py-0.5 rounded text-white" style={{ backgroundColor: "#dc2626" }}>11</span>
+              </div>
+              <div className="divide-y" style={{ borderColor: "#f3f4f6" }}>
+                {[
+                  { num: "#1247", cliente: "Sra. Ramírez", items: "Yerba x2, Fideos x4, Leche x3", total: "$ 14.800", hora: "13:45", estado: "PARA ARMAR", chip: "#fef3c7", chipText: "#92400e" },
+                  { num: "#1246", cliente: "Don Hugo", items: "Coca x6, Snacks variados", total: "$ 8.450", hora: "13:20", estado: "ARMADO", chip: "#dcfce7", chipText: "#166534" },
+                  { num: "#1245", cliente: "Vecina del 12", items: "Almuerzo del día (lista)", total: "$ 5.200", hora: "12:55", estado: "ENVIADO", chip: "#dbeafe", chipText: "#1e40af" },
+                  { num: "#1244", cliente: "Pizzería Marcelo", items: "Mozza x10, harina x4", total: "$ 32.100", hora: "12:30", estado: "PARA ARMAR", chip: "#fef3c7", chipText: "#92400e" },
+                ].map((o) => (
+                  <div key={o.num} className="px-5 py-3 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <div className="flex items-start justify-between gap-3 mb-1">
+                      <div>
+                        <p className="text-sm font-semibold">{o.cliente} <span className="font-normal text-xs" style={{ color: "#737373" }}>· {o.num}</span></p>
+                        <p className="text-xs mt-0.5" style={{ color: "#737373" }}>{o.items}</p>
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded whitespace-nowrap" style={{ backgroundColor: o.chip, color: o.chipText }}>
+                        {o.estado}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span style={{ color: "#737373" }}>Hora: {o.hora}</span>
+                      <span className="font-bold tabular-nums">{o.total}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button className="w-full py-3 text-sm font-semibold border-t hover:bg-gray-50" style={{ borderColor: "#e5e7eb", color: "#16a34a" }}>
+                Ver todos los pedidos →
+              </button>
+            </div>
+
+            {/* Stock crítico */}
+            <div className="border rounded-lg bg-white" style={{ borderColor: "#e5e7eb" }}>
+              <div className="px-4 py-3 flex items-center justify-between" style={{ borderBottom: "1px solid #e5e7eb" }}>
+                <p className="font-bold text-sm">Reponer hoy</p>
+                <span className="text-xs">⚠️</span>
+              </div>
+              <div className="p-4 space-y-3 text-sm">
+                {[
+                  { p: "Leche La Serenísima 1L", q: "2 quedan", urg: true },
+                  { p: "Yerba Cruz de Malta 1kg", q: "5 quedan", urg: true },
+                  { p: "Pan lactal grande", q: "Sin stock", urg: true },
+                  { p: "Fideos Matarazzo", q: "8 quedan", urg: false },
+                  { p: "Cervezas Quilmes", q: "12 quedan", urg: false },
+                ].map((s) => (
+                  <div key={s.p} className="flex items-center justify-between gap-2">
+                    <span className="line-clamp-1 flex-1">{s.p}</span>
+                    <span className={`text-xs font-semibold whitespace-nowrap ${s.urg ? "" : ""}`} style={{ color: s.urg ? "#dc2626" : "#737373" }}>
+                      {s.q}
+                    </span>
+                  </div>
+                ))}
+                <button className="w-full py-2 mt-2 rounded-md text-xs font-semibold text-white" style={{ backgroundColor: "#16a34a" }}>
+                  + Hacer pedido al mayorista
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <StyleFooter estilo={e} textColor="#737373" borderColor="#e5e7eb" />

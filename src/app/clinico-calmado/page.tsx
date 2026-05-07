@@ -12,7 +12,65 @@ export default function ClinicoCalmadoPage() {
       <StyleHeader estilo={e} borderColor="#e2e8f0" navColor="#64748b" />
 
       <main className="max-w-5xl mx-auto px-5 sm:px-8 py-8 sm:py-10">
-        {/* Header limpio */}
+        {/* ====== HERO COMERCIAL — SaaS para consultorios kinesiológicos ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-16 sm:mb-20 py-12 sm:py-16 text-center"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-7" style={{ backgroundColor: "#e0f2fe", color: "#0369a1" }}>
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#0ea5e9" }} />
+            <span className="text-xs font-semibold tracking-wide">Software clínico · Kinesiología</span>
+          </div>
+          <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight leading-[1.05] mb-5 max-w-3xl mx-auto">
+            Tu consultorio,<br />
+            <span style={{ color: "#0ea5e9" }}>menos administración.</span>
+          </h1>
+          <p className="text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-9" style={{ color: "#64748b" }}>
+            Klin organiza tu agenda, las fichas de paciente, las altas y las planillas. Vos atendés. Lo demás lo manejamos nosotros.
+          </p>
+
+          <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
+            <button
+              className="px-6 py-3 rounded-lg text-sm font-semibold text-white"
+              style={{ backgroundColor: "#0ea5e9" }}
+            >
+              Probar 30 días gratis
+            </button>
+            <button
+              className="px-6 py-3 rounded-lg text-sm font-semibold"
+              style={{ border: "1px solid #e2e8f0", color: "#0f172a" }}
+            >
+              Agendar demo →
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto pt-10" style={{ borderTop: "1px solid #e2e8f0" }}>
+            {[
+              { val: "1.200+", label: "Kinesiólogos activos" },
+              { val: "47k", label: "Sesiones al mes" },
+              { val: "11s", label: "Para cargar una ficha" },
+              { val: "94%", label: "Renueva al año" },
+            ].map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-2xl sm:text-3xl font-semibold tracking-tight tabular-nums">{s.val}</p>
+                <p className="text-xs mt-1" style={{ color: "#64748b" }}>{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Divider de cambio de modo */}
+        <div className="flex items-center gap-4 mb-10">
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e2e8f0" }} />
+          <span className="text-[11px] uppercase tracking-[0.2em] font-semibold" style={{ color: "#64748b" }}>
+            Así se ve adentro · panel del kine
+          </span>
+          <div className="flex-1 h-px" style={{ backgroundColor: "#e2e8f0" }} />
+        </div>
+
+        {/* ====== VISTA OPERATIVA ====== */}
         <motion.section
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}

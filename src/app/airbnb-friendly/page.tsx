@@ -12,7 +12,90 @@ export default function AirbnbFriendlyPage() {
       <StyleHeader estilo={e} borderColor="#dddddd" navColor="#717171" />
 
       <main className="max-w-4xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
-        {/* Friendly hero */}
+        {/* ====== HERO COMERCIAL — landing del producto ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55 }}
+          className="mb-16"
+        >
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-6" style={{ backgroundColor: "#ffe4e6" }}>
+              <span className="text-sm">🌱</span>
+              <span className="text-xs font-semibold" style={{ color: "#ff5a5f" }}>Producto en beta · sumate a la lista</span>
+            </div>
+            <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight leading-[1.05] mb-5 max-w-3xl mx-auto">
+              Tu día sin ansiedad,<br />
+              <span style={{ color: "#ff5a5f" }}>una tarea a la vez.</span>
+            </h1>
+            <p className="text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-8" style={{ color: "#484848" }}>
+              Suave es un asistente personal que te ordena la mañana sin que tengas que pensar por dónde arrancar. Sin checklists infinitas, sin gamificación de aeropuerto.
+            </p>
+
+            <div className="flex items-center justify-center flex-wrap gap-3">
+              <motion.button
+                whileHover={{ y: -2, boxShadow: "0 12px 24px -8px rgba(255,90,95,0.35)" }}
+                whileTap={{ scale: 0.97 }}
+                className="px-6 py-3 rounded-xl text-sm font-semibold"
+                style={{ backgroundColor: "#ff5a5f", color: "#ffffff" }}
+              >
+                Probar gratis 14 días
+              </motion.button>
+              <motion.button
+                whileHover={{ y: -2 }}
+                className="px-5 py-3 rounded-xl text-sm font-semibold"
+                style={{ backgroundColor: "#ffffff", color: "#222222", border: "1px solid #dddddd" }}
+              >
+                Ver demo →
+              </motion.button>
+            </div>
+          </div>
+
+          {/* Mini social proof + features cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              { icon: "🌅", titulo: "Empieza tranquilo", desc: "Te muestra solo lo que importa hoy. El resto, mañana." },
+              { icon: "🎯", titulo: "Foco real", desc: "Una tarea a la vez. Cuando terminás, aparece la próxima." },
+              { icon: "🫶", titulo: "Sin presión", desc: "No te juzga si saltás un día. Te recibe igual al volver." },
+            ].map((f, i) => (
+              <motion.div
+                key={f.titulo}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.2 + i * 0.08 }}
+                whileHover={{ y: -4 }}
+                className="bg-white rounded-2xl p-5"
+                style={{ border: "1px solid #ebebeb" }}
+              >
+                <div className="text-2xl mb-3">{f.icon}</div>
+                <h4 className="font-semibold mb-1.5">{f.titulo}</h4>
+                <p className="text-sm leading-relaxed" style={{ color: "#717171" }}>{f.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-center gap-4 mt-10 flex-wrap">
+            <div className="flex -space-x-2">
+              {["#ffe4e6", "#fef3c7", "#dbeafe", "#dcfce7"].map((c) => (
+                <div key={c} className="w-8 h-8 rounded-full border-2 border-white" style={{ backgroundColor: c }} />
+              ))}
+            </div>
+            <p className="text-sm" style={{ color: "#717171" }}>
+              <span className="font-semibold" style={{ color: "#222222" }}>1.847 personas</span> arrancaron mejor el día con Suave esta semana.
+            </p>
+          </div>
+        </motion.section>
+
+        {/* Divider de cambio de modo a operativo */}
+        <div className="flex items-center gap-4 mb-12">
+          <div className="flex-1 h-px" style={{ backgroundColor: "#ebebeb" }} />
+          <span className="text-xs uppercase tracking-[0.2em] font-semibold" style={{ color: "#717171" }}>
+            Así se ve adentro
+          </span>
+          <div className="flex-1 h-px" style={{ backgroundColor: "#ebebeb" }} />
+        </div>
+
+        {/* ====== VISTA OPERATIVA — panel del usuario ====== */}
         <motion.section
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -32,9 +115,9 @@ export default function AirbnbFriendlyPage() {
             </div>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight leading-tight mb-4 max-w-2xl">
+          <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight leading-tight mb-4 max-w-2xl">
             Tenés <span style={{ color: "#ff5a5f" }}>3 cosas</span> que hacer hoy. Vamos paso a paso.
-          </h1>
+          </h2>
           <p className="text-base sm:text-lg leading-relaxed max-w-xl" style={{ color: "#484848" }}>
             Sin apuros. Te ordeno la mañana así no te quema la cabeza pensar por dónde arrancar.
           </p>
