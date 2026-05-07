@@ -15,9 +15,77 @@ export default function Material3Page() {
     <div style={{ backgroundColor: "#fef7ff", color: "#1d1b20", minHeight: "100vh" }} className="font-inter">
       <StyleHeader estilo={e} borderColor="#e8def8" navColor="#79747e" />
 
+      {/* ====== HERO COMERCIAL — landing del producto SaaS ====== */}
+      <motion.section
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55 }}
+        className="max-w-4xl mx-auto px-5 pt-14 pb-12 sm:pt-20 sm:pb-16 text-center"
+      >
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-7" style={{ backgroundColor: "#eaddff", color: "#21005d" }}>
+          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#6750a4" }} />
+          <span className="text-xs font-semibold tracking-wide">Material 3 · Salud y rehabilitación</span>
+        </div>
+        <h1 className="text-4xl sm:text-6xl font-medium tracking-tight leading-[1.05] mb-5 max-w-3xl mx-auto" style={{ color: "#1d1b20" }}>
+          La rehabilitación,<br />
+          <span style={{ color: "#6750a4" }}>diseñada como debe ser.</span>
+        </h1>
+        <p className="text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-9" style={{ color: "#49454f" }}>
+          Tu kine te asigna sesiones, vos las hacés desde tu celular. Sin papeles, sin recordatorios torpes. Acompañamiento real entre visitas.
+        </p>
+
+        <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
+          <motion.button
+            whileHover={{ scale: 1.03, boxShadow: "0 8px 20px rgba(103,80,164,0.35)" }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 400, damping: 22 }}
+            className="px-6 py-3 rounded-full text-sm font-semibold text-white"
+            style={{ backgroundColor: "#6750a4" }}
+          >
+            Descargar gratis
+          </motion.button>
+          <motion.button
+            whileHover={{ backgroundColor: "#eaddff" }}
+            className="px-6 py-3 rounded-full text-sm font-semibold transition-colors"
+            style={{ color: "#21005d", border: "1px solid #cac4d0" }}
+          >
+            Para profesionales →
+          </motion.button>
+        </div>
+
+        {/* Highlights tarjetas tonal */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto text-left">
+          {[
+            { tit: "Tu plan, en tu bolsillo", desc: "Cada sesión asignada por tu kine, lista para hacer.", color: "#6750a4", bg: "#eaddff" },
+            { tit: "Recordatorios que no molestan", desc: "Material 3 motion: suaves, oportunos, sin spam.", color: "#7d5260", bg: "#ffd8e4" },
+            { tit: "Tu kine ve tu progreso", desc: "Si saltás sesiones, lo sabe. Si avanzás, también.", color: "#386a20", bg: "#d7eac7" },
+          ].map((h) => (
+            <motion.div
+              key={h.tit}
+              whileHover={{ y: -3 }}
+              className="rounded-2xl p-5"
+              style={{ backgroundColor: h.bg }}
+            >
+              <div className="w-9 h-9 rounded-xl mb-3 flex items-center justify-center text-white text-sm font-bold" style={{ backgroundColor: h.color }}>
+                ◆
+              </div>
+              <h4 className="font-medium mb-1" style={{ color: h.color }}>{h.tit}</h4>
+              <p className="text-xs leading-relaxed" style={{ color: "#49454f" }}>{h.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Divider */}
+      <div className="max-w-md mx-auto px-4 mb-2 flex items-center gap-3">
+        <div className="flex-1 h-px" style={{ backgroundColor: "#e8def8" }} />
+        <span className="text-[10px] uppercase tracking-[0.2em] font-medium" style={{ color: "#79747e" }}>Así se ve la app</span>
+        <div className="flex-1 h-px" style={{ backgroundColor: "#e8def8" }} />
+      </div>
+
       <main className="max-w-md mx-auto px-4 py-6">
         {/* Phone mock contenedor */}
-        <div className="relative pb-32">
+        <div className="relative pb-40">
           {/* Top app bar Material 3 */}
           <motion.div
             initial={{ opacity: 0, y: -8 }}
@@ -145,7 +213,7 @@ export default function Material3Page() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.5 }}
-            className="rounded-3xl p-5 mb-6"
+            className="rounded-3xl p-5 mb-12"
             style={{ backgroundColor: "#ffffff", boxShadow: "0 1px 2px rgba(0,0,0,0.06), 0 2px 6px rgba(103,80,164,0.08)" }}
           >
             <p className="text-sm font-medium mb-4" style={{ color: "#49454f" }}>Esta semana</p>
@@ -163,16 +231,17 @@ export default function Material3Page() {
             </div>
           </motion.section>
 
-          {/* Floating Action Button (M3 signature) */}
+          {/* Floating Action Button (M3 signature) — elevated sobre el card stats, separado del bottom nav */}
           <motion.div
             initial={{ scale: 0, rotate: -45 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 200, delay: 0.7 }}
-            whileHover={{ scale: 1.05, boxShadow: "0 10px 24px rgba(103,80,164,0.45), 0 2px 6px rgba(0,0,0,0.18)" }}
-            className="absolute bottom-20 right-4"
+            whileHover={{ scale: 1.05, boxShadow: "0 14px 30px rgba(103,80,164,0.5), 0 4px 10px rgba(0,0,0,0.2)" }}
+            className="absolute bottom-28 right-4"
             style={{
               borderRadius: "1rem",
-              boxShadow: "0 6px 16px rgba(103,80,164,0.35), 0 1px 3px rgba(0,0,0,0.12)",
+              boxShadow: "0 10px 24px rgba(103,80,164,0.42), 0 2px 6px rgba(0,0,0,0.16)",
+              zIndex: 5,
             }}
           >
             <Ripple
@@ -188,15 +257,15 @@ export default function Material3Page() {
             </Ripple>
           </motion.div>
 
-          {/* Bottom navigation bar (M3) */}
+          {/* Bottom navigation bar (M3) — más alto, separado del FAB con z-index propio */}
           <motion.nav
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.4 }}
             className="absolute bottom-0 left-0 right-0 rounded-b-3xl"
-            style={{ backgroundColor: "#f7f2fa", borderTop: "1px solid #e8def8" }}
+            style={{ backgroundColor: "#f7f2fa", borderTop: "1px solid #e8def8", zIndex: 4 }}
           >
-            <div className="flex items-center justify-around py-2 px-2">
+            <div className="flex items-center justify-around py-3 px-2">
               {[
                 { icon: "⌂", label: "Inicio" },
                 { icon: "📅", label: "Agenda" },

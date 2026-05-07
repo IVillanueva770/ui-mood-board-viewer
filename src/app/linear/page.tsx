@@ -46,6 +46,74 @@ export default function LinearPage() {
         <div style={{ color: "#8a8f98" }}>Linear (real) · midnight command center · refero</div>
       </motion.div>
 
+      {/* ====== HERO COMERCIAL — landing tipo linear.app ====== */}
+      <motion.section
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative overflow-hidden"
+        style={{ borderBottom: "1px solid #1a1b1d" }}
+      >
+        {/* Sutil glow neon arriba */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 -top-32 h-64 -z-0 opacity-30 blur-3xl"
+          style={{ background: "radial-gradient(circle at 50% 100%, #e4f222 0%, transparent 60%)" }}
+        />
+        <div className="relative max-w-5xl mx-auto px-6 py-20 sm:py-28 text-center">
+          <p className="text-[11px] uppercase tracking-[0.3em] mb-6 font-semibold" style={{ color: "#e4f222", fontFamily: "var(--font-geist-mono)" }}>
+            v2026.05 · ahora con cycles inteligentes
+          </p>
+          <h1 className="text-4xl sm:text-7xl font-semibold tracking-[-0.025em] leading-[1.02] mb-6">
+            Linear is built for<br />
+            <span style={{ color: "#e4f222" }}>those who move fast.</span>
+          </h1>
+          <p className="text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-10" style={{ color: "#a4a5ad" }}>
+            La forma moderna de construir productos: keyboard-first, sin esperar segundos en cada acción, con un equipo entero alineado por defecto.
+          </p>
+
+          <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
+            <motion.button
+              whileHover={{ scale: 1.02, boxShadow: "0 0 0 4px rgba(228,242,34,0.3)" }}
+              whileTap={{ scale: 0.98 }}
+              className="px-5 py-2.5 text-sm font-semibold rounded"
+              style={{ backgroundColor: "#e4f222", color: "#08090a" }}
+            >
+              Get started — free
+            </motion.button>
+            <motion.button
+              whileHover={{ borderColor: "#e4f222" }}
+              className="px-5 py-2.5 text-sm font-semibold rounded transition-colors"
+              style={{ backgroundColor: "transparent", color: "#f7f8f8", border: "1px solid #2a2b2e" }}
+            >
+              Talk to sales →
+            </motion.button>
+          </div>
+
+          {/* Logos / social proof */}
+          <div className="flex items-center justify-center gap-6 sm:gap-10 flex-wrap text-xs" style={{ color: "#62666d" }}>
+            <span className="uppercase tracking-wider">10.000+ teams</span>
+            <span style={{ color: "#2a2b2e" }}>·</span>
+            <span style={{ fontFamily: "var(--font-geist-mono)" }}>Vercel</span>
+            <span style={{ color: "#2a2b2e" }}>·</span>
+            <span style={{ fontFamily: "var(--font-geist-mono)" }}>Ramp</span>
+            <span style={{ color: "#2a2b2e" }}>·</span>
+            <span style={{ fontFamily: "var(--font-geist-mono)" }}>Cash App</span>
+            <span style={{ color: "#2a2b2e" }}>·</span>
+            <span style={{ fontFamily: "var(--font-geist-mono)" }}>Mercury</span>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Divider de cambio de modo */}
+      <div className="px-6 py-3 flex items-center gap-3" style={{ borderBottom: "1px solid #1a1b1d", backgroundColor: "#08090a" }}>
+        <div className="flex-1 h-px" style={{ backgroundColor: "#1a1b1d" }} />
+        <span className="text-[10px] uppercase tracking-[0.25em] font-semibold" style={{ color: "#62666d", fontFamily: "var(--font-geist-mono)" }}>
+          ⌘ + → workspace
+        </span>
+        <div className="flex-1 h-px" style={{ backgroundColor: "#1a1b1d" }} />
+      </div>
+
       <div className="flex" style={{ minHeight: "calc(100vh - 33px)" }}>
         {/* Sidebar */}
         <aside style={{ borderRight: "1px solid #1a1b1d", width: 240 }} className="hidden md:block px-3 py-4">

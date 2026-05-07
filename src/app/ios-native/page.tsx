@@ -34,6 +34,74 @@ export default function IOSPage() {
     <div style={{ backgroundColor: "#f2f2f7", color: "#000000", minHeight: "100vh" }} className="font-inter">
       <StyleHeader estilo={e} borderColor="#d1d1d6" navColor="#8e8e93" />
 
+      {/* ====== HERO COMERCIAL — landing tipo App Store ====== */}
+      <motion.section
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55 }}
+        className="max-w-4xl mx-auto px-5 pt-12 pb-16 sm:pt-16 sm:pb-20"
+      >
+        <div className="text-center">
+          <p className="text-xs uppercase tracking-[0.18em] mb-5 font-semibold" style={{ color: "#007aff" }}>
+            disponible en App Store · gratis
+          </p>
+          <h1 className="text-5xl sm:text-7xl font-bold tracking-[-0.03em] leading-[0.95] mb-6" style={{ color: "#000" }}>
+            Hábitos buenos,<br />
+            <span style={{ color: "#007aff" }}>sin culpa.</span>
+          </h1>
+          <p className="text-base sm:text-xl leading-snug max-w-xl mx-auto mb-9" style={{ color: "#3a3a3c" }}>
+            La app que tu kine/médico recomienda para construir rutinas que duren. Diseñada con la fluidez nativa de iOS.
+          </p>
+
+          <div className="flex items-center justify-center gap-3 flex-wrap mb-10">
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 22 }}
+              className="px-6 py-3 rounded-full text-sm font-semibold text-white inline-flex items-center gap-2"
+              style={{ backgroundColor: "#000" }}
+            >
+              <span className="text-xl"></span>
+              <div className="text-left leading-none">
+                <div className="text-[10px] opacity-80">Descargar en</div>
+                <div className="font-bold">App Store</div>
+              </div>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 22 }}
+              className="px-6 py-3 rounded-full text-sm font-semibold"
+              style={{ backgroundColor: "#fff", color: "#007aff", border: "1.5px solid #007aff" }}
+            >
+              Cómo funciona →
+            </motion.button>
+          </div>
+
+          {/* Rating + downloads */}
+          <div className="flex items-center justify-center gap-8 flex-wrap text-sm">
+            <div className="flex items-center gap-1.5">
+              <span className="text-yellow-500">★★★★★</span>
+              <span className="font-semibold">4.9</span>
+              <span style={{ color: "#8e8e93" }}>· 12.4k reseñas</span>
+            </div>
+            <div className="font-semibold">
+              420k <span className="font-normal" style={{ color: "#8e8e93" }}>descargas</span>
+            </div>
+            <div className="font-semibold">
+              #2 <span className="font-normal" style={{ color: "#8e8e93" }}>en Salud y Forma física</span>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Divider */}
+      <div className="max-w-md mx-auto px-4 mb-3 flex items-center gap-3">
+        <div className="flex-1 h-px" style={{ backgroundColor: "#d1d1d6" }} />
+        <span className="text-[10px] uppercase tracking-[0.2em] font-semibold" style={{ color: "#8e8e93" }}>así se ve adentro</span>
+        <div className="flex-1 h-px" style={{ backgroundColor: "#d1d1d6" }} />
+      </div>
+
       <main className="max-w-md mx-auto px-4 py-8">
         {/* Phone frame */}
         <motion.div
