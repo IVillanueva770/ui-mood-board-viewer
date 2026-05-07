@@ -78,19 +78,79 @@ export default function EtherealPage() {
             ].map((p, i) => (
               <motion.div
                 key={p.num}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial="enter"
+                animate="rest"
+                whileHover="hover"
+                variants={{
+                  enter: { opacity: 0, x: -20 },
+                  rest: { opacity: 1, x: 0 },
+                  hover: {},
+                }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
-                whileHover={{ x: 8, color: "#ff3b00" }}
-                className="grid grid-cols-12 gap-4 py-6 cursor-pointer transition-colors"
+                className="relative grid grid-cols-12 gap-4 py-6 cursor-pointer"
                 style={{ borderBottom: "1px solid #222222" }}
               >
-                <div className="col-span-1 text-xs" style={{ color: "#666666" }}>{p.num}</div>
-                <div className="col-span-7 md:col-span-6 font-bebas text-3xl sm:text-4xl tracking-wide leading-none">
+                {/* Línea naranja inferior que crece desde el centro al hover */}
+                <motion.div
+                  aria-hidden
+                  variants={{
+                    enter: { scaleX: 0 },
+                    rest: { scaleX: 0 },
+                    hover: { scaleX: 1 },
+                  }}
+                  transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="absolute left-0 right-0 bottom-0 h-px pointer-events-none"
+                  style={{ backgroundColor: "#ff3b00", transformOrigin: "center" }}
+                />
+                {/* Número: se desplaza a la izquierda y crece */}
+                <motion.div
+                  variants={{
+                    enter: { x: 0, scale: 1, color: "#666666" },
+                    rest: { x: 0, scale: 1, color: "#666666" },
+                    hover: { x: -8, scale: 1.15, color: "#ff3b00" },
+                  }}
+                  transition={{ duration: 0.45, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="col-span-1 text-xs font-mono"
+                  style={{ transformOrigin: "left center" }}
+                >
+                  {p.num}
+                </motion.div>
+                {/* Título: itálica + slight push a la derecha */}
+                <motion.div
+                  variants={{
+                    enter: { x: 0, fontStyle: "normal", color: "#fafaf7" },
+                    rest: { x: 0, fontStyle: "normal", color: "#fafaf7" },
+                    hover: { x: 12, fontStyle: "italic", color: "#fafaf7" },
+                  }}
+                  transition={{ duration: 0.45, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="col-span-7 md:col-span-6 font-bebas text-3xl sm:text-4xl tracking-wide leading-none"
+                >
                   {p.titulo}
-                </div>
-                <div className="col-span-3 text-sm self-end" style={{ color: "#888888" }}>{p.tipo}</div>
-                <div className="col-span-1 text-xs self-end text-right" style={{ color: "#666666" }}>'{p.year}</div>
+                </motion.div>
+                {/* Tipo: cae hacia abajo, fade a naranja */}
+                <motion.div
+                  variants={{
+                    enter: { y: 0, color: "#888888" },
+                    rest: { y: 0, color: "#888888" },
+                    hover: { y: 6, color: "#ff3b00" },
+                  }}
+                  transition={{ duration: 0.45, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="col-span-3 text-sm self-end"
+                >
+                  {p.tipo}
+                </motion.div>
+                {/* Year: sube y se aclara */}
+                <motion.div
+                  variants={{
+                    enter: { y: 0, color: "#666666" },
+                    rest: { y: 0, color: "#666666" },
+                    hover: { y: -10, color: "#fafaf7" },
+                  }}
+                  transition={{ duration: 0.45, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="col-span-1 text-xs self-end text-right font-mono"
+                >
+                  &apos;{p.year}
+                </motion.div>
               </motion.div>
             ))}
           </div>

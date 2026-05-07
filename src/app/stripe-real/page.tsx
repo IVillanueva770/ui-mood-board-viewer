@@ -36,19 +36,59 @@ export default function StripeRealPage() {
 
           <div className="flex flex-wrap items-center gap-3">
             <motion.button
-              whileHover={{ y: -2, boxShadow: "0 12px 24px -8px rgba(83,58,253,0.3)" }}
+              initial="rest"
+              whileHover="hover"
               whileTap={{ scale: 0.98 }}
-              className="px-6 py-3 text-sm font-semibold rounded transition-shadow"
+              animate="rest"
+              variants={{
+                rest: {
+                  y: 0,
+                  boxShadow:
+                    "0 1px 2px rgba(6,27,49,0.04), 0 2px 4px rgba(83,58,253,0.12)",
+                },
+                hover: {
+                  y: -2,
+                  boxShadow:
+                    "0 4px 8px rgba(6,27,49,0.04), 0 8px 16px rgba(83,58,253,0.18), 0 16px 32px -8px rgba(83,58,253,0.32)",
+                },
+              }}
+              transition={{ duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
+              className="relative px-6 py-3 text-sm font-semibold rounded overflow-hidden"
               style={{ backgroundColor: "#533afd", color: "#fff" }}
             >
-              Empezar ahora
+              <motion.span
+                aria-hidden
+                variants={{ rest: { opacity: 0 }, hover: { opacity: 1 } }}
+                transition={{ duration: 0.25 }}
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #6c4dff 0%, #533afd 50%, #4023d4 100%)",
+                }}
+              />
+              <span className="relative">Empezar ahora</span>
             </motion.button>
             <motion.button
-              whileHover={{ x: 2 }}
-              className="px-3 py-3 text-sm font-semibold flex items-center gap-1"
+              initial="rest"
+              whileHover="hover"
+              animate="rest"
+              className="relative px-3 py-3 text-sm font-semibold flex items-center gap-1"
               style={{ color: "#533afd" }}
             >
-              Contactar ventas →
+              <span>Contactar ventas</span>
+              <motion.span
+                variants={{ rest: { x: 0 }, hover: { x: 4 } }}
+                transition={{ duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
+              >
+                →
+              </motion.span>
+              <motion.span
+                aria-hidden
+                variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
+                transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+                className="absolute left-3 right-7 bottom-2 h-px pointer-events-none"
+                style={{ backgroundColor: "#533afd", transformOrigin: "left center" }}
+              />
             </motion.button>
           </div>
         </motion.section>
@@ -94,19 +134,74 @@ export default function StripeRealPage() {
             ].map((f, i) => (
               <motion.div
                 key={f.titulo}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                whileHover={{ y: -4, boxShadow: "0 20px 40px -12px rgba(6,27,49,0.1)" }}
-                className="p-6 rounded-md bg-white transition-shadow"
+                initial="enter"
+                animate="rest"
+                whileHover="hover"
+                variants={{
+                  enter: { opacity: 0, y: 16 },
+                  rest: {
+                    opacity: 1,
+                    y: 0,
+                    boxShadow:
+                      "0 1px 2px rgba(6,27,49,0.03), 0 2px 4px rgba(6,27,49,0.04)",
+                    borderColor: "#e3e8ee",
+                  },
+                  hover: {
+                    y: -6,
+                    boxShadow:
+                      "0 4px 8px rgba(6,27,49,0.04), 0 12px 24px rgba(6,27,49,0.06), 0 24px 48px -12px rgba(83,58,253,0.18)",
+                    borderColor: "#d6d6ff",
+                  },
+                }}
+                transition={{ duration: 0.4, delay: i * 0.08, ease: [0.32, 0.72, 0, 1] }}
+                className="relative p-6 rounded-md bg-white cursor-pointer overflow-hidden"
                 style={{ border: "1px solid #e3e8ee" }}
               >
-                <div className="w-12 h-12 rounded-md mb-5 flex items-center justify-center" style={{ background: "linear-gradient(135deg, #533afd, #00d4ff)" }}>
+                {/* Sutil gradient accent que aparece arriba del card al hover */}
+                <motion.div
+                  aria-hidden
+                  variants={{
+                    enter: { scaleX: 0 },
+                    rest: { scaleX: 0 },
+                    hover: { scaleX: 1 },
+                  }}
+                  transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+                  className="absolute inset-x-0 top-0 h-0.5 pointer-events-none"
+                  style={{
+                    background: "linear-gradient(90deg, #533afd, #00d4ff)",
+                    transformOrigin: "left center",
+                  }}
+                />
+                <motion.div
+                  variants={{
+                    enter: { rotate: 0, scale: 1 },
+                    rest: { rotate: 0, scale: 1 },
+                    hover: { rotate: 6, scale: 1.05 },
+                  }}
+                  transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+                  className="w-12 h-12 rounded-md mb-5 flex items-center justify-center"
+                  style={{ background: "linear-gradient(135deg, #533afd, #00d4ff)" }}
+                >
                   <span className="text-white text-xl">◆</span>
-                </div>
+                </motion.div>
                 <h3 className="font-semibold text-lg mb-2" style={{ color: "#061b31" }}>{f.titulo}</h3>
                 <p className="text-sm leading-relaxed mb-4" style={{ color: "#425466" }}>{f.desc}</p>
-                <a className="text-sm font-semibold" style={{ color: "#533afd" }}>Conocer más →</a>
+                <span className="relative text-sm font-semibold inline-flex items-center gap-1" style={{ color: "#533afd" }}>
+                  <span>Conocer más</span>
+                  <motion.span
+                    variants={{ rest: { x: 0 }, hover: { x: 4 } }}
+                    transition={{ duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
+                  >
+                    →
+                  </motion.span>
+                  <motion.span
+                    aria-hidden
+                    variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
+                    transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+                    className="absolute left-0 right-5 -bottom-0.5 h-px pointer-events-none"
+                    style={{ backgroundColor: "#533afd", transformOrigin: "left center" }}
+                  />
+                </span>
               </motion.div>
             ))}
           </div>

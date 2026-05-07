@@ -44,14 +44,13 @@ export default function MonopoPage() {
           </p>
 
           <div className="flex flex-wrap gap-3">
-            {/* Ghost button style monopo */}
+            {/* Ghost button con shimmer firma monopo */}
             <motion.button
-              whileHover={{
-                backgroundColor: "rgba(255,255,255,0.08)",
-                borderColor: "rgba(255,255,255,0.5)",
-              }}
+              initial="rest"
+              whileHover="hover"
               whileTap={{ scale: 0.98 }}
-              className="px-7 py-3 text-sm font-medium transition-all"
+              animate="rest"
+              className="relative px-7 py-3 text-sm font-medium overflow-hidden"
               style={{
                 border: "1px solid rgba(255,255,255,0.3)",
                 color: "#ffffff",
@@ -60,14 +59,44 @@ export default function MonopoPage() {
                 backgroundColor: "rgba(255,255,255,0.02)",
               }}
             >
-              See our work
+              <motion.span
+                aria-hidden
+                variants={{
+                  rest: { x: "-110%", opacity: 0 },
+                  hover: { x: "110%", opacity: 1 },
+                }}
+                transition={{ duration: 0.9, ease: [0.22, 0.61, 0.36, 1] }}
+                className="absolute inset-y-0 w-1/2 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.18) 45%, rgba(167,139,250,0.25) 55%, transparent 100%)",
+                }}
+              />
+              <motion.span
+                variants={{
+                  rest: { backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.3)" },
+                  hover: { backgroundColor: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.5)" },
+                }}
+                transition={{ duration: 0.4 }}
+                aria-hidden
+                className="absolute inset-0 pointer-events-none"
+                style={{ borderRadius: "75.024px" }}
+              />
+              <span className="relative">See our work</span>
             </motion.button>
             <motion.button
-              whileHover={{ x: 4 }}
+              whileHover={{ x: 4, color: "#ffffff" }}
               className="px-7 py-3 text-sm font-medium flex items-center gap-2"
               style={{ color: "#aaaaaa" }}
             >
-              Get in touch <span style={{ color: "#a78bfa" }}>→</span>
+              Get in touch
+              <motion.span
+                initial={{ filter: "drop-shadow(0 0 0px rgba(167,139,250,0))" }}
+                whileHover={{ filter: "drop-shadow(0 0 6px rgba(167,139,250,0.8))" }}
+                style={{ color: "#a78bfa" }}
+              >
+                →
+              </motion.span>
             </motion.button>
           </div>
         </motion.section>
@@ -89,19 +118,51 @@ export default function MonopoPage() {
           </div>
 
           <motion.div
-            whileHover={{ y: -4 }}
-            className="aspect-[16/9] rounded-2xl overflow-hidden flex items-center justify-center cursor-pointer relative"
+            initial="rest"
+            whileHover="hover"
+            animate="rest"
+            className="aspect-[16/9] rounded-2xl overflow-hidden flex items-center justify-center cursor-pointer relative group"
             style={{
               background: "linear-gradient(135deg, rgba(120,50,200,0.3), rgba(50,100,200,0.3))",
               backdropFilter: "blur(40px)",
               border: "1px solid rgba(255,255,255,0.1)",
             }}
           >
-            <div className="text-center">
+            {/* Shimmer firma — franja diagonal que cruza el glass */}
+            <motion.div
+              aria-hidden
+              variants={{
+                rest: { x: "-120%", opacity: 0 },
+                hover: { x: "120%", opacity: 1 },
+              }}
+              transition={{ duration: 1.4, ease: [0.22, 0.61, 0.36, 1] }}
+              className="absolute inset-y-0 w-2/3 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.1) 35%, rgba(255,255,255,0.32) 50%, rgba(167,139,250,0.18) 65%, transparent 100%)",
+                mixBlendMode: "screen",
+              }}
+            />
+            {/* Border glow al hover */}
+            <motion.div
+              aria-hidden
+              variants={{
+                rest: { borderColor: "rgba(255,255,255,0.1)", boxShadow: "0 0 0 0 rgba(167,139,250,0)" },
+                hover: { borderColor: "rgba(255,255,255,0.25)", boxShadow: "0 12px 60px -12px rgba(167,139,250,0.4)" },
+              }}
+              transition={{ duration: 0.6 }}
+              className="absolute inset-0 rounded-2xl pointer-events-none"
+              style={{ borderWidth: "1px", borderStyle: "solid" }}
+            />
+            <motion.div
+              variants={{ rest: { y: 0 }, hover: { y: -4 } }}
+              transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
+              className="text-center relative"
+            >
               <p className="text-xs uppercase tracking-[0.3em] mb-3" style={{ color: "#aaaaaa" }}>Featured · 01</p>
               <h3 className="text-4xl sm:text-6xl font-light mb-2">Aurora Botanical</h3>
               <p className="text-sm" style={{ color: "#aaaaaa" }}>Brand identity · Web · Packaging</p>
-            </div>
+            </motion.div>
           </motion.div>
         </motion.section>
 

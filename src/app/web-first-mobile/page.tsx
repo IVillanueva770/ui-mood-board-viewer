@@ -1,8 +1,107 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
+import { useState } from "react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+
+function ActionButton({
+  color,
+  bg,
+  label,
+  ariaLabel,
+  likeBurst,
+  children,
+}: {
+  color: string;
+  bg: string;
+  label?: string;
+  ariaLabel: string;
+  likeBurst?: boolean;
+  children: React.ReactNode;
+}) {
+  const [active, setActive] = useState(false);
+  const tinted = active ? color : "currentColor";
+  return (
+    <motion.button
+      initial="rest"
+      whileHover="hover"
+      whileTap="tap"
+      animate="rest"
+      aria-label={ariaLabel}
+      onClick={() => likeBurst && setActive((v) => !v)}
+      className="relative flex items-center gap-1.5 group"
+      style={{ color: active ? color : undefined }}
+    >
+      {/* Círculo de bg al hover, estilo X/Twitter */}
+      <span className="relative w-8 h-8 inline-flex items-center justify-center">
+        <motion.span
+          aria-hidden
+          variants={{
+            rest: { scale: 0, opacity: 0 },
+            hover: { scale: 1, opacity: 1 },
+            tap: { scale: 0.92, opacity: 1 },
+          }}
+          transition={{ duration: 0.18, ease: [0.32, 0.72, 0, 1] }}
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{ backgroundColor: bg }}
+        />
+        <motion.svg
+          variants={{
+            rest: { scale: 1 },
+            hover: { scale: 1.05 },
+            tap: { scale: 0.9 },
+          }}
+          transition={{ duration: 0.16, ease: [0.32, 0.72, 0, 1] }}
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill={likeBurst && active ? color : "none"}
+          stroke={likeBurst && active ? color : tinted}
+          strokeWidth="2"
+          className="relative transition-colors group-hover:[stroke:var(--hover-color)]"
+          style={{ ["--hover-color" as string]: color }}
+        >
+          {children}
+        </motion.svg>
+        {/* Burst de partículas para like */}
+        {likeBurst && (
+          <AnimatePresence>
+            {active && (
+              <>
+                {[0, 60, 120, 180, 240, 300].map((deg) => (
+                  <motion.span
+                    key={deg}
+                    initial={{ scale: 0, opacity: 1 }}
+                    animate={{
+                      scale: 1,
+                      opacity: 0,
+                      x: Math.cos((deg * Math.PI) / 180) * 18,
+                      y: Math.sin((deg * Math.PI) / 180) * 18,
+                    }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
+                    className="absolute w-1.5 h-1.5 rounded-full pointer-events-none"
+                    style={{ backgroundColor: color, left: "50%", top: "50%", marginLeft: -3, marginTop: -3 }}
+                  />
+                ))}
+              </>
+            )}
+          </AnimatePresence>
+        )}
+      </span>
+      {label !== undefined && (
+        <motion.span
+          variants={{ rest: { color: "#536471" }, hover: { color } }}
+          transition={{ duration: 0.16 }}
+          style={{ color: active ? color : undefined }}
+        >
+          {label}
+        </motion.span>
+      )}
+    </motion.button>
+  );
+}
 
 export default function WebFirstMobilePage() {
   const e = getEstilo("web-first-mobile")!;
@@ -121,21 +220,18 @@ export default function WebFirstMobilePage() {
                 </div>
                 <p className="text-[15px] leading-snug mb-3">{p.texto}</p>
                 <div className="flex items-center justify-between text-xs max-w-[280px]" style={{ color: "#536471" }}>
-                  <button className="flex items-center gap-1.5 hover:text-blue-500 transition-colors">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" /></svg>
-                    {p.replies}
-                  </button>
-                  <button className="flex items-center gap-1.5 hover:text-green-500 transition-colors">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3" /></svg>
-                    {p.rt}
-                  </button>
-                  <button className="flex items-center gap-1.5 hover:text-pink-500 transition-colors">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
-                    {p.likes}
-                  </button>
-                  <button className="hover:text-blue-500 transition-colors" aria-label="Compartir">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" /></svg>
-                  </button>
+                  <ActionButton color="#1d9bf0" bg="rgba(29,155,240,0.1)" label={p.replies} ariaLabel="Responder">
+                    <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
+                  </ActionButton>
+                  <ActionButton color="#00ba7c" bg="rgba(0,186,124,0.1)" label={p.rt} ariaLabel="Repostear">
+                    <path d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3" />
+                  </ActionButton>
+                  <ActionButton color="#f91880" bg="rgba(249,24,128,0.1)" label={p.likes} ariaLabel="Me gusta" likeBurst>
+                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                  </ActionButton>
+                  <ActionButton color="#1d9bf0" bg="rgba(29,155,240,0.1)" ariaLabel="Compartir">
+                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" />
+                  </ActionButton>
                 </div>
               </div>
             </motion.article>

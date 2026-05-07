@@ -74,18 +74,66 @@ export default function SportDinamicoPage() {
               transition={{ duration: 0.4, delay: 0.5 }}
               className="flex flex-wrap gap-3"
             >
-              <button
-                className="font-bebas text-2xl tracking-wider px-7 py-3 transition-transform hover:scale-105 active:scale-95"
+              {/* Slide-in agresivo en CTA principal */}
+              <motion.button
+                initial="rest"
+                whileHover="hover"
+                whileTap={{ scale: 0.96 }}
+                animate="rest"
+                className="relative font-bebas text-2xl tracking-wider px-7 py-3 overflow-hidden"
                 style={{ backgroundColor: "#ff5722", color: "#0a0a0a" }}
               >
-                EMPEZAR AHORA
-              </button>
-              <button
-                className="font-bebas text-2xl tracking-wider px-7 py-3 transition-colors"
+                <motion.span
+                  aria-hidden
+                  variants={{
+                    rest: { x: "-100%" },
+                    hover: { x: "0%" },
+                  }}
+                  transition={{ duration: 0.28, ease: [0.65, 0, 0.35, 1] }}
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ backgroundColor: "#0a0a0a" }}
+                />
+                <motion.span
+                  variants={{
+                    rest: { color: "#0a0a0a", x: 0 },
+                    hover: { color: "#ff5722", x: 4 },
+                  }}
+                  transition={{ duration: 0.25, ease: [0.65, 0, 0.35, 1] }}
+                  className="relative inline-block"
+                >
+                  EMPEZAR AHORA →
+                </motion.span>
+              </motion.button>
+              {/* Ghost CTA con slide invertido */}
+              <motion.button
+                initial="rest"
+                whileHover="hover"
+                whileTap={{ scale: 0.96 }}
+                animate="rest"
+                className="relative font-bebas text-2xl tracking-wider px-7 py-3 overflow-hidden"
                 style={{ border: "2px solid #fafafa", color: "#fafafa", backgroundColor: "transparent" }}
               >
-                VER PLAN
-              </button>
+                <motion.span
+                  aria-hidden
+                  variants={{
+                    rest: { x: "100%" },
+                    hover: { x: "0%" },
+                  }}
+                  transition={{ duration: 0.28, ease: [0.65, 0, 0.35, 1] }}
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ backgroundColor: "#fafafa" }}
+                />
+                <motion.span
+                  variants={{
+                    rest: { color: "#fafafa", x: 0 },
+                    hover: { color: "#0a0a0a", x: -4 },
+                  }}
+                  transition={{ duration: 0.25, ease: [0.65, 0, 0.35, 1] }}
+                  className="relative inline-block"
+                >
+                  VER PLAN
+                </motion.span>
+              </motion.button>
             </motion.div>
           </div>
         </motion.section>
@@ -143,16 +191,42 @@ export default function SportDinamicoPage() {
             ].map((w, i) => (
               <motion.div
                 key={w.num}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                whileHover={{ x: 6, borderColor: "#ff5722" }}
-                className="grid grid-cols-12 gap-4 p-5 cursor-pointer transition-colors"
+                initial="enter"
+                animate="rest"
+                whileHover="hover"
+                variants={{
+                  enter: { opacity: 0, x: -10 },
+                  rest: { opacity: 1, x: 0 },
+                  hover: { x: 6 },
+                }}
+                transition={{ duration: 0.35, delay: i * 0.06, ease: [0.65, 0, 0.35, 1] }}
+                className="relative grid grid-cols-12 gap-4 p-5 cursor-pointer overflow-hidden"
                 style={{ backgroundColor: "#141414", border: "1px solid #2a2a2a" }}
               >
-                <div className="col-span-1 font-bebas text-3xl tracking-wider self-center" style={{ color: "#ff5722" }}>
+                {/* Banda lateral naranja que entra desde la izquierda */}
+                <motion.div
+                  aria-hidden
+                  variants={{
+                    enter: { scaleY: 0, originY: 0 },
+                    rest: { scaleY: 0, originY: 0 },
+                    hover: { scaleY: 1, originY: 0 },
+                  }}
+                  transition={{ duration: 0.25, ease: [0.65, 0, 0.35, 1] }}
+                  className="absolute inset-y-0 left-0 w-1.5 pointer-events-none"
+                  style={{ backgroundColor: "#ff5722" }}
+                />
+                <motion.div
+                  variants={{
+                    enter: { scale: 1 },
+                    rest: { scale: 1 },
+                    hover: { scale: 1.18, x: 2 },
+                  }}
+                  transition={{ duration: 0.25, ease: [0.65, 0, 0.35, 1] }}
+                  className="col-span-1 font-bebas text-3xl tracking-wider self-center"
+                  style={{ color: "#ff5722", transformOrigin: "left center" }}
+                >
                   {w.num}
-                </div>
+                </motion.div>
                 <div className="col-span-7 sm:col-span-6">
                   <div className="font-bebas text-2xl sm:text-3xl tracking-wide leading-none mb-2">{w.titulo}</div>
                   <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em]" style={{ color: "#a3a3a3" }}>
@@ -161,8 +235,33 @@ export default function SportDinamicoPage() {
                     <span style={{ color: w.intensidad === "MUY ALTA" ? "#ff5722" : "inherit" }}>{w.intensidad}</span>
                   </div>
                 </div>
-                <div className="col-span-4 sm:col-span-5 self-center text-right text-xs uppercase tracking-[0.2em] font-semibold">
-                  {w.proxima}
+                <div className="col-span-4 sm:col-span-5 self-center text-right relative">
+                  {/* Estado fecha — visible en rest, fade out en hover */}
+                  <motion.div
+                    variants={{
+                      enter: { opacity: 1, y: 0 },
+                      rest: { opacity: 1, y: 0 },
+                      hover: { opacity: 0, y: -8 },
+                    }}
+                    transition={{ duration: 0.18 }}
+                    className="text-xs uppercase tracking-[0.2em] font-semibold"
+                  >
+                    {w.proxima}
+                  </motion.div>
+                  {/* CTA INICIAR → que slidea desde la derecha al hover */}
+                  <motion.div
+                    aria-hidden
+                    variants={{
+                      enter: { opacity: 0, x: 24 },
+                      rest: { opacity: 0, x: 24 },
+                      hover: { opacity: 1, x: 0 },
+                    }}
+                    transition={{ duration: 0.28, ease: [0.65, 0, 0.35, 1] }}
+                    className="absolute inset-0 flex items-center justify-end font-bebas text-xl sm:text-2xl tracking-wider"
+                    style={{ color: "#ff5722" }}
+                  >
+                    INICIAR →
+                  </motion.div>
                 </div>
               </motion.div>
             ))}
