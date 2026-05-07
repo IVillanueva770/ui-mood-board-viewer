@@ -1,19 +1,171 @@
 "use client";
-import { getEstilo } from "@/lib/estilos";
-import { StubPage } from "@/components/stub-page";
 
-export default function Page() {
+import { motion } from "motion/react";
+import { getEstilo } from "@/lib/estilos";
+import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+
+export default function AirbnbFriendlyPage() {
   const e = getEstilo("airbnb-friendly")!;
+
   return (
-    <StubPage
-      estilo={e}
-      bg="#ffffff"
-      fg="#222222"
-      cardBg="#ffffff"
-      borderColor="#dddddd"
-      mutedColor="#717171"
-      accent="#ff5a5f"
-      radius="14px"
-    />
+    <div style={{ backgroundColor: "#fafafa", color: "#222222", minHeight: "100vh" }} className="font-inter">
+      <StyleHeader estilo={e} borderColor="#dddddd" navColor="#717171" />
+
+      <main className="max-w-4xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
+        {/* Friendly hero */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-10"
+        >
+          <div className="flex items-center gap-3 mb-5">
+            <div
+              className="w-12 h-12 rounded-full flex items-center justify-center text-2xl"
+              style={{ backgroundColor: "#ffe4e6" }}
+            >
+              👋
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-wider mb-0.5" style={{ color: "#717171" }}>Buen día, Nacho</p>
+              <p className="text-base font-medium">Lunes 6 de mayo</p>
+            </div>
+          </div>
+
+          <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight leading-tight mb-4 max-w-2xl">
+            Tenés <span style={{ color: "#ff5a5f" }}>3 cosas</span> que hacer hoy. Vamos paso a paso.
+          </h1>
+          <p className="text-base sm:text-lg leading-relaxed max-w-xl" style={{ color: "#484848" }}>
+            Sin apuros. Te ordeno la mañana así no te quema la cabeza pensar por dónde arrancar.
+          </p>
+        </motion.section>
+
+        {/* Friendly task cards */}
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="space-y-4 mb-12"
+        >
+          {[
+            {
+              num: "1",
+              icono: "📞",
+              titulo: "Llamar a Guadalupe",
+              desc: "Confirmar la reunión del lunes. Si no atiende, mandale un WhatsApp y listo.",
+              tiempo: "~5 min",
+              color: "#ffe4e6",
+              accent: "#ff5a5f",
+            },
+            {
+              num: "2",
+              icono: "✉️",
+              titulo: "Responder mail de Fátima",
+              desc: "Ya tenés el draft armado, solo lo revisás una vez y enviás. No es para mañana, es para hoy.",
+              tiempo: "~10 min",
+              color: "#fef3c7",
+              accent: "#f59e0b",
+            },
+            {
+              num: "3",
+              icono: "📐",
+              titulo: "Ajustar el sitio del kine",
+              desc: "Cambiar los colores del header. Tomá un café antes, es la tarea más larga del día.",
+              tiempo: "~45 min",
+              color: "#dbeafe",
+              accent: "#3b82f6",
+            },
+          ].map((t, i) => (
+            <motion.div
+              key={t.num}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 + i * 0.08 }}
+              whileHover={{ y: -2 }}
+              className="bg-white rounded-2xl p-5 sm:p-6 flex items-start gap-4 cursor-pointer transition-shadow hover:shadow-md"
+              style={{ border: "1px solid #ebebeb" }}
+            >
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl shrink-0"
+                style={{ backgroundColor: t.color }}
+              >
+                {t.icono}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-semibold" style={{ color: t.accent }}>Paso {t.num}</span>
+                  <span className="text-xs" style={{ color: "#717171" }}>·</span>
+                  <span className="text-xs" style={{ color: "#717171" }}>{t.tiempo}</span>
+                </div>
+                <h3 className="text-lg font-semibold mb-1.5">{t.titulo}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "#484848" }}>{t.desc}</p>
+              </div>
+              <button
+                className="mt-1 px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors hover:opacity-90"
+                style={{ backgroundColor: "#222222", color: "#ffffff" }}
+              >
+                Hacer
+              </button>
+            </motion.div>
+          ))}
+        </motion.section>
+
+        {/* Helpful tip card */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-2xl p-6 mb-10 flex items-start gap-4"
+          style={{ border: "1px solid #ebebeb" }}
+        >
+          <div
+            className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+            style={{ backgroundColor: "#dcfce7" }}
+          >
+            <span className="text-lg">💡</span>
+          </div>
+          <div className="flex-1">
+            <h4 className="font-semibold mb-1.5">Tip del día</h4>
+            <p className="text-sm leading-relaxed mb-3" style={{ color: "#484848" }}>
+              Si una tarea te lleva menos de 2 minutos, hacela ya. No la anotes, no la mandés a mañana. Solo hacela. Es la regla que más pendientes te saca de encima en una semana.
+            </p>
+            <button className="text-xs font-semibold hover:underline" style={{ color: "#ff5a5f" }}>
+              Ver más tips →
+            </button>
+          </div>
+        </motion.section>
+
+        {/* Stats friendly */}
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-2xl p-6 mb-10"
+          style={{ border: "1px solid #ebebeb" }}
+        >
+          <div className="flex items-center gap-2 mb-5">
+            <span className="text-lg">🎉</span>
+            <h4 className="font-semibold">Cómo venís esta semana</h4>
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              { val: "12", label: "Tareas hechas", icon: "✅" },
+              { val: "3 días", label: "En racha", icon: "🔥" },
+              { val: "85%", label: "A tiempo", icon: "⏰" },
+            ].map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="text-2xl mb-1">{s.icon}</div>
+                <div className="text-2xl font-semibold tracking-tight">{s.val}</div>
+                <div className="text-xs mt-1" style={{ color: "#717171" }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        <StyleFooter estilo={e} textColor="#717171" borderColor="#ebebeb" />
+      </main>
+    </div>
   );
 }
