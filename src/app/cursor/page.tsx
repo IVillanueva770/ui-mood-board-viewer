@@ -243,9 +243,15 @@ export default function CursorPage() {
                   <div className="rounded p-2.5" style={{ backgroundColor: "rgba(245,78,0,0.06)", border: "1px solid rgba(245,78,0,0.18)" }}>
                     <p className="text-[10px] uppercase mb-1 font-bold" style={{ color: "#f54e00" }}>cursor</p>
                     <p className="leading-relaxed">el componente no recibe <code>p.price</code>. el campo existe en el tipo pero no se renderiza. agrego el precio + badge zona?</p>
-                    <button className="mt-2 px-2 py-1 rounded text-[10px] font-bold text-white" style={{ backgroundColor: "#f54e00" }}>
+                    <motion.button
+                      whileHover={{ y: -1, boxShadow: "0 4px 10px -2px rgba(245,78,0,0.45)" }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.12 }}
+                      className="mt-2 px-2 py-1 rounded text-[10px] font-bold text-white"
+                      style={{ backgroundColor: "#f54e00" }}
+                    >
                       Aplicar cambio
-                    </button>
+                    </motion.button>
                   </div>
                 </div>
                 <div className="mt-3 px-2 py-1.5 rounded flex items-center gap-2" style={{ backgroundColor: "#fff", border: "1px solid #e6e5e0" }}>

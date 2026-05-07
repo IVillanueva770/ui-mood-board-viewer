@@ -185,12 +185,15 @@ export default function AirbnbFriendlyPage() {
                 <h3 className="text-lg font-semibold mb-1.5">{t.titulo}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: "#484848" }}>{t.desc}</p>
               </div>
-              <button
-                className="mt-1 px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors hover:opacity-90"
+              <motion.button
+                whileHover={{ y: -1, boxShadow: "0 6px 14px -4px rgba(0,0,0,0.25)" }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ duration: 0.15 }}
+                className="mt-1 px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap"
                 style={{ backgroundColor: "#222222", color: "#ffffff" }}
               >
                 Hacer
-              </button>
+              </motion.button>
             </motion.div>
           ))}
         </motion.section>
@@ -214,9 +217,14 @@ export default function AirbnbFriendlyPage() {
             <p className="text-sm leading-relaxed mb-3" style={{ color: "#484848" }}>
               Si una tarea te lleva menos de 2 minutos, hacela ya. No la anotes, no la mandés a mañana. Solo hacela. Es la regla que más pendientes te saca de encima en una semana.
             </p>
-            <button className="text-xs font-semibold hover:underline" style={{ color: "#ff5a5f" }}>
+            <motion.button
+              whileHover={{ x: 3 }}
+              transition={{ duration: 0.15 }}
+              className="text-xs font-semibold hover:underline inline-flex items-center gap-1"
+              style={{ color: "#ff5a5f" }}
+            >
               Ver más tips →
-            </button>
+            </motion.button>
           </div>
         </motion.section>
 

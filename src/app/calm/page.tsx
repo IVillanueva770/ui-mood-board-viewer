@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "motion/react";
 import { DividerReveal } from "@/components/divider-reveal";
 
 export default function CalmPage() {
@@ -27,18 +30,24 @@ export default function CalmPage() {
           </p>
 
           <div className="flex items-center justify-center gap-4 flex-wrap mb-16">
-            <button
+            <motion.button
+              whileHover={{ y: -2, boxShadow: "0 10px 24px -8px rgba(44,41,37,0.4)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.2 }}
               className="px-9 py-4 text-sm font-medium tracking-wide"
               style={{ backgroundColor: "#2c2925", color: "#fff", borderRadius: 9999 }}
             >
               Empezar 14 días gratis
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ backgroundColor: "#2c2925", color: "#fff" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.25 }}
               className="px-9 py-4 text-sm font-medium tracking-wide"
               style={{ color: "#2c2925", borderRadius: 9999, border: "1px solid #2c2925" }}
             >
               Hablar con un kine →
-            </button>
+            </motion.button>
           </div>
 
           {/* Pillars */}
@@ -81,18 +90,24 @@ export default function CalmPage() {
           </p>
 
           <div className="flex items-center gap-4 mt-10">
-            <button
+            <motion.button
+              whileHover={{ y: -2, boxShadow: "0 10px 24px -8px rgba(44,41,37,0.4)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.2 }}
               className="px-7 py-3.5 text-sm font-medium tracking-wide"
               style={{ backgroundColor: "#2c2925", color: "#fff", borderRadius: 9999 }}
             >
               Empezar sesión
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ backgroundColor: "#2c2925", color: "#fff" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.25 }}
               className="px-7 py-3.5 text-sm font-medium tracking-wide"
               style={{ color: "#2c2925", borderRadius: 9999, border: "1px solid #2c2925" }}
             >
               Ver más tarde
-            </button>
+            </motion.button>
           </div>
         </section>
 

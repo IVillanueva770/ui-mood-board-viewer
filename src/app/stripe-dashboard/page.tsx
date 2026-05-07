@@ -41,18 +41,24 @@ export default function StripeDashboardPage() {
             </p>
 
             <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
-              <button
+              <motion.button
+                whileHover={{ y: -2, boxShadow: "0 12px 28px -6px rgba(99,91,255,0.5)" }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.18 }}
                 className="px-6 py-3 text-sm font-semibold rounded-md text-white"
                 style={{ backgroundColor: "#635bff", boxShadow: "0 4px 12px rgba(99,91,255,0.3)" }}
               >
                 Crear cuenta
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                whileHover={{ borderColor: "#635bff", color: "#635bff", x: 2 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.18 }}
                 className="px-6 py-3 text-sm font-semibold rounded-md"
                 style={{ border: "1px solid #e3e8ee", color: "#0a0a0a" }}
               >
                 Ver pricing →
-              </button>
+              </motion.button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto text-left">
@@ -99,18 +105,24 @@ export default function StripeDashboardPage() {
             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">Hola, Nacho</h1>
           </div>
           <div className="flex items-center gap-2">
-            <button
-              className="px-3 py-2 text-sm font-medium rounded-md flex items-center gap-2 transition-colors hover:bg-gray-50"
+            <motion.button
+              whileHover={{ borderColor: "#635bff" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.15 }}
+              className="px-3 py-2 text-sm font-medium rounded-md flex items-center gap-2"
               style={{ border: "1px solid #e3e8ee", color: "#3a4555" }}
             >
               <span>📅</span> Últimos 30 días
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ y: -1, boxShadow: "0 6px 14px -2px rgba(99,91,255,0.4)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.15 }}
               className="px-3 py-2 text-sm font-medium rounded-md text-white"
               style={{ backgroundColor: "#635bff", boxShadow: "0 2px 5px rgba(99,91,255,0.25)" }}
             >
               + Nueva factura
-            </button>
+            </motion.button>
           </div>
         </motion.section>
 
@@ -235,7 +247,14 @@ export default function StripeDashboardPage() {
           >
             <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: "1px solid #e3e8ee" }}>
               <p className="font-semibold text-sm">Pagos recientes</p>
-              <button className="text-xs hover:underline" style={{ color: "#635bff" }}>Ver todos →</button>
+              <motion.button
+                whileHover={{ x: 3 }}
+                transition={{ duration: 0.15 }}
+                className="text-xs hover:underline"
+                style={{ color: "#635bff" }}
+              >
+                Ver todos →
+              </motion.button>
             </div>
             <div className="divide-y" style={{ borderColor: "#e3e8ee" }}>
               {[

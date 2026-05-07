@@ -186,8 +186,10 @@ export default function DimesPage() {
               <h3 className="font-bebas text-4xl sm:text-5xl tracking-wide">PIPELINE</h3>
               <div className="flex gap-0" style={{ border: "2px solid #0a0a0a" }}>
                 {["TODO", "ESTA SEMANA", "ATRASADO"].map((f, i) => (
-                  <button
+                  <motion.button
                     key={f}
+                    whileHover={{ backgroundColor: i === 0 ? "#0a0a0a" : "#dfff00" }}
+                    transition={{ duration: 0.05 }}
                     className="px-3.5 py-2 text-xs uppercase tracking-widest font-bold"
                     style={{
                       backgroundColor: i === 0 ? "#0a0a0a" : "transparent",
@@ -196,7 +198,7 @@ export default function DimesPage() {
                     }}
                   >
                     {f}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>

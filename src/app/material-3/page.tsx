@@ -279,9 +279,11 @@ export default function Material3Page() {
               ].map((t) => {
                 const active = activeTab === t.label;
                 return (
-                  <button
+                  <motion.button
                     key={t.label}
                     onClick={() => setActiveTab(t.label)}
+                    whileTap={{ scale: 0.92 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 22 }}
                     className="flex flex-col items-center gap-0.5 px-3 py-2 relative"
                   >
                     <motion.div
@@ -300,7 +302,7 @@ export default function Material3Page() {
                     >
                       {t.label}
                     </span>
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>

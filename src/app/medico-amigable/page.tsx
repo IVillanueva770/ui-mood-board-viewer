@@ -33,18 +33,24 @@ export default function MedicoAmigablePage() {
           </p>
 
           <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
-            <button
+            <motion.button
+              whileHover={{ y: -2, boxShadow: "0 10px 24px -8px rgba(59,130,246,0.5)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18 }}
               className="px-6 py-3 rounded-xl text-sm font-semibold text-white"
               style={{ background: "linear-gradient(135deg, #3b82f6, #2563eb)" }}
             >
               Buscar mi profesional
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ borderColor: "#3b82f6", color: "#3b82f6", x: 2 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18 }}
               className="px-6 py-3 rounded-xl text-sm font-semibold"
               style={{ border: "1px solid #e2e8f0", color: "#0f172a" }}
             >
               Soy profesional →
-            </button>
+            </motion.button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto text-left">
@@ -179,12 +185,15 @@ export default function MedicoAmigablePage() {
                   <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{t.duracion} · {t.reps}</p>
                 </div>
                 {!t.done && (
-                  <button
-                    className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-white transition-colors hover:opacity-90"
+                  <motion.button
+                    whileHover={{ y: -1, boxShadow: "0 6px 14px -4px rgba(59,130,246,0.45)" }}
+                    whileTap={{ scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-white"
                     style={{ backgroundColor: "#3b82f6" }}
                   >
                     Empezar
-                  </button>
+                  </motion.button>
                 )}
               </motion.div>
             ))}
@@ -213,12 +222,15 @@ export default function MedicoAmigablePage() {
                 <p className="text-xs" style={{ color: "#64748b" }}>Kinesiología deportiva · Mat. 2418</p>
               </div>
             </div>
-            <button
-              className="w-full py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-100"
+            <motion.button
+              whileHover={{ backgroundColor: "#f8fafc", borderColor: "#3b82f6" }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.15 }}
+              className="w-full py-2.5 rounded-lg text-sm font-medium"
               style={{ border: "1px solid #e2e8f0", color: "#0f172a" }}
             >
               💬 Enviar mensaje
-            </button>
+            </motion.button>
           </motion.div>
 
           <motion.div
@@ -232,18 +244,24 @@ export default function MedicoAmigablePage() {
             <p className="text-2xl font-semibold mb-1">Jueves 9 · 16:30</p>
             <p className="text-sm opacity-90 mb-4">Control de mitad de programa · 45 min · Online</p>
             <div className="flex gap-2">
-              <button
+              <motion.button
+                whileHover={{ y: -1, boxShadow: "0 4px 10px rgba(0,0,0,0.15)" }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.15 }}
                 className="flex-1 py-2 rounded-lg text-xs font-semibold"
                 style={{ backgroundColor: "rgba(255,255,255,0.95)", color: "#1e40af" }}
               >
                 Ver detalles
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                whileHover={{ backgroundColor: "rgba(255,255,255,0.25)", borderColor: "rgba(255,255,255,0.5)" }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.15 }}
                 className="flex-1 py-2 rounded-lg text-xs font-medium"
                 style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.3)" }}
               >
                 Reagendar
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         </div>

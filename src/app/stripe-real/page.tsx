@@ -257,9 +257,12 @@ export default function StripeRealPage() {
                   { l: "Connect" },
                   { l: "Developers" },
                 ].map((it) => (
-                  <button
+                  <motion.button
                     key={it.l}
-                    className="w-full text-left px-5 py-1.5 transition-colors"
+                    whileHover={{ x: 2, backgroundColor: it.active ? "#f5f3ff" : "#f8fafc" }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.12 }}
+                    className="w-full text-left px-5 py-1.5"
                     style={{
                       backgroundColor: it.active ? "#f5f3ff" : "transparent",
                       color: it.active ? "#533afd" : "#425466",
@@ -268,7 +271,7 @@ export default function StripeRealPage() {
                     }}
                   >
                     {it.l}
-                  </button>
+                  </motion.button>
                 ))}
               </aside>
 
@@ -292,7 +295,14 @@ export default function StripeRealPage() {
                 <div className="rounded-md mb-5" style={{ border: "1px solid #e3e8ee" }}>
                   <div className="px-4 py-2.5 flex items-center justify-between text-sm" style={{ borderBottom: "1px solid #e3e8ee" }}>
                     <p className="font-semibold">Últimos pagos</p>
-                    <button className="text-xs hover:underline" style={{ color: "#533afd" }}>Ver todos →</button>
+                    <motion.button
+                      whileHover={{ x: 3 }}
+                      transition={{ duration: 0.15 }}
+                      className="text-xs hover:underline"
+                      style={{ color: "#533afd" }}
+                    >
+                      Ver todos →
+                    </motion.button>
                   </div>
                   {[
                     { id: "ch_3OL...", cliente: "guadalupe@inmob.com", monto: "USD 1.250,00", estado: "Exitoso", color: "#d1fae5", colorFg: "#065f46", time: "12 min" },
@@ -312,9 +322,33 @@ export default function StripeRealPage() {
 
                 {/* Actions row */}
                 <div className="flex items-center gap-2 flex-wrap text-sm">
-                  <button className="px-4 py-2 rounded text-white font-semibold" style={{ backgroundColor: "#533afd", boxShadow: "0 1px 2px rgba(83,58,253,0.2)" }}>+ Nueva factura</button>
-                  <button className="px-4 py-2 rounded font-semibold" style={{ border: "1px solid #e3e8ee", color: "#061b31" }}>Crear payment link</button>
-                  <button className="px-4 py-2 rounded font-semibold" style={{ border: "1px solid #e3e8ee", color: "#061b31" }}>Refund</button>
+                  <motion.button
+                    whileHover={{ y: -1, boxShadow: "0 6px 16px -4px rgba(83,58,253,0.4)" }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="px-4 py-2 rounded text-white font-semibold"
+                    style={{ backgroundColor: "#533afd", boxShadow: "0 1px 2px rgba(83,58,253,0.2)" }}
+                  >
+                    + Nueva factura
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ borderColor: "#533afd", color: "#533afd" }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="px-4 py-2 rounded font-semibold"
+                    style={{ border: "1px solid #e3e8ee", color: "#061b31" }}
+                  >
+                    Crear payment link
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ borderColor: "#533afd", color: "#533afd" }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="px-4 py-2 rounded font-semibold"
+                    style={{ border: "1px solid #e3e8ee", color: "#061b31" }}
+                  >
+                    Refund
+                  </motion.button>
                   <span className="ml-auto text-xs" style={{ color: "#425466", fontFamily: "var(--font-geist-mono)" }}>API: 99.998% uptime · 30d</span>
                 </div>
               </div>

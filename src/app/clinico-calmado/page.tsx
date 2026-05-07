@@ -33,18 +33,24 @@ export default function ClinicoCalmadoPage() {
           </p>
 
           <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
-            <button
+            <motion.button
+              whileHover={{ y: -2, boxShadow: "0 8px 18px -4px rgba(14,165,233,0.4)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.15 }}
               className="px-6 py-3 rounded-lg text-sm font-semibold text-white"
               style={{ backgroundColor: "#0ea5e9" }}
             >
               Probar 30 días gratis
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ borderColor: "#0ea5e9", color: "#0ea5e9", x: 2 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.15 }}
               className="px-6 py-3 rounded-lg text-sm font-semibold"
               style={{ border: "1px solid #e2e8f0", color: "#0f172a" }}
             >
               Agendar demo →
-            </button>
+            </motion.button>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto pt-10" style={{ borderTop: "1px solid #e2e8f0" }}>
@@ -88,18 +94,24 @@ export default function ClinicoCalmadoPage() {
             <p className="text-sm mt-1" style={{ color: "#64748b" }}>Miércoles 7 de mayo · 6 pacientes confirmados</p>
           </div>
           <div className="flex items-center gap-2 text-sm">
-            <button
-              className="px-3 py-1.5 rounded-lg font-medium transition-colors hover:bg-slate-50"
+            <motion.button
+              whileHover={{ backgroundColor: "#f8fafc", borderColor: "#0ea5e9" }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.15 }}
+              className="px-3 py-1.5 rounded-lg font-medium"
               style={{ border: "1px solid #e2e8f0", color: "#0f172a" }}
             >
               Esta semana
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ y: -1, boxShadow: "0 6px 14px -4px rgba(14,165,233,0.4)" }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.15 }}
               className="px-3 py-1.5 rounded-lg text-white font-medium"
               style={{ backgroundColor: "#0ea5e9" }}
             >
               + Nueva cita
-            </button>
+            </motion.button>
           </div>
         </motion.section>
 
@@ -214,15 +226,24 @@ export default function ClinicoCalmadoPage() {
             </div>
 
             <div className="space-y-2">
-              <button className="w-full py-2 rounded-lg text-sm font-medium text-white" style={{ backgroundColor: "#0ea5e9" }}>
+              <motion.button
+                whileHover={{ y: -1, boxShadow: "0 6px 14px -4px rgba(14,165,233,0.4)" }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.15 }}
+                className="w-full py-2 rounded-lg text-sm font-medium text-white"
+                style={{ backgroundColor: "#0ea5e9" }}
+              >
                 Abrir ficha
-              </button>
-              <button
-                className="w-full py-2 rounded-lg text-sm font-medium transition-colors hover:bg-slate-50"
+              </motion.button>
+              <motion.button
+                whileHover={{ backgroundColor: "#f8fafc", borderColor: "#0ea5e9" }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.15 }}
+                className="w-full py-2 rounded-lg text-sm font-medium"
                 style={{ border: "1px solid #e2e8f0", color: "#0f172a" }}
               >
                 Cargar evolución
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         </div>

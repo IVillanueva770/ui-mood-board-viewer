@@ -159,9 +159,16 @@ export default function ModernSaasPage() {
                   { l: "Logs" },
                   { l: "Settings" },
                 ].map((it) => (
-                  <button key={it.l} className="w-full text-left px-2 py-1.5 rounded-md mb-0.5 transition-colors hover:bg-slate-50" style={{ backgroundColor: it.active ? "#eef2ff" : "transparent", color: it.active ? "#3730a3" : "#475569", fontWeight: it.active ? 600 : 400 }}>
+                  <motion.button
+                    key={it.l}
+                    whileHover={{ x: 2, backgroundColor: it.active ? "#eef2ff" : "#f8fafc" }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.12 }}
+                    className="w-full text-left px-2 py-1.5 rounded-md mb-0.5"
+                    style={{ backgroundColor: it.active ? "#eef2ff" : "transparent", color: it.active ? "#3730a3" : "#475569", fontWeight: it.active ? 600 : 400 }}
+                  >
                     {it.l}
-                  </button>
+                  </motion.button>
                 ))}
               </aside>
 

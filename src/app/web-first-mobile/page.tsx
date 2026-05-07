@@ -104,6 +104,47 @@ function ActionButton({
   );
 }
 
+function FeedTabs() {
+  const [tab, setTab] = useState<"para-vos" | "siguiendo">("para-vos");
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, delay: 0.1 }}
+      className="grid grid-cols-2 text-sm font-semibold"
+      style={{ borderBottom: "1px solid #eff3f4" }}
+    >
+      {[
+        { id: "para-vos", l: "Para vos" },
+        { id: "siguiendo", l: "Siguiendo" },
+      ].map((t) => {
+        const active = tab === t.id;
+        return (
+          <motion.button
+            key={t.id}
+            onClick={() => setTab(t.id as "para-vos" | "siguiendo")}
+            whileHover={{ backgroundColor: "rgba(15,20,25,0.03)" }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.12 }}
+            className="py-3 relative"
+            style={{ color: active ? "#0f1419" : "#536471" }}
+          >
+            {t.l}
+            {active && (
+              <motion.div
+                layoutId="feed-tab-underline"
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-12 rounded-full"
+                style={{ backgroundColor: "#1d9bf0" }}
+              />
+            )}
+          </motion.button>
+        );
+      })}
+    </motion.div>
+  );
+}
+
 export default function WebFirstMobilePage() {
   const e = getEstilo("web-first-mobile")!;
 
@@ -136,18 +177,24 @@ export default function WebFirstMobilePage() {
         </p>
 
         <div className="flex items-center justify-center gap-3 flex-wrap mb-10">
-          <button
+          <motion.button
+            whileHover={{ y: -2, boxShadow: "0 10px 24px -8px rgba(29,155,240,0.5)" }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.18 }}
             className="px-6 py-3 rounded-full text-sm font-bold text-white"
             style={{ backgroundColor: "#1d9bf0" }}
           >
             Crear cuenta
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+            whileHover={{ borderColor: "#1d9bf0", color: "#1d9bf0" }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.18 }}
             className="px-6 py-3 rounded-full text-sm font-bold"
             style={{ border: "1px solid #cfd9de", color: "#0f1419" }}
           >
             Ya tengo cuenta
-          </button>
+          </motion.button>
         </div>
 
         <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto pt-8" style={{ borderTop: "1px solid #eff3f4" }}>
@@ -191,27 +238,21 @@ export default function WebFirstMobilePage() {
             N
           </div>
           <h2 className="font-semibold text-base">Para vos</h2>
-          <button aria-label="Filtrar">
+          <motion.button
+            aria-label="Filtrar"
+            whileHover={{ scale: 1.1, backgroundColor: "rgba(29,155,240,0.1)" }}
+            whileTap={{ scale: 0.92 }}
+            transition={{ duration: 0.15 }}
+            className="w-9 h-9 rounded-full flex items-center justify-center"
+          >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f1419" strokeWidth="2">
               <path d="M21 4H3M18 8H6M14 12H10M16 16H8" />
             </svg>
-          </button>
+          </motion.button>
         </motion.div>
 
         {/* Tabs */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="grid grid-cols-2 text-sm font-semibold"
-          style={{ borderBottom: "1px solid #eff3f4" }}
-        >
-          <button className="py-3 relative" style={{ color: "#0f1419" }}>
-            Para vos
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-12 rounded-full" style={{ backgroundColor: "#1d9bf0" }} />
-          </button>
-          <button className="py-3" style={{ color: "#536471" }}>Siguiendo</button>
-        </motion.div>
+        <FeedTabs />
 
         {/* Feed */}
         <div>

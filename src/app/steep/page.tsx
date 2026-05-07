@@ -170,10 +170,16 @@ export default function SteepPage() {
                     { l: "Customers", n: 23 },
                     { l: "Drafts", n: 4 },
                   ].map((c) => (
-                    <button key={c.l} className="w-full text-left px-2 py-1.5 rounded flex items-center justify-between hover:bg-orange-50/40">
+                    <motion.button
+                      key={c.l}
+                      whileHover={{ x: 2, backgroundColor: "rgba(251,225,209,0.4)" }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.12 }}
+                      className="w-full text-left px-2 py-1.5 rounded flex items-center justify-between"
+                    >
                       <span className="font-cormorant text-base">{c.l}</span>
                       <span className="text-xs" style={{ color: "#6b6b6b", fontFamily: "var(--font-geist-mono)" }}>{c.n}</span>
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
                 <p className="text-[11px] uppercase tracking-wider mt-6 mb-3" style={{ color: "#5d2a1a", fontFamily: "var(--font-geist-mono)" }}>history</p>
@@ -240,9 +246,33 @@ export default function SteepPage() {
                 </div>
 
                 <div className="flex items-center gap-3 text-xs" style={{ color: "#6b6b6b" }}>
-                  <button className="px-3 py-1.5 rounded text-white font-medium" style={{ backgroundColor: "#17191c" }}>Guardar en Cohorts</button>
-                  <button className="px-3 py-1.5 rounded font-medium" style={{ border: "1px solid #e8e8e8", color: "#17191c" }}>Ver SQL</button>
-                  <button className="px-3 py-1.5 rounded font-medium" style={{ border: "1px solid #e8e8e8", color: "#17191c" }}>Compartir →</button>
+                  <motion.button
+                    whileHover={{ y: -1, boxShadow: "0 6px 14px -4px rgba(23,25,28,0.3)" }}
+                    whileTap={{ scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="px-3 py-1.5 rounded text-white font-medium"
+                    style={{ backgroundColor: "#17191c" }}
+                  >
+                    Guardar en Cohorts
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ borderColor: "#5d2a1a", color: "#5d2a1a" }}
+                    whileTap={{ scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="px-3 py-1.5 rounded font-medium"
+                    style={{ border: "1px solid #e8e8e8", color: "#17191c" }}
+                  >
+                    Ver SQL
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ borderColor: "#5d2a1a", color: "#5d2a1a", x: 2 }}
+                    whileTap={{ scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="px-3 py-1.5 rounded font-medium"
+                    style={{ border: "1px solid #e8e8e8", color: "#17191c" }}
+                  >
+                    Compartir →
+                  </motion.button>
                 </div>
               </div>
             </div>

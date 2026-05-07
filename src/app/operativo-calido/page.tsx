@@ -33,18 +33,24 @@ export default function OperativoCalidoPage() {
           </p>
 
           <div className="flex items-center justify-center gap-3 flex-wrap mb-12">
-            <button
+            <motion.button
+              whileHover={{ y: -2, boxShadow: "0 10px 24px -8px rgba(22,163,74,0.4)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18 }}
               className="px-6 py-3 rounded-lg text-sm font-semibold text-white"
               style={{ backgroundColor: "#16a34a" }}
             >
               Probar gratis 30 días
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ borderColor: "#16a34a", color: "#16a34a", x: 2 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18 }}
               className="px-6 py-3 rounded-lg text-sm font-semibold"
               style={{ border: "1px solid #e5e7eb", color: "#171717" }}
             >
               Hablar con ventas →
-            </button>
+            </motion.button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto text-left">
@@ -101,12 +107,15 @@ export default function OperativoCalidoPage() {
             <span className="px-2.5 py-1 rounded-md font-medium" style={{ backgroundColor: "#dcfce7", color: "#166534" }}>
               Tienda abierta
             </span>
-            <button
+            <motion.button
+              whileHover={{ y: -1, boxShadow: "0 6px 14px -4px rgba(22,163,74,0.4)" }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.15 }}
               className="px-3 py-1.5 rounded-md text-white font-medium"
               style={{ backgroundColor: "#16a34a" }}
             >
               + Nuevo pedido
-            </button>
+            </motion.button>
           </div>
         </motion.section>
 
@@ -157,16 +166,19 @@ export default function OperativoCalidoPage() {
             <p className="font-semibold text-sm">Pedidos del día</p>
             <div className="flex items-center gap-1.5 text-xs">
               {["Todos", "Pendientes", "En camino", "Entregados"].map((t, i) => (
-                <button
+                <motion.button
                   key={t}
-                  className="px-2.5 py-1 rounded-md font-medium transition-colors"
+                  whileHover={{ backgroundColor: i === 1 ? "#fde68a" : "#f3f4f6" }}
+                  whileTap={{ scale: 0.96 }}
+                  transition={{ duration: 0.12 }}
+                  className="px-2.5 py-1 rounded-md font-medium"
                   style={{
                     backgroundColor: i === 1 ? "#fef3c7" : "transparent",
                     color: i === 1 ? "#92400e" : "#737373",
                   }}
                 >
                   {t}
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -216,12 +228,15 @@ export default function OperativoCalidoPage() {
               Si necesitás ayuda con alguno, tocá el pedido y te abrimos WhatsApp directo con el cliente.
             </p>
           </div>
-          <button
+          <motion.button
+            whileHover={{ y: -1, boxShadow: "0 4px 10px -2px rgba(146,64,14,0.4)" }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ duration: 0.15 }}
             className="px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap"
             style={{ backgroundColor: "#92400e", color: "#fff" }}
           >
             Ver pendientes
-          </button>
+          </motion.button>
         </motion.section>
 
         <StyleFooter estilo={e} textColor="#737373" borderColor="#e5e7eb" />
