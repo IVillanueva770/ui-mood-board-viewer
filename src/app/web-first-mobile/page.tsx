@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 function ActionButton({
   color,
@@ -163,12 +164,16 @@ export default function WebFirstMobilePage() {
         </div>
       </motion.section>
 
-      {/* Divider */}
-      <div className="max-w-md mx-auto px-4 mb-2 flex items-center gap-3">
-        <div className="flex-1 h-px" style={{ backgroundColor: "#eff3f4" }} />
-        <span className="text-[10px] uppercase tracking-[0.2em] font-bold" style={{ color: "#536471" }}>así se ve el feed</span>
-        <div className="flex-1 h-px" style={{ backgroundColor: "#eff3f4" }} />
-      </div>
+      {/* Divider firma — soft bounce social */}
+      <DividerReveal
+        variant="soft-bounce"
+        lineColor="#eff3f4"
+        textColor="#536471"
+        className="max-w-md mx-auto px-4 mb-2"
+        textClassName="text-[10px] uppercase tracking-[0.2em] font-bold"
+      >
+        así se ve el feed
+      </DividerReveal>
 
       <main className="max-w-md mx-auto px-0 sm:px-4 py-0 sm:py-6">
         {/* App-like top bar */}

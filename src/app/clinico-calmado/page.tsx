@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function ClinicoCalmadoPage() {
   const e = getEstilo("clinico-calmado")!;
@@ -61,14 +62,16 @@ export default function ClinicoCalmadoPage() {
           </div>
         </motion.section>
 
-        {/* Divider de cambio de modo */}
-        <div className="flex items-center gap-4 mb-10">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e2e8f0" }} />
-          <span className="text-[11px] uppercase tracking-[0.2em] font-semibold" style={{ color: "#64748b" }}>
-            Así se ve adentro · panel del kine
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e2e8f0" }} />
-        </div>
+        {/* Divider firma — tech line draw clínico */}
+        <DividerReveal
+          variant="tech-line-draw"
+          lineColor="#e2e8f0"
+          textColor="#64748b"
+          className="mb-10"
+          textClassName="text-[11px] uppercase tracking-[0.2em] font-semibold"
+        >
+          Así se ve adentro · panel del kine
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA ====== */}
         <motion.section

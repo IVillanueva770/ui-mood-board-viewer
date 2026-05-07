@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function CursorPage() {
   const e = getEstilo("cursor")!;
@@ -112,14 +113,17 @@ export default function CursorPage() {
           ))}
         </motion.section>
 
-        {/* Divider de cambio de modo */}
-        <div className="flex items-center gap-3 mb-10">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e6e5e0" }} />
-          <span className="text-xs font-medium uppercase tracking-[0.15em]" style={{ color: "#7a7974", fontFamily: "var(--font-geist-mono)" }}>
-            $ open ./
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e6e5e0" }} />
-        </div>
+        {/* Divider firma — tech line draw */}
+        <DividerReveal
+          variant="tech-line-draw"
+          lineColor="#e6e5e0"
+          textColor="#7a7974"
+          className="mb-10"
+          textClassName="text-xs font-medium uppercase tracking-[0.15em]"
+          textStyle={{ fontFamily: "var(--font-geist-mono)" }}
+        >
+          $ open ./
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA — el IDE en uso ====== */}
         <motion.section

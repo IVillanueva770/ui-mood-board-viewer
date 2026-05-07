@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 const HABITS_INITIAL = [
   { id: "h1", titulo: "Movilidad lumbar", duracion: "8 min", done: true, emoji: "🧘" },
@@ -95,12 +96,16 @@ export default function IOSPage() {
         </div>
       </motion.section>
 
-      {/* Divider */}
-      <div className="max-w-md mx-auto px-4 mb-3 flex items-center gap-3">
-        <div className="flex-1 h-px" style={{ backgroundColor: "#d1d1d6" }} />
-        <span className="text-[10px] uppercase tracking-[0.2em] font-semibold" style={{ color: "#8e8e93" }}>así se ve adentro</span>
-        <div className="flex-1 h-px" style={{ backgroundColor: "#d1d1d6" }} />
-      </div>
+      {/* Divider firma — soft bounce iOS */}
+      <DividerReveal
+        variant="soft-bounce"
+        lineColor="#d1d1d6"
+        textColor="#8e8e93"
+        className="max-w-md mx-auto px-4 mb-3"
+        textClassName="text-[10px] uppercase tracking-[0.2em] font-semibold"
+      >
+        así se ve adentro
+      </DividerReveal>
 
       <main className="max-w-md mx-auto px-4 py-8">
         {/* Phone frame */}

@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function MonopoPage() {
   const e = getEstilo("monopo")!;
@@ -233,14 +234,17 @@ export default function MonopoPage() {
           </motion.div>
         </motion.section>
 
-        {/* Divider de cambio de modo */}
-        <div className="flex items-center gap-4 mb-16">
-          <div className="flex-1 h-px" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-          <span className="text-[10px] uppercase tracking-[0.4em] font-light" style={{ color: "#888888" }}>
-            inside the studio
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-        </div>
+        {/* Divider firma — glass shimmer */}
+        <DividerReveal
+          variant="glass-shimmer"
+          lineColor="rgba(255,255,255,0.1)"
+          textColor="#888888"
+          accentColor="rgba(167,139,250,0.5)"
+          className="mb-16"
+          textClassName="text-[10px] uppercase font-light"
+        >
+          inside the studio
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA — panel interno del estudio ====== */}
         <motion.section

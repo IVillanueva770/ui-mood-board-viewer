@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function DimesPage() {
   return (
@@ -156,14 +157,17 @@ export default function DimesPage() {
 
         {/* ====== VISTA OPERATIVA ====== */}
         <section className="mb-16">
-          {/* Divider de cambio de modo */}
-          <div
-            className="py-3 mb-12 flex items-center justify-between flex-wrap gap-3"
-            style={{ borderTop: "3px solid #0a0a0a", borderBottom: "3px solid #0a0a0a" }}
+          {/* Divider firma — brutalist stamp */}
+          <DividerReveal
+            variant="brutalist-stamp"
+            lineColor="#0a0a0a"
+            textColor="#0a0a0a"
+            accentColor="#dfff00"
+            className="mb-12"
+            textClassName="text-xs uppercase tracking-[0.3em] font-bold"
           >
-            <span className="text-xs uppercase tracking-[0.3em] font-bold">/ VISTA INTERNA · PANEL DE OPERACIONES</span>
-            <span className="font-mono text-xs">02 / DIMES</span>
-          </div>
+            / VISTA INTERNA · PANEL DE OPERACIONES
+          </DividerReveal>
 
           <div className="mb-10">
             <h2 className="font-bebas text-5xl sm:text-7xl tracking-wide leading-[0.9] mb-4">

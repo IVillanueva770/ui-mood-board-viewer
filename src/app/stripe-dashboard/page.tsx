@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 const SPARK = [12, 18, 14, 22, 28, 24, 35, 30, 42, 38, 48, 52, 49, 58, 64, 62, 70];
 
@@ -75,14 +76,16 @@ export default function StripeDashboardPage() {
           </div>
         </motion.section>
 
-        {/* Divider */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e3e8ee" }} />
-          <span className="text-xs uppercase tracking-[0.15em] font-semibold" style={{ color: "#635bff" }}>
-            Login → Dashboard
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e3e8ee" }} />
-        </div>
+        {/* Divider firma — tech line draw stripe */}
+        <DividerReveal
+          variant="tech-line-draw"
+          lineColor="#e3e8ee"
+          textColor="#635bff"
+          className="mb-8"
+          textClassName="text-xs uppercase tracking-[0.15em] font-semibold"
+        >
+          Login → Dashboard
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA ====== */}
         <motion.section

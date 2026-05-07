@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function EtherealPage() {
   const e = getEstilo("ethereal")!;
@@ -162,16 +163,17 @@ export default function EtherealPage() {
           </div>
         </motion.section>
 
-        {/* Divider asimétrico */}
-        <div className="grid grid-cols-12 gap-4 mb-20">
-          <div className="col-span-12 md:col-span-2" />
-          <div className="col-span-12 md:col-span-10 flex items-center gap-5">
-            <span className="text-[10px] uppercase tracking-[0.4em]" style={{ color: "#666666" }}>
-              02 / op
-            </span>
-            <div className="flex-1 h-px" style={{ backgroundColor: "#333333" }} />
-          </div>
-        </div>
+        {/* Divider firma — asym scatter editorial */}
+        <DividerReveal
+          variant="asym-scatter"
+          lineColor="#333333"
+          textColor="#666666"
+          accentColor="#ff3b00"
+          className="mb-20"
+          textClassName="text-[10px] uppercase tracking-[0.4em]"
+        >
+          02 / op
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA — atelier interno ====== */}
         <motion.section

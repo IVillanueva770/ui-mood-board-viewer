@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function StripeRealPage() {
   const e = getEstilo("stripe-real")!;
@@ -207,14 +208,16 @@ export default function StripeRealPage() {
           </div>
         </motion.section>
 
-        {/* Divider */}
-        <div className="flex items-center gap-3 mb-12">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e3e8ee" }} />
-          <span className="text-xs uppercase tracking-[0.2em] font-semibold" style={{ color: "#533afd" }}>
-            Dashboard del producto
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e3e8ee" }} />
-        </div>
+        {/* Divider firma — tech line draw stripe */}
+        <DividerReveal
+          variant="tech-line-draw"
+          lineColor="#e3e8ee"
+          textColor="#533afd"
+          className="mb-12"
+          textClassName="text-xs uppercase tracking-[0.2em] font-semibold"
+        >
+          Dashboard del producto
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA — workspace de un comerciante en Stripe ====== */}
         <motion.section

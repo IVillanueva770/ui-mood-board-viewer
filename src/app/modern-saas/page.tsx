@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function ModernSaasPage() {
   const e = getEstilo("modern-saas")!;
@@ -99,14 +100,16 @@ export default function ModernSaasPage() {
           </div>
         </motion.section>
 
-        {/* Divider */}
-        <div className="flex items-center gap-3 mb-10">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
-          <span className="text-xs uppercase tracking-[0.2em] font-semibold" style={{ color: "#5e6ad2" }}>
-            Dashboard del producto
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
-        </div>
+        {/* Divider firma — tech line draw SaaS */}
+        <DividerReveal
+          variant="tech-line-draw"
+          lineColor="#e5e7eb"
+          textColor="#5e6ad2"
+          className="mb-10"
+          textClassName="text-xs uppercase tracking-[0.2em] font-semibold"
+        >
+          Dashboard del producto
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA — dashboard del SaaS ====== */}
         <motion.section

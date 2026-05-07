@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "motion/react";
 
 export default function SinEstiloPage() {
   return (
@@ -107,14 +110,56 @@ export default function SinEstiloPage() {
           </div>
         </section>
 
-        {/* Divider del patrón hero+operativo */}
-        <div className="mb-12 py-2 flex items-center gap-3" style={{ borderTop: "1px solid #000000", borderBottom: "1px solid #000000" }}>
-          <span className="text-xs" style={{ color: "#666666" }}>[ARRIBA]</span>
-          <span className="text-xs">CARA COMERCIAL</span>
-          <span className="text-xs flex-1" style={{ color: "#666666" }}>· · · · · · · · · ·</span>
-          <span className="text-xs">VISTA OPERATIVA</span>
-          <span className="text-xs" style={{ color: "#666666" }}>[ABAJO]</span>
-        </div>
+        {/* Divider firma — typewriter ASCII */}
+        <motion.div
+          initial="rest"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-30px" }}
+          className="mb-12 py-2 flex items-center gap-3"
+          style={{ borderTop: "1px solid #000000", borderBottom: "1px solid #000000" }}
+        >
+          <motion.span
+            variants={{ rest: { opacity: 0 }, visible: { opacity: 1 } }}
+            transition={{ duration: 0, delay: 0.1 }}
+            className="text-xs"
+            style={{ color: "#666666" }}
+          >
+            [ARRIBA]
+          </motion.span>
+          <motion.span
+            variants={{ rest: { opacity: 0 }, visible: { opacity: 1 } }}
+            transition={{ duration: 0, delay: 0.25 }}
+            className="text-xs"
+          >
+            CARA COMERCIAL
+          </motion.span>
+          <motion.span
+            variants={{
+              rest: { width: "0%", opacity: 0 },
+              visible: { width: "100%", opacity: 1 },
+            }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "linear" }}
+            className="text-xs flex-1 overflow-hidden whitespace-nowrap"
+            style={{ color: "#666666" }}
+          >
+            · · · · · · · · · ·
+          </motion.span>
+          <motion.span
+            variants={{ rest: { opacity: 0 }, visible: { opacity: 1 } }}
+            transition={{ duration: 0, delay: 1.0 }}
+            className="text-xs"
+          >
+            VISTA OPERATIVA
+          </motion.span>
+          <motion.span
+            variants={{ rest: { opacity: 0 }, visible: { opacity: 1 } }}
+            transition={{ duration: 0, delay: 1.15 }}
+            className="text-xs"
+            style={{ color: "#666666" }}
+          >
+            [ABAJO]
+          </motion.span>
+        </motion.div>
 
         {/* Form */}
         <section className="mb-16">

@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function ComercioPopularPage() {
   const e = getEstilo("comercio-popular")!;
@@ -103,14 +104,16 @@ export default function ComercioPopularPage() {
           ))}
         </div>
 
-        {/* Divider de cambio de modo */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
-          <span className="text-xs uppercase tracking-wider font-semibold" style={{ color: "#16a34a" }}>
-            🔧 Panel del comerciante
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
-        </div>
+        {/* Divider firma — soft bounce comerciante */}
+        <DividerReveal
+          variant="soft-bounce"
+          lineColor="#e5e7eb"
+          textColor="#16a34a"
+          className="mb-6"
+          textClassName="text-xs uppercase tracking-wider font-semibold"
+        >
+          🔧 Panel del comerciante
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA — panel admin del almacén ====== */}
         <div className="mb-10">

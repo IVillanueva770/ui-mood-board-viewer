@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function OperativoCalidoPage() {
   const e = getEstilo("operativo-calido")!;
@@ -74,14 +75,16 @@ export default function OperativoCalidoPage() {
           </div>
         </motion.section>
 
-        {/* Divider */}
-        <div className="flex items-center gap-3 mb-10">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
-          <span className="text-xs uppercase tracking-wider font-semibold" style={{ color: "#16a34a" }}>
-            🌞 panel del negocio
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e5e7eb" }} />
-        </div>
+        {/* Divider firma — soft bounce cálido */}
+        <DividerReveal
+          variant="soft-bounce"
+          lineColor="#e5e7eb"
+          textColor="#16a34a"
+          className="mb-10"
+          textClassName="text-xs uppercase tracking-wider font-semibold"
+        >
+          🌞 panel del negocio
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA ====== */}
         <motion.section

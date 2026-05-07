@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function AirbnbFriendlyPage() {
   const e = getEstilo("airbnb-friendly")!;
@@ -86,14 +87,15 @@ export default function AirbnbFriendlyPage() {
           </div>
         </motion.section>
 
-        {/* Divider de cambio de modo a operativo */}
-        <div className="flex items-center gap-4 mb-12">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#ebebeb" }} />
-          <span className="text-xs uppercase tracking-[0.2em] font-semibold" style={{ color: "#717171" }}>
-            Así se ve adentro
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#ebebeb" }} />
-        </div>
+        {/* Divider firma — soft bounce friendly */}
+        <DividerReveal
+          variant="soft-bounce"
+          lineColor="#ebebeb"
+          textColor="#717171"
+          className="mb-12"
+        >
+          Así se ve adentro
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA — panel del usuario ====== */}
         <motion.section

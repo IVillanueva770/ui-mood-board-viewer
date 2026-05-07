@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
+import { DividerReveal } from "@/components/divider-reveal";
 
 const ISSUES = [
   { id: "ENG-142", title: "Mobile drawer animation feels janky on Android", status: "In Progress", color: "#eab308", priority: "High", updated: "2h" },
@@ -105,14 +106,18 @@ export default function LinearPage() {
         </div>
       </motion.section>
 
-      {/* Divider de cambio de modo */}
-      <div className="px-6 py-3 flex items-center gap-3" style={{ borderBottom: "1px solid #1a1b1d", backgroundColor: "#08090a" }}>
-        <div className="flex-1 h-px" style={{ backgroundColor: "#1a1b1d" }} />
-        <span className="text-[10px] uppercase tracking-[0.25em] font-semibold" style={{ color: "#62666d", fontFamily: "var(--font-geist-mono)" }}>
-          ⌘ + → workspace
-        </span>
-        <div className="flex-1 h-px" style={{ backgroundColor: "#1a1b1d" }} />
-      </div>
+      {/* Divider firma — tech line draw Linear */}
+      <DividerReveal
+        variant="tech-line-draw"
+        lineColor="#1a1b1d"
+        textColor="#62666d"
+        className="px-6 py-3"
+        style={{ borderBottom: "1px solid #1a1b1d", backgroundColor: "#08090a" }}
+        textClassName="text-[10px] uppercase tracking-[0.25em] font-semibold"
+        textStyle={{ fontFamily: "var(--font-geist-mono)" }}
+      >
+        ⌘ + → workspace
+      </DividerReveal>
 
       <div className="flex" style={{ minHeight: "calc(100vh - 33px)" }}>
         {/* Sidebar */}

@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function SteepPage() {
   const e = getEstilo("steep")!;
@@ -120,14 +121,16 @@ export default function SteepPage() {
           </motion.button>
         </motion.section>
 
-        {/* Divider */}
-        <div className="flex items-center gap-4 mb-16">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e8e8e8" }} />
-          <span className="font-cormorant text-base italic" style={{ color: "#5d2a1a" }}>
-            adentro del producto
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e8e8e8" }} />
-        </div>
+        {/* Divider firma — tech line draw analytics */}
+        <DividerReveal
+          variant="tech-line-draw"
+          lineColor="#e8e8e8"
+          textColor="#5d2a1a"
+          className="mb-16"
+          textClassName="font-cormorant text-base italic"
+        >
+          adentro del producto
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA — workspace del producto ====== */}
         <motion.section

@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function MedicoAmigablePage() {
   const e = getEstilo("medico-amigable")!;
@@ -66,14 +67,16 @@ export default function MedicoAmigablePage() {
           </div>
         </motion.section>
 
-        {/* Divider */}
-        <div className="flex items-center gap-3 mb-10">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e2e8f0" }} />
-          <span className="text-xs uppercase tracking-[0.2em] font-semibold" style={{ color: "#64748b" }}>
-            Así se ve siendo paciente
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e2e8f0" }} />
-        </div>
+        {/* Divider firma — soft bounce médico */}
+        <DividerReveal
+          variant="soft-bounce"
+          lineColor="#e2e8f0"
+          textColor="#64748b"
+          className="mb-10"
+          textClassName="text-xs uppercase tracking-[0.2em] font-semibold"
+        >
+          Así se ve siendo paciente
+        </DividerReveal>
 
         {/* ====== VISTA OPERATIVA ====== */}
         <motion.section

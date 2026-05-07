@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
 import { Ripple } from "@/components/ripple";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function Material3Page() {
   const e = getEstilo("material-3")!;
@@ -76,12 +77,16 @@ export default function Material3Page() {
         </div>
       </motion.section>
 
-      {/* Divider */}
-      <div className="max-w-md mx-auto px-4 mb-2 flex items-center gap-3">
-        <div className="flex-1 h-px" style={{ backgroundColor: "#e8def8" }} />
-        <span className="text-[10px] uppercase tracking-[0.2em] font-medium" style={{ color: "#79747e" }}>Así se ve la app</span>
-        <div className="flex-1 h-px" style={{ backgroundColor: "#e8def8" }} />
-      </div>
+      {/* Divider firma — soft bounce M3 tonal */}
+      <DividerReveal
+        variant="soft-bounce"
+        lineColor="#e8def8"
+        textColor="#79747e"
+        className="max-w-md mx-auto px-4 mb-2"
+        textClassName="text-[10px] uppercase tracking-[0.2em] font-medium"
+      >
+        Así se ve la app
+      </DividerReveal>
 
       <main className="max-w-md mx-auto px-4 py-6">
         {/* Phone mock contenedor */}

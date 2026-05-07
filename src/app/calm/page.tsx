@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function CalmPage() {
   return (
@@ -56,14 +57,16 @@ export default function CalmPage() {
           </div>
         </section>
 
-        {/* Divider de cambio de modo */}
-        <div className="flex items-center gap-5 mb-16 max-w-3xl mx-auto">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e8ddd0" }} />
-          <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: "#7d8471" }}>
-            así se ve adentro
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#e8ddd0" }} />
-        </div>
+        {/* Divider firma — soft bounce wellness */}
+        <DividerReveal
+          variant="soft-bounce"
+          lineColor="#e8ddd0"
+          textColor="#7d8471"
+          className="mb-16 max-w-3xl mx-auto"
+          textClassName="text-[11px] uppercase tracking-[0.3em] font-medium"
+        >
+          así se ve adentro
+        </DividerReveal>
 
         {/* Hero del usuario logueado (operativo) */}
         <section className="mb-20 sm:mb-28">

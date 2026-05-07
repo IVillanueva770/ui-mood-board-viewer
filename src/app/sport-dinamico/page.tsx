@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
+import { DividerReveal } from "@/components/divider-reveal";
 
 export default function SportDinamicoPage() {
   const e = getEstilo("sport-dinamico")!;
@@ -72,12 +73,16 @@ export default function SportDinamicoPage() {
         </div>
       </motion.section>
 
-      {/* Divider */}
-      <div className="max-w-5xl mx-auto px-5 sm:px-8 mb-6 flex items-center gap-3">
-        <div className="flex-1 h-px" style={{ backgroundColor: "#2a2a2a" }} />
-        <span className="font-bebas text-sm uppercase tracking-[0.3em]" style={{ color: "#ff5722" }}>↓ TU DÍA, ADENTRO</span>
-        <div className="flex-1 h-px" style={{ backgroundColor: "#2a2a2a" }} />
-      </div>
+      {/* Divider firma — slide-in agresivo sport */}
+      <DividerReveal
+        variant="slide-in"
+        lineColor="#2a2a2a"
+        textColor="#ff5722"
+        className="max-w-5xl mx-auto px-5 sm:px-8 mb-6"
+        textClassName="font-bebas text-sm uppercase tracking-[0.3em]"
+      >
+        ↓ TU DÍA, ADENTRO
+      </DividerReveal>
 
       <main className="max-w-5xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
         {/* Hero gigante con fondo dinámico */}
