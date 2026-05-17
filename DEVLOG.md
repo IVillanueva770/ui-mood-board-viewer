@@ -30,8 +30,27 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - **Google Fonts via next/font**: 5 familias cargadas en layout (Geist, Geist Mono, Roboto Mono, Cormorant, Bebas Neue, Inter). Variables CSS para que cada página elija.
 - **Static rendering**: todas las páginas son `○ (Static)`. Sin server-side, sin DB, sin auth. Es un viewer puro.
 - **Dark mode global removido**: no usamos `prefers-color-scheme` global. Cada página define su propio fondo (Linear es dark, Calm/Dimes/Sin-estilo son light).
+- **Decomposición SOLID por estilo (rúbrica corregida 2026-05-17)**: cada estilo se descompone DENTRO de su carpeta — `page.tsx` delgado (composición, <~150 líneas), piezas en `<slug>/_components/*.tsx` con props tipadas (SRP), data + tipos del dominio en `<slug>/_data.ts` (swap a backend = tocar 1 archivo). NO contradice "no compartir entre estilos": es decomposición intra-estilo. Métrica de calidad = piezas funcionales distintas y visibles, NO líneas.
+- **InternalNav con sub-vistas = 1 pieza, no N (y esconde)**: para un *viewer* las piezas tienen que VERSE de un vistazo. Lados internos que eran un sidebar con N sub-vistas ocultas se convierten en home scrolleable con las piezas a la vista (caso airbnb-friendly retrofit).
 
 ## Sesiones
+
+### [2026-05-17] - Sesión 5 (RETROFIT tanda 1 — airbnb-friendly SOLID)
+
+**Objetivo:** retrofit de `/airbnb-friendly` bajo la rúbrica corregida del pipeline (no medir por líneas; piezas distintas y VISIBLES; código SOLID swappable a backend). Antes: monolito de 607 líneas, lado interno = `InternalNav` con 5 sub-vistas escondidas tras sub-nav (= 1 pieza oculta para un viewer).
+
+**Hecho:**
+- Descomposición: `page.tsx` 607 → ~75 líneas (sólo composición). Data + 14 tipos del dominio en `_data.ts` (única fuente; swap a backend = tocar ese archivo). 13 piezas en `_components/` con props tipadas (SRP). Firma de motion centralizada en hook `useWarmMotion`.
+- Lado externo (Buscar) = hero + 4 piezas distintas y visibles en scroll: `SearchPanel` (buscador + chips), `FeaturedListings` (grid con **filtro por categoría funcional** + wishlist), `HowItWorks` (3 pasos), `Testimonials` (social proof), `TrustCta` (band + CTA).
+- Lado interno (Tu cuenta) = se eliminó el `InternalNav` que escondía las piezas; ahora home scrolleable con 5 piezas a la vista: `NextTrip` (perfil + próximo viaje + mini-timeline animado), `TripsList`, `MessagesInbox` (typing indicator), `WishlistGrid` (corazón con pop), `AccountSettings`.
+- Firma de motion intacta: lift cálido, pop del corazón (1→1.28→1 spring), bounce gentil en CTAs, scroll-reveal — todo gated por `useReducedMotion`. Build verde (exit 0), página estática. Sin deploy (lo pidió el usuario).
+
+**Decisiones:**
+- Para airbnb-friendly el interno se modela como *home del huésped scrolleable* (no app con sidebar): más fiel al negocio "amigable/no técnico" y cumple "piezas visibles" de la rúbrica. `InternalNav` se reserva para estilos donde un shell de app SÍ es la metáfora correcta.
+- Tipos del dominio en `_data.ts` (no `_types.ts` aparte): YAGNI, un archivo alcanza para este demo.
+
+**Próximos pasos:**
+- Retrofit de las otras 2 de tanda 1 (`comercio-popular`, `operativo-calido`) con el mismo patrón.
 
 ### [2026-05-17] - Sesión 4 (cluster paridad — operativo-calido)
 
