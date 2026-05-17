@@ -33,6 +33,23 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 2 (cluster paridad — airbnb-friendly)
+
+**Objetivo:** subir el lado externo de `/airbnb-friendly` a paridad con el interno (plan `ui-viewer-02`).
+
+**Hecho:**
+- Externo "Buscar": antes hero + searchbar + 4 destinos + 1 línea. Ahora hero + searchbar + chips de destino + **Alojamientos destacados** (6 listings con rating, súper anfitrión, host, precio/noche, corazón con pop) + **Cómo funciona** (3 pasos, tono humano) + **Testimonios** (3 reviews argentinas) + **band de confianza + CTA** (reusa "persona real, no bot").
+- Interno: pulido sin reescribir — mini-timeline del próximo viaje en Reservas, typing indicator en Mensajes (Mariela), corazón interactivo en Wishlist.
+- Firma de motion: lift cálido (`y:-4` spring gentil), pop del corazón (scale 1→1.28→1), bounce gentil en CTAs, scroll-reveal. Todo gated por `useReducedMotion`.
+- Datos consistentes con el interno (Carla, Mariela/Diego/Carolina, mismos lugares).
+
+**Decisiones:**
+- "Destinos populares" → fila de chips compacta (retiene la data sin bulto vertical) + grid real de listings aparte.
+- Corazón con glifos `♥/♡` + color, no emoji (control de relleno y contraste).
+
+**Próximos pasos:**
+- Seguir el cluster con las otras páginas de externo flaco (plan `ui-viewer-00-pipeline`, orden sugerido).
+
 ### [2026-05-06] - Sesión 1 (creación)
 
 **Objetivo:** que el usuario pueda VER los estilos del mood board sin abrir 50 pestañas.
