@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "motion/react";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { getEstilo } from "@/lib/estilos";
 import { StyleHeader, StyleFooter } from "@/components/style-chrome";
 import { DividerReveal } from "@/components/divider-reveal";
@@ -15,35 +15,404 @@ const MUTED = "#737373";
 const BORDER = "#e5e5e5";
 const SURFACE = "#f8f9fa";
 
-const CATEGORIAS = ["Todo", "Almacén", "Bebidas", "Limpieza", "Carnes", "Lácteos", "Frutas", "Panadería"];
+const CATEGORIAS = ["Todo", "Almacén", "Bebidas", "Limpieza", "Lácteos", "Panadería"];
+
+type Prod = { id: string; nombre: string; precio: number; emoji: string; grad: string; cat: string };
+
+const PRODUCTOS: Prod[] = [
+  { id: "yerba", nombre: "Yerba Playadito 1kg", precio: 3200, emoji: "🌿", cat: "Almacén", grad: "linear-gradient(135deg,#dcfce7,#bbf7d0)" },
+  { id: "leche", nombre: "Leche La Serenísima 1L", precio: 1450, emoji: "🥛", cat: "Lácteos", grad: "linear-gradient(135deg,#dbeafe,#bfdbfe)" },
+  { id: "fideos", nombre: "Fideos Matarazzo 500g", precio: 890, emoji: "🍝", cat: "Almacén", grad: "linear-gradient(135deg,#fef3c7,#fde68a)" },
+  { id: "aceite", nombre: "Aceite Cocinero 900ml", precio: 2700, emoji: "🫒", cat: "Almacén", grad: "linear-gradient(135deg,#fef3c7,#fcd34d)" },
+  { id: "pan", nombre: "Pan francés 1kg", precio: 1200, emoji: "🍞", cat: "Panadería", grad: "linear-gradient(135deg,#fed7aa,#fdba74)" },
+  { id: "coca", nombre: "Coca Cola 2.25L", precio: 2490, emoji: "🥤", cat: "Bebidas", grad: "linear-gradient(135deg,#fee2e2,#fecaca)" },
+  { id: "manteca", nombre: "Manteca Sancor 200g", precio: 1380, emoji: "🧈", cat: "Lácteos", grad: "linear-gradient(135deg,#fef9c3,#fef08a)" },
+  { id: "arroz", nombre: "Arroz Gallo 1kg", precio: 1650, emoji: "🍚", cat: "Almacén", grad: "linear-gradient(135deg,#f5f5f4,#e7e5e4)" },
+  { id: "lavandina", nombre: "Lavandina Ayudín 1L", precio: 990, emoji: "🧴", cat: "Limpieza", grad: "linear-gradient(135deg,#cffafe,#a5f3fc)" },
+];
+
+const ENVIO = 650;
+const ENVIO_GRATIS_DESDE = 15000;
+const PAGOS = ["Mercado Pago", "Efectivo", "Transferencia"];
+
+const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
 export default function ComercioPopularPage() {
   const e = getEstilo("comercio-popular")!;
   const [activeView, setActiveView] = useState("pedidos");
   const [activeCat, setActiveCat] = useState("Todo");
 
+  /* ---- estado de tienda / carrito ---- */
+  const [cart, setCart] = useState<Record<string, number>>({});
+  const [cartOpen, setCartOpen] = useState(false);
+  const [step, setStep] = useState<"cart" | "checkout" | "done">("cart");
+  const [pago, setPago] = useState(PAGOS[0]);
+  const [flyers, setFlyers] = useState<
+    { key: number; emoji: string; prodId: string; x: number; y: number; dx: number; dy: number }[]
+  >([]);
+  const cartBtnRef = useRef<HTMLButtonElement>(null);
+  const flyId = useRef(0);
+
+  const productosVisibles =
+    activeCat === "Todo" ? PRODUCTOS : PRODUCTOS.filter((p) => p.cat === activeCat);
+
+  const itemsCarrito = PRODUCTOS.filter((p) => cart[p.id]);
+  const count = Object.values(cart).reduce((a, b) => a + b, 0);
+  const subtotal = itemsCarrito.reduce((s, p) => s + p.precio * cart[p.id], 0);
+  const envio = subtotal === 0 || subtotal >= ENVIO_GRATIS_DESDE ? 0 : ENVIO;
+  const total = subtotal + envio;
+
+  const setQty = (id: string, q: number) =>
+    setCart((c) => {
+      const n = { ...c };
+      if (q <= 0) delete n[id];
+      else n[id] = q;
+      return n;
+    });
+
+  const flyToCart = (prod: Prod, ev: React.MouseEvent<HTMLButtonElement>) => {
+    const r = ev.currentTarget.getBoundingClientRect();
+    const cr = cartBtnRef.current?.getBoundingClientRect();
+    const x = r.left + r.width / 2;
+    const y = r.top + r.height / 2;
+    const tx = cr ? cr.left + cr.width / 2 : window.innerWidth - 48;
+    const ty = cr ? cr.top + cr.height / 2 : window.innerHeight - 48;
+    const key = ++flyId.current;
+    setFlyers((f) => [...f, { key, emoji: prod.emoji, prodId: prod.id, x, y, dx: tx - x, dy: ty - y }]);
+  };
+
+  const landFlyer = (key: number, prodId: string) => {
+    setFlyers((f) => f.filter((fl) => fl.key !== key));
+    setCart((c) => ({ ...c, [prodId]: (c[prodId] || 0) + 1 }));
+  };
+
+  const cerrarPedido = () => {
+    setCart({});
+    setCartOpen(false);
+    setStep("cart");
+  };
+
   /* ============== TAB 1 — TIENDA PÚBLICA ============== */
   const tienda = (
-    <motion.section
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-5xl mx-auto px-2 sm:px-4 pt-6 pb-14"
-    >
-      <div className="flex items-center justify-between mb-2 flex-wrap gap-3">
-        <div className="flex items-center gap-3">
-          <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
-            style={{ backgroundColor: VERDE_SOFT }}
+    <>
+      {/* Capa de "fly-to-cart" — firma de motion del estilo */}
+      <div className="fixed inset-0 z-[60] pointer-events-none overflow-hidden">
+        <AnimatePresence>
+          {flyers.map((fl) => (
+            <motion.div
+              key={fl.key}
+              initial={{ x: fl.x, y: fl.y, scale: 1, opacity: 1 }}
+              animate={{
+                x: [fl.x, fl.x + fl.dx * 0.5, fl.x + fl.dx],
+                y: [fl.y, fl.y + fl.dy * 0.35 - 60, fl.y + fl.dy],
+                scale: [1, 0.95, 0.3],
+                opacity: [1, 1, 0.4],
+              }}
+              transition={{ duration: 0.6, ease: "easeInOut", times: [0, 0.55, 1] }}
+              onAnimationComplete={() => landFlyer(fl.key, fl.prodId)}
+              style={{ position: "fixed", left: 0, top: 0, fontSize: "30px", lineHeight: 1 }}
+            >
+              {fl.emoji}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Botón flotante del carrito */}
+      <motion.button
+        ref={cartBtnRef}
+        onClick={() => setCartOpen(true)}
+        whileTap={{ scale: 0.95 }}
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full pl-4 pr-5 py-3 text-white"
+        style={{ backgroundColor: VERDE, boxShadow: "0 8px 24px rgba(22,163,74,0.35)" }}
+      >
+        <span className="text-lg">🛒</span>
+        <span className="text-sm font-semibold">{count > 0 ? fmt(total) : "Carrito"}</span>
+        {count > 0 && (
+          <motion.span
+            key={count}
+            initial={{ scale: 0.3 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 520, damping: 16 }}
+            className="absolute -top-1.5 -right-1.5 min-w-[22px] h-[22px] px-1 rounded-full text-[11px] font-bold flex items-center justify-center"
+            style={{ backgroundColor: "#dc2626", color: "#fff" }}
           >
-            🏪
+            {count}
+          </motion.span>
+        )}
+      </motion.button>
+
+      {/* Drawer del carrito + checkout */}
+      <AnimatePresence>
+        {cartOpen && (
+          <>
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setCartOpen(false)}
+              className="fixed inset-0 z-[55]"
+              style={{ backgroundColor: "rgba(0,0,0,0.35)" }}
+            />
+            <motion.aside
+              key="drawer"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 380, damping: 38 }}
+              className="fixed top-0 right-0 h-full w-full sm:w-[420px] z-[56] flex flex-col"
+              style={{ backgroundColor: "#ffffff", borderLeft: `1px solid ${BORDER}` }}
+            >
+              <div
+                className="flex items-center justify-between px-5 py-4 shrink-0"
+                style={{ borderBottom: `1px solid ${BORDER}` }}
+              >
+                <p className="font-semibold text-lg">
+                  {step === "cart" && "Tu carrito"}
+                  {step === "checkout" && "Finalizar compra"}
+                  {step === "done" && "¡Listo!"}
+                </p>
+                <button
+                  onClick={() => setCartOpen(false)}
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-lg"
+                  style={{ color: MUTED }}
+                  aria-label="Cerrar"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* ----- Paso carrito ----- */}
+              {step === "cart" && (
+                <>
+                  <div className="flex-1 overflow-y-auto px-5 py-4">
+                    {itemsCarrito.length === 0 ? (
+                      <div className="h-full flex flex-col items-center justify-center text-center py-16">
+                        <div className="text-5xl mb-3">🛒</div>
+                        <p className="font-medium">Tu carrito está vacío</p>
+                        <p className="text-sm mt-1" style={{ color: MUTED }}>
+                          Agregá productos del catálogo y aparecen acá.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {itemsCarrito.map((p) => (
+                          <div
+                            key={p.id}
+                            className="flex items-center gap-3 rounded-xl p-3"
+                            style={{ border: `1px solid ${BORDER}` }}
+                          >
+                            <div
+                              className="w-12 h-12 rounded-lg flex items-center justify-center text-xl shrink-0"
+                              style={{ background: p.grad }}
+                            >
+                              {p.emoji}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium leading-snug truncate">{p.nombre}</p>
+                              <p className="text-sm font-semibold">{fmt(p.precio * cart[p.id])}</p>
+                            </div>
+                            <div
+                              className="flex items-center gap-2 rounded-lg px-1.5 py-1"
+                              style={{ border: `1px solid ${BORDER}` }}
+                            >
+                              <motion.button
+                                whileTap={{ scale: 0.85 }}
+                                onClick={() => setQty(p.id, cart[p.id] - 1)}
+                                className="w-6 h-6 rounded-md text-base leading-none font-semibold"
+                                style={{ color: VERDE }}
+                              >
+                                −
+                              </motion.button>
+                              <span className="text-sm font-semibold w-5 text-center tabular-nums">
+                                {cart[p.id]}
+                              </span>
+                              <motion.button
+                                whileTap={{ scale: 0.85 }}
+                                onClick={() => setQty(p.id, cart[p.id] + 1)}
+                                className="w-6 h-6 rounded-md text-base leading-none font-semibold"
+                                style={{ color: VERDE }}
+                              >
+                                +
+                              </motion.button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="px-5 py-4 space-y-2 shrink-0" style={{ borderTop: `1px solid ${BORDER}` }}>
+                    <div className="flex items-center justify-between text-sm">
+                      <span style={{ color: MUTED }}>Subtotal</span>
+                      <span className="font-medium">{fmt(subtotal)}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span style={{ color: MUTED }}>Envío</span>
+                      <span className="font-medium">
+                        {envio === 0 ? (
+                          <span style={{ color: VERDE }}>{subtotal === 0 ? "—" : "Gratis"}</span>
+                        ) : (
+                          fmt(envio)
+                        )}
+                      </span>
+                    </div>
+                    {subtotal > 0 && subtotal < ENVIO_GRATIS_DESDE && (
+                      <p className="text-xs" style={{ color: MUTED }}>
+                        Te faltan {fmt(ENVIO_GRATIS_DESDE - subtotal)} para el envío gratis.
+                      </p>
+                    )}
+                    <div
+                      className="flex items-center justify-between text-base font-semibold pt-2"
+                      style={{ borderTop: `1px dashed ${BORDER}` }}
+                    >
+                      <span>Total</span>
+                      <span>{fmt(total)}</span>
+                    </div>
+                    <motion.button
+                      whileTap={{ scale: itemsCarrito.length ? 0.98 : 1 }}
+                      disabled={itemsCarrito.length === 0}
+                      onClick={() => setStep("checkout")}
+                      className="w-full py-3 rounded-xl text-sm font-semibold text-white mt-1 disabled:opacity-40"
+                      style={{ backgroundColor: VERDE }}
+                    >
+                      Finalizar compra
+                    </motion.button>
+                  </div>
+                </>
+              )}
+
+              {/* ----- Paso checkout (1 paso) ----- */}
+              {step === "checkout" && (
+                <>
+                  <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+                    <button
+                      onClick={() => setStep("cart")}
+                      className="text-xs font-semibold flex items-center gap-1"
+                      style={{ color: VERDE }}
+                    >
+                      ← Volver al carrito
+                    </button>
+
+                    <div className="space-y-3">
+                      {[
+                        { l: "Nombre y apellido", ph: "Ej. Roxana Blanco" },
+                        { l: "Dirección de entrega", ph: "Calle, número, piso/depto" },
+                        { l: "Teléfono", ph: "11 5841-2204" },
+                      ].map((f) => (
+                        <label key={f.l} className="block">
+                          <span className="text-xs font-semibold" style={{ color: MUTED }}>
+                            {f.l}
+                          </span>
+                          <input
+                            placeholder={f.ph}
+                            className="mt-1 w-full rounded-lg px-3 py-2.5 text-sm outline-none"
+                            style={{ border: `1px solid ${BORDER}`, backgroundColor: SURFACE }}
+                          />
+                        </label>
+                      ))}
+                    </div>
+
+                    <div>
+                      <p className="text-xs font-semibold mb-2" style={{ color: MUTED }}>
+                        Medio de pago
+                      </p>
+                      <div className="grid grid-cols-3 gap-2">
+                        {PAGOS.map((m) => {
+                          const a = pago === m;
+                          return (
+                            <motion.button
+                              key={m}
+                              whileTap={{ scale: 0.96 }}
+                              onClick={() => setPago(m)}
+                              className="py-2.5 rounded-lg text-xs font-semibold"
+                              style={{
+                                backgroundColor: a ? VERDE_SOFT : "#ffffff",
+                                color: a ? VERDE : TEXT,
+                                border: a ? `1px solid ${VERDE}` : `1px solid ${BORDER}`,
+                              }}
+                            >
+                              {m}
+                            </motion.button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="px-5 py-4 space-y-2 shrink-0" style={{ borderTop: `1px solid ${BORDER}` }}>
+                    <div className="flex items-center justify-between text-sm">
+                      <span style={{ color: MUTED }}>
+                        {count} {count === 1 ? "producto" : "productos"} · envío{" "}
+                        {envio === 0 ? "gratis" : fmt(envio)}
+                      </span>
+                      <span className="text-base font-semibold">{fmt(total)}</span>
+                    </div>
+                    <motion.button
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setStep("done")}
+                      className="w-full py-3 rounded-xl text-sm font-semibold text-white"
+                      style={{ backgroundColor: VERDE }}
+                    >
+                      Confirmar pedido
+                    </motion.button>
+                  </div>
+                </>
+              )}
+
+              {/* ----- Paso confirmado ----- */}
+              {step === "done" && (
+                <div className="flex-1 flex flex-col items-center justify-center text-center px-8">
+                  <motion.div
+                    initial={{ scale: 0.4, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 360, damping: 18 }}
+                    className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mb-4"
+                    style={{ backgroundColor: VERDE_SOFT }}
+                  >
+                    ✓
+                  </motion.div>
+                  <p className="text-lg font-semibold">¡Pedido confirmado!</p>
+                  <p className="text-sm mt-2" style={{ color: MUTED }}>
+                    Te lo llevamos a domicilio en 30 a 90 minutos. Pagás con{" "}
+                    <span style={{ color: VERDE, fontWeight: 600 }}>{pago}</span> al recibirlo.
+                  </p>
+                  <p className="text-sm mt-3 font-semibold">Total: {fmt(total)}</p>
+                  <motion.button
+                    whileTap={{ scale: 0.98 }}
+                    onClick={cerrarPedido}
+                    className="mt-6 px-5 py-2.5 rounded-xl text-sm font-semibold"
+                    style={{ backgroundColor: SURFACE, color: TEXT, border: `1px solid ${BORDER}` }}
+                  >
+                    Volver a la tienda
+                  </motion.button>
+                </div>
+              )}
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      <motion.section
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-5xl mx-auto px-2 sm:px-4 pt-6 pb-14"
+      >
+        <div className="flex items-center justify-between mb-2 flex-wrap gap-3">
+          <div className="flex items-center gap-3">
+            <div
+              className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
+              style={{ backgroundColor: VERDE_SOFT }}
+            >
+              🏪
+            </div>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">Almacén Don Pedro</h1>
+              <p className="text-xs" style={{ color: MUTED }}>Av. Belgrano 1242 · Abierto hasta 21hs · Envíos al barrio</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">Almacén Don Pedro</h1>
-            <p className="text-xs" style={{ color: MUTED }}>Av. Belgrano 1242 · Abierto hasta 21hs · Envíos al barrio</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
           <span
             className="text-xs font-semibold px-3 py-1.5 rounded-full"
             style={{ backgroundColor: VERDE_SOFT, color: VERDE }}
@@ -51,68 +420,137 @@ export default function ComercioPopularPage() {
             ● Abierto ahora
           </span>
         </div>
-      </div>
 
-      {/* Search bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, delay: 0.1 }}
-        className="bg-white rounded-xl mt-5 mb-5 flex items-center gap-2 px-4 py-3"
-        style={{ border: `1px solid ${BORDER}` }}
-      >
-        <span style={{ color: MUTED }}>🔎</span>
-        <input
-          className="flex-1 bg-transparent outline-none text-sm"
-          placeholder="Buscar productos… ej. yerba, leche, fideos"
-          readOnly
-        />
-        <motion.button
-          whileTap={{ scale: 0.96 }}
-          className="text-sm font-semibold px-3 py-1 rounded-lg text-white"
-          style={{ backgroundColor: VERDE }}
+        {/* Search bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.1 }}
+          className="bg-white rounded-xl mt-5 mb-5 flex items-center gap-2 px-4 py-3"
+          style={{ border: `1px solid ${BORDER}` }}
         >
-          Buscar
-        </motion.button>
-      </motion.div>
+          <span style={{ color: MUTED }}>🔎</span>
+          <input
+            className="flex-1 bg-transparent outline-none text-sm"
+            placeholder="Buscar productos… ej. yerba, leche, fideos"
+            readOnly
+          />
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            className="text-sm font-semibold px-3 py-1 rounded-lg text-white"
+            style={{ backgroundColor: VERDE }}
+          >
+            Buscar
+          </motion.button>
+        </motion.div>
 
-      {/* Categorías chips */}
-      <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2 -mx-2 px-2">
-        {CATEGORIAS.map((cat) => {
-          const a = activeCat === cat;
-          return (
-            <motion.button key={cat} onClick={() => setActiveCat(cat)} whileTap={{ scale: 0.96 }} className="text-sm px-4 py-2 rounded-full whitespace-nowrap shrink-0" style={{ backgroundColor: a ? VERDE : "#ffffff", color: a ? "#ffffff" : TEXT, border: a ? `1px solid ${VERDE}` : `1px solid ${BORDER}`, fontWeight: a ? 600 : 500 }}>{cat}</motion.button>
-          );
-        })}
-      </div>
+        {/* Categorías chips — filtran el catálogo */}
+        <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2 -mx-2 px-2">
+          {CATEGORIAS.map((cat) => {
+            const a = activeCat === cat;
+            return (
+              <motion.button key={cat} onClick={() => setActiveCat(cat)} whileTap={{ scale: 0.96 }} className="text-sm px-4 py-2 rounded-full whitespace-nowrap shrink-0" style={{ backgroundColor: a ? VERDE : "#ffffff", color: a ? "#ffffff" : TEXT, border: a ? `1px solid ${VERDE}` : `1px solid ${BORDER}`, fontWeight: a ? 600 : 500 }}>{cat}</motion.button>
+            );
+          })}
+        </div>
 
-      {/* Productos grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-        {[
-          { nombre: "Yerba Playadito 1kg", precio: "$3.200", grad: "linear-gradient(135deg,#dcfce7,#bbf7d0)", emoji: "🌿" },
-          { nombre: "Leche La Serenísima 1L", precio: "$1.450", grad: "linear-gradient(135deg,#dbeafe,#bfdbfe)", emoji: "🥛" },
-          { nombre: "Fideos Matarazzo 500g", precio: "$890", grad: "linear-gradient(135deg,#fef3c7,#fde68a)", emoji: "🍝" },
-          { nombre: "Aceite Cocinero 900ml", precio: "$2.700", grad: "linear-gradient(135deg,#fef3c7,#fcd34d)", emoji: "🫒" },
-          { nombre: "Pan francés 1kg", precio: "$1.200", grad: "linear-gradient(135deg,#fed7aa,#fdba74)", emoji: "🍞" },
-          { nombre: "Coca Cola 2.25L", precio: "$2.490", grad: "linear-gradient(135deg,#fee2e2,#fecaca)", emoji: "🥤" },
-        ].map((p, i) => (
-          <motion.div key={p.nombre} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.32, delay: i * 0.04 }} whileHover={{ y: -3 }} className="bg-white rounded-xl overflow-hidden flex flex-col" style={{ border: `1px solid ${BORDER}` }}>
-            <div className="aspect-square flex items-center justify-center text-4xl" style={{ background: p.grad }}>{p.emoji}</div>
-            <div className="p-3 flex-1 flex flex-col">
-              <p className="text-sm font-medium leading-snug mb-1 line-clamp-2">{p.nombre}</p>
-              <p className="text-lg font-semibold mb-2">{p.precio}</p>
-              <motion.button whileHover={{ y: -1 }} whileTap={{ scale: 0.97 }} className="mt-auto py-2 rounded-lg text-xs font-semibold text-white w-full" style={{ backgroundColor: VERDE }}>+ Agregar al carrito</motion.button>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+        {/* Productos grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          {productosVisibles.map((p, i) => {
+            const q = cart[p.id] || 0;
+            return (
+              <motion.div
+                key={p.id}
+                layout
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: i * 0.035 }}
+                whileHover={{ y: -3 }}
+                className="bg-white rounded-xl overflow-hidden flex flex-col"
+                style={{ border: `1px solid ${BORDER}` }}
+              >
+                <div className="aspect-square flex items-center justify-center text-4xl" style={{ background: p.grad }}>
+                  {p.emoji}
+                </div>
+                <div className="p-3 flex-1 flex flex-col">
+                  <p className="text-sm font-medium leading-snug mb-1 line-clamp-2">{p.nombre}</p>
+                  <p className="text-lg font-semibold mb-2">{fmt(p.precio)}</p>
+                  {q === 0 ? (
+                    <motion.button
+                      whileHover={{ y: -1 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={(ev) => flyToCart(p, ev)}
+                      className="mt-auto py-2 rounded-lg text-xs font-semibold text-white w-full"
+                      style={{ backgroundColor: VERDE }}
+                    >
+                      + Agregar
+                    </motion.button>
+                  ) : (
+                    <div
+                      className="mt-auto flex items-center justify-between rounded-lg px-1.5 py-1"
+                      style={{ border: `1px solid ${VERDE}` }}
+                    >
+                      <motion.button
+                        whileTap={{ scale: 0.85 }}
+                        onClick={() => setQty(p.id, q - 1)}
+                        className="w-7 h-7 rounded-md text-lg leading-none font-semibold"
+                        style={{ color: VERDE }}
+                      >
+                        −
+                      </motion.button>
+                      <motion.span
+                        key={q}
+                        initial={{ scale: 0.6 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                        className="text-sm font-bold tabular-nums"
+                      >
+                        {q}
+                      </motion.span>
+                      <motion.button
+                        whileTap={{ scale: 0.85 }}
+                        onClick={() => setQty(p.id, q + 1)}
+                        className="w-7 h-7 rounded-md text-lg leading-none font-semibold"
+                        style={{ color: VERDE }}
+                      >
+                        +
+                      </motion.button>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
 
-      <div className="mt-10 text-center">
-        <p className="text-sm" style={{ color: MUTED }}>
-          Envíos a Belgrano, Recoleta y Palermo desde <span style={{ color: VERDE, fontWeight: 600 }}>$650</span> · Pago con efectivo, transferencia o MP
-        </p>
-      </div>
-    </motion.section>
+        {/* Band de confianza: envío + medios de pago */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-10">
+          {[
+            { icon: "🚚", t: "Envío en el día", d: "Belgrano, Recoleta y Palermo · gratis desde $15.000" },
+            { icon: "💳", t: "Medios de pago", d: "Mercado Pago, efectivo o transferencia" },
+            { icon: "📲", t: "Atención directa", d: "Pedidos y consultas por WhatsApp al instante" },
+          ].map((b) => (
+            <motion.div
+              key={b.t}
+              whileHover={{ y: -2 }}
+              className="bg-white rounded-xl p-4 flex items-start gap-3"
+              style={{ border: `1px solid ${BORDER}` }}
+            >
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center text-lg shrink-0"
+                style={{ backgroundColor: VERDE_SOFT }}
+              >
+                {b.icon}
+              </div>
+              <div>
+                <p className="text-sm font-semibold">{b.t}</p>
+                <p className="text-xs mt-0.5" style={{ color: MUTED }}>{b.d}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+    </>
   );
 
   /* ============== SUB-VISTAS ADMIN ============== */
