@@ -103,3 +103,20 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - Esperar feedback del usuario después de revisar el live.
 - Decidir si los estilos no opinados se suman o se descartan sin verlos.
 - Resolver tensión warm boutique vs el sitio inmobiliaria.
+
+### [2026-05-17] - Sesión: index visor + fix encoding
+
+**Objetivo:** el index dejó de ser un muro vertical (queja del usuario: "muy vertical, le damos poca bola a las del final").
+
+**Hecho:**
+- `page.tsx` reescrito: header compacto, **barra de filtros sticky por categoría** (Todos + 7 cats con conteo), grid denso `grid-cols-2 md:3 xl:4`, cards chicas, descripción + cuándo-usar revelados en **hover** sobre el preview (no inflan la card). Mantiene entrada animada + View Transition `nav-forward`. `useReducedMotion` respetado. Descompuesto en `StyleCard` (no monolito).
+- `lib/estilos.ts`: corregidos 52 mojibakes (UTF-8 leído como Latin-1: `tipografÃ­a`→`tipografía`, `diseÃ±o`→`diseño`, `Â·`→`·`, etc.). Se veía roto en el footer de todas las páginas.
+- `globals.css`: utilidad `.no-scrollbar` para el filtro horizontal.
+
+**Decisiones:**
+- Filtro por categoría > secciones apiladas: ataca directo "las del final no las ve nadie" (refero/default ahora a un click).
+- Descripción en hover, no siempre visible: baja la altura de card sin perder info.
+
+**Próximos pasos:**
+- Rework de los planes `ui-viewer-NN` con el bar real: hero + 3-4 piezas funcionales DISTINTAS y visibles por lado, código SOLID/mantenible (decomposición por estilo, data separada de presentación) para que aguante backend real sin volverse pesado.
+- Retrofit airbnb/comercio/operativo (tanda 1) al nuevo bar.

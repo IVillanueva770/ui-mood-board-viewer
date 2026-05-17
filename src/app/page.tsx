@@ -1,160 +1,169 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import Link from "next/link";
-import { motion } from "motion/react";
-import { ESTILOS, CATEGORIAS } from "@/lib/estilos";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { ESTILOS, CATEGORIAS, type Categoria, type Estilo } from "@/lib/estilos";
+
+type Filtro = Categoria | "todos";
 
 export default function Home() {
+  const [filtro, setFiltro] = useState<Filtro>("todos");
+  const reduce = useReducedMotion();
+
+  const chips = useMemo(
+    () => [
+      { id: "todos" as Filtro, label: "Todos", count: ESTILOS.length },
+      ...CATEGORIAS.map((c) => ({
+        id: c.id as Filtro,
+        label: c.label,
+        count: ESTILOS.filter((e) => e.categoria === c.id).length,
+      })).filter((c) => c.count > 0),
+    ],
+    []
+  );
+
+  const visibles = useMemo(
+    () => (filtro === "todos" ? ESTILOS : ESTILOS.filter((e) => e.categoria === filtro)),
+    [filtro]
+  );
+
   return (
-    <main className="min-h-screen bg-neutral-50 px-6 py-10 sm:px-10 sm:py-16">
-      <div className="mx-auto max-w-6xl">
-        <motion.header
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-12 sm:mb-16"
-        >
-          <p className="text-xs uppercase tracking-[0.2em] text-neutral-500 mb-3">Mood Board · Viewer</p>
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-neutral-900 mb-4">
+    <main className="min-h-screen bg-neutral-50">
+      <header className="mx-auto max-w-7xl px-5 sm:px-8 pt-8 sm:pt-10 pb-5">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500 mb-2">
+          Mood Board · Viewer
+        </p>
+        <div className="flex items-end justify-between gap-4 flex-wrap">
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-900">
             Estilos del usuario
           </h1>
-          <p className="text-base sm:text-lg text-neutral-600 max-w-2xl leading-relaxed">
-            Cada estilo se ve aplicado a un layout sample con paleta y tipografía reales. Hovereá las cards y entrá a cada uno para sentir las microinteracciones firma del estilo.
+          <p className="text-sm text-neutral-500 max-w-md">
+            Cada card entra a un estilo aplicado con paleta y tipografía reales. Hovereá para ver para qué sirve.
           </p>
+        </div>
+      </header>
 
-          <div className="flex flex-wrap gap-2 mt-6 text-xs">
-            <Badge dot="#22c55e" label={`${ESTILOS.filter((e) => e.estado === "aprobado").length} aprobados`} />
-            <Badge dot="#737373" label="Click para entrar" />
-          </div>
-        </motion.header>
-
-        {CATEGORIAS.map((cat, catIdx) => {
-          const estilosCat = ESTILOS.filter((e) => e.categoria === cat.id);
-          if (estilosCat.length === 0) return null;
-
-          return (
-            <motion.section
-              key={cat.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: catIdx * 0.05 }}
-              className="mb-12 sm:mb-16"
-            >
-              <div className="mb-6 flex items-baseline justify-between gap-4 flex-wrap">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-neutral-500 mb-1">
-                    {cat.label}
-                  </p>
-                  <h2 className="text-lg font-semibold text-neutral-800">
-                    {cat.descripcion}
-                  </h2>
-                </div>
-                <span className="text-xs text-neutral-500">
-                  {estilosCat.length} {estilosCat.length === 1 ? "estilo" : "estilos"}
+      {/* Filtro por categoría — sticky, convierte el muro vertical en visor */}
+      <div className="sticky top-0 z-20 bg-neutral-50/90 backdrop-blur border-y border-neutral-200">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 py-3 flex gap-2 overflow-x-auto no-scrollbar">
+          {chips.map((c) => {
+            const activo = filtro === c.id;
+            return (
+              <button
+                key={c.id}
+                onClick={() => setFiltro(c.id)}
+                className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                  activo
+                    ? "bg-neutral-900 text-white border-neutral-900"
+                    : "bg-white text-neutral-600 border-neutral-200 hover:border-neutral-400"
+                }`}
+              >
+                {c.label}
+                <span className={activo ? "ml-1.5 opacity-60" : "ml-1.5 text-neutral-400"}>
+                  {c.count}
                 </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-                {estilosCat.map((e, idx) => (
-                  <motion.div
-                    key={e.slug}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: idx * 0.05 }}
-                    whileHover={{ y: -3 }}
-                  >
-                    <Link
-                      href={`/${e.slug}`}
-                      transitionTypes={["nav-forward"]}
-                      className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white block transition-all duration-200 hover:border-neutral-400 hover:shadow-xl"
-                    >
-                      <div
-                        className="h-44 sm:h-48 flex items-center justify-center relative overflow-hidden"
-                        style={{ backgroundColor: e.bgPreview, color: e.fgPreview }}
-                      >
-                        <motion.div
-                          className="text-center"
-                          initial={false}
-                          whileHover={{ scale: 1.03 }}
-                          transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                        >
-                          <div className="text-[11px] uppercase tracking-[0.18em] opacity-60 mb-2">
-                            {e.tagline}
-                          </div>
-                          <div
-                            className={
-                              e.slug === "linear" || e.slug === "modern-saas" ? "text-3xl font-semibold tracking-tight"
-                              : e.slug === "calm" || e.slug === "medico-amigable" || e.slug === "clinico-calmado" ? "text-4xl font-cormorant"
-                              : e.slug === "dimes" || e.slug === "sport-dinamico" || e.slug === "ethereal" ? "text-5xl font-bebas tracking-wide"
-                              : e.slug === "sin-estilo" ? "text-2xl font-roboto-mono"
-                              : "text-3xl font-semibold tracking-tight"
-                            }
-                          >
-                            {e.nombre}
-                          </div>
-                        </motion.div>
-
-                        <div className="absolute bottom-3 left-3 flex gap-1.5">
-                          {e.paleta.map((c, i) => (
-                            <motion.div
-                              key={i}
-                              className="w-3 h-3 rounded-full ring-1 ring-black/10"
-                              style={{ backgroundColor: c }}
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              transition={{ delay: 0.2 + i * 0.04, type: "spring", stiffness: 300 }}
-                            />
-                          ))}
-                        </div>
-                        <div
-                          className="absolute top-3 right-3 px-2 py-1 text-[10px] uppercase tracking-wider rounded-full text-white"
-                          style={{ backgroundColor: e.accentPreview }}
-                        >
-                          {e.estado === "aprobado" ? "✓ Aprobado" : e.estado === "descartado" ? "✗ Descartado" : "Preview"}
-                        </div>
-                      </div>
-
-                      <div className="p-5 sm:p-6 border-t border-neutral-100">
-                        <p className="text-sm text-neutral-700 leading-relaxed mb-3">
-                          {e.descripcion}
-                        </p>
-                        <p className="text-xs text-neutral-500 mb-3">
-                          <span className="font-medium text-neutral-700">Cuándo:</span> {e.cuandoUsar}
-                        </p>
-                        <div className="flex items-center justify-between">
-                          <p className="text-[11px] text-neutral-400 font-mono">
-                            {e.tipografia}
-                          </p>
-                          <span className="text-xs text-neutral-400 group-hover:text-neutral-700 transition-colors">
-                            Ver →
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.section>
-          );
-        })}
-
-        <motion.footer
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mt-16 sm:mt-20 text-xs text-neutral-400 border-t border-neutral-200 pt-6"
-        >
-          <p>Mood Board Viewer · vive en <code className="text-neutral-600">Karpathy/ui-mood-board-viewer</code> · iterá a gusto.</p>
-        </motion.footer>
+              </button>
+            );
+          })}
+        </div>
       </div>
+
+      <section className="mx-auto max-w-7xl px-5 sm:px-8 py-6 sm:py-8">
+        <motion.div
+          layout={!reduce}
+          className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
+        >
+          <AnimatePresence mode="popLayout">
+            {visibles.map((e, i) => (
+              <StyleCard key={e.slug} estilo={e} index={i} reduce={!!reduce} />
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </section>
+
+      <footer className="mx-auto max-w-7xl px-5 sm:px-8 pb-10 text-xs text-neutral-400">
+        <p>
+          {ESTILOS.length} estilos · vive en{" "}
+          <code className="text-neutral-500">Karpathy/ui-mood-board-viewer</code>
+        </p>
+      </footer>
     </main>
   );
 }
 
-function Badge({ dot, label }: { dot: string; label: string }) {
+function StyleCard({ estilo: e, index, reduce }: { estilo: Estilo; index: number; reduce: boolean }) {
+  const nombreClass =
+    e.slug === "linear" || e.slug === "modern-saas"
+      ? "text-xl sm:text-2xl font-semibold tracking-tight"
+      : e.slug === "calm" || e.slug === "medico-amigable" || e.slug === "clinico-calmado"
+      ? "text-2xl sm:text-3xl font-cormorant"
+      : e.slug === "dimes" || e.slug === "sport-dinamico" || e.slug === "ethereal"
+      ? "text-3xl sm:text-4xl font-bebas tracking-wide"
+      : e.slug === "sin-estilo"
+      ? "text-lg font-roboto-mono"
+      : "text-xl sm:text-2xl font-semibold tracking-tight";
+
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-neutral-200 text-neutral-700">
-      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: dot }} />
-      {label}
-    </span>
+    <motion.div
+      layout={!reduce}
+      initial={reduce ? false : { opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={reduce ? undefined : { opacity: 0, scale: 0.96 }}
+      transition={{ duration: 0.28, delay: reduce ? 0 : Math.min(index * 0.025, 0.3) }}
+      whileHover={reduce ? undefined : { y: -3 }}
+    >
+      <Link
+        href={`/${e.slug}`}
+        transitionTypes={["nav-forward"]}
+        className="group relative block overflow-hidden rounded-xl border border-neutral-200 bg-white transition-colors hover:border-neutral-400"
+      >
+        <div
+          className="relative h-28 sm:h-32 flex items-center justify-center overflow-hidden"
+          style={{ backgroundColor: e.bgPreview, color: e.fgPreview }}
+        >
+          <div className={nombreClass}>{e.nombre}</div>
+
+          <div className="absolute bottom-2.5 left-2.5 flex gap-1">
+            {e.paleta.map((c, idx) => (
+              <span
+                key={idx}
+                className="w-2.5 h-2.5 rounded-full ring-1 ring-black/10"
+                style={{ backgroundColor: c }}
+              />
+            ))}
+          </div>
+          <span
+            className="absolute top-2.5 right-2.5 px-1.5 py-0.5 text-[9px] uppercase tracking-wider rounded-full text-white"
+            style={{ backgroundColor: e.accentPreview }}
+          >
+            {e.estado === "aprobado" ? "✓" : e.estado === "descartado" ? "✗" : "·"}
+          </span>
+
+          {/* Descripción + cuándo-usar: en hover, no infla la card */}
+          <div
+            className="absolute inset-0 flex flex-col justify-center gap-2 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            style={{ backgroundColor: e.bgPreview, color: e.fgPreview }}
+          >
+            <p className="text-[11px] leading-snug">{e.descripcion}</p>
+            <p className="text-[10px] leading-snug opacity-70">
+              <span className="font-semibold">Cuándo:</span> {e.cuandoUsar}
+            </p>
+          </div>
+        </div>
+
+        <div className="p-3 border-t border-neutral-100">
+          <p className="text-[10px] uppercase tracking-wider text-neutral-400 mb-1.5 truncate">
+            {e.tagline}
+          </p>
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[10px] font-mono text-neutral-400 truncate">{e.tipografia}</p>
+            <span className="text-[11px] text-neutral-400 group-hover:text-neutral-800 transition-colors shrink-0">
+              Ver →
+            </span>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
   );
 }

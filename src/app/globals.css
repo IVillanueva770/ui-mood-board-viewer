@@ -15,6 +15,9 @@ html, body {
 }
 
 /* utilidades para los estilos del viewer */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
 .font-cormorant { font-family: var(--font-cormorant), Georgia, serif; }
 .font-bebas { font-family: var(--font-bebas), Impact, sans-serif; }
 .font-roboto-mono { font-family: var(--font-roboto-mono), ui-monospace, monospace; }
