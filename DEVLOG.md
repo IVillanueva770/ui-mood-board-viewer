@@ -35,6 +35,23 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 7 (RETROFIT tanda 1 — operativo-calido SOLID · cierra tanda 1)
+
+**Objetivo:** retrofit de `/operativo-calido` con el patrón airbnb/comercio. Antes: monolito de 578 líneas; estilo interno-first; interno = `InternalNav` con 6 vistas escondidas tras sub-nav (= 1 pieza oculta).
+
+**Hecho:**
+- Descomposición: `page.tsx` 578 → ~70 líneas. `_data.ts` con tipos del dominio + mock (incluye contenido de landing tipado). 11 piezas en `_components/`. Estado de pedidos + toast aislado en hook `useOrdersBoard` (SRP); `BusinessPanel` lo instancia una vez y alimenta los módulos + el toast.
+- Lado externo (Inicio) = pitch mínimo visible (acorde al mood, no se fuerza landing comercial): `LandingHero`, `PanelPreview` (captura del panel), `Benefits` (3 en lenguaje llano), `SocialProof`, `FinalCta`.
+- Lado interno (el protagonista) = se eliminó `InternalNav`; panel scrolleable con 4 módulos sólidos a la vista (los que pide el plan): `DaySummary` (KPIs vivos + pedidos de hoy con avanzar de un toque), `OrdersTable` (**filtro por estado** + avanzar, AnimatePresence), `Payments` (Cobros, Pendiente derivado en vivo del estado), `Customers` (WhatsApp).
+- Firma de motion = **toast cálido y rápido** al avanzar un pedido (intacto, en `Toast.tsx` con reduced-motion). KPIs reaccionan en vivo. Resto minimal. Build verde (exit 0), estática. Sin deploy.
+
+**Decisiones:**
+- Se bajó de 6 a 4 módulos internos (se dejan Catálogo y Mensajes fuera): el plan pide exactamente 4 y el mood es legibilidad/"no te compliques" — 4 módulos visibles > 6 (2 sólo alcanzables por sub-nav oculto). Clientes ya cubre el ángulo WhatsApp.
+- Tanda 1 de retrofit (airbnb-friendly, comercio-popular, operativo-calido) **cerrada**: las 3 descompuestas SOLID, sin sub-nav que esconda piezas.
+
+**Próximos pasos:**
+- El resto del cluster (`-05` en adelante) ya nace con el patrón corregido; no requieren retrofit.
+
 ### [2026-05-17] - Sesión 6 (RETROFIT tanda 1 — comercio-popular SOLID)
 
 **Objetivo:** retrofit de `/comercio-popular` con el patrón de airbnb-friendly. Antes: monolito de 845 líneas; externo "Tienda" ya rico (carrito/fly-to-cart/checkout) pero todo inline; interno "Admin" = `InternalNav` con 5 vistas escondidas tras sub-nav (= 1 pieza oculta).
