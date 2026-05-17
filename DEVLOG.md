@@ -35,6 +35,23 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 6 (RETROFIT tanda 1 — comercio-popular SOLID)
+
+**Objetivo:** retrofit de `/comercio-popular` con el patrón de airbnb-friendly. Antes: monolito de 845 líneas; externo "Tienda" ya rico (carrito/fly-to-cart/checkout) pero todo inline; interno "Admin" = `InternalNav` con 5 vistas escondidas tras sub-nav (= 1 pieza oculta).
+
+**Hecho:**
+- Descomposición: `page.tsx` 845 → ~62 líneas (composición). `_data.ts` con todos los tipos del dominio + mock (swap a backend = 1 archivo). 12 piezas en `_components/` con props tipadas. Lógica de carrito aislada en hook `useStoreCart` (SRP: estado de compra) inyectado por `StoreFront`.
+- Lado externo (Tienda) = storefront real visible en scroll: `StoreHeader` (comercio + buscador), `ProductCatalog` (filtro por categoría + agregar/stepper), `FlyToCartLayer` (firma fly-to-cart + FAB con badge pop), `CartDrawer` (carrito + checkout 1 paso + confirmación), `TrustBand`.
+- Lado interno (Admin) = se eliminó el `InternalNav`; ahora panel scrolleable con 5 piezas a la vista: `MetricsPanel` (KPIs + barras), `OrdersTable` (**filtro por estado funcional**), `ProductsTable` (**toggle activo interactivo** + stock), `CustomersTable`, `StoreSettings`.
+- Firma de motion intacta y minimal (mood: rápido, no design-forward): sólo el carrito tiene personalidad (fly-to-cart en arco + badge pop + steppers). Admin sin animación gratuita. Build verde (exit 0), página estática. Sin deploy.
+
+**Decisiones:**
+- `useStoreCart` como hook propio: el carrito lo comparten 3 piezas (catálogo/FAB/drawer); centralizarlo evita prop-drilling de estado y deja las piezas tontas (swappables).
+- Admin pasa a scroll visible (mismo criterio que airbnb): para un viewer, módulos detrás de sub-nav = no se ven.
+
+**Próximos pasos:**
+- Falta `operativo-calido` para cerrar el retrofit de tanda 1.
+
 ### [2026-05-17] - Sesión 5 (RETROFIT tanda 1 — airbnb-friendly SOLID)
 
 **Objetivo:** retrofit de `/airbnb-friendly` bajo la rúbrica corregida del pipeline (no medir por líneas; piezas distintas y VISIBLES; código SOLID swappable a backend). Antes: monolito de 607 líneas, lado interno = `InternalNav` con 5 sub-vistas escondidas tras sub-nav (= 1 pieza oculta para un viewer).
