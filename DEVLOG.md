@@ -36,6 +36,24 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 10 (ethereal — paridad + descomposición SOLID + firma experimental)
+
+**Objetivo:** ejecutar `ui-viewer-10-ethereal`. Antes: monolito 467 líneas; externo = hero + manifiesto + lista índice (hero + 2); interno = `InternalNav editorial-sidebar` con 5 sub-vistas escondidas tras sub-nav (= 1 pieza oculta, contra la regla del viewer). Motion genérico (fades), sin la firma experimental que el mood ethereal exige.
+
+**Hecho:**
+- Descomposición: `page.tsx` 467 → ~115 líneas (composición pura, sin `useState`/`InternalNav`). `_data.ts` con 13 tipos del dominio + mock de estudio creativo AR (Estudio en Construcción Permanente; clientes Aurora Botanical, Cien Soles, Matria Records, Tabacal, Norte Estudio; equipo Macarena R./Tomi M./Joaco G.). 9 piezas + hook de motion + helper `MaskHeading` en `_components/`.
+- **Externo (Editorial) = hero + 4 piezas**: `HeroEthereal` (grid asimétrico, type mask reveal por línea, palabra acento cursor-aware, columna meta con parallax leve, scroll-hint) + `ProyectosGrid` (showcase grilla asimétrica, hover = velo + ficha clip-wipe, cards cursor-tilt) + `ManifiestoBlock` (editorial roto, mask reveal) + `IndiceProyectos` (índice enumerado, hover = línea acento que crece + corrimiento gestual — la interacción fuerte original, ahora tipada) + `ContactoGestual` (CTA "iniciemos algo" cursor-aware + flecha en loop).
+- **Interno (Atelier) = 4 piezas VISIBLES en scroll** (se eliminó el `InternalNav` que las escondía, default del cluster): `ObrasEnTaller` (obras en proceso con etapa + barra de avance animada + strip de capacidad) + `Briefs` (**filtro funcional** por estado + nota expandible por brief) + `GaleriaAssets` (grilla asimétrica de experimentos, cursor-tilt) + `AgendaCreativa` (timeline de hitos no-corporativo, **marcar hecho funcional** con tachado). Panel con header de identidad + `DividerReveal asym-scatter` entre piezas (ritmo, no esconde).
+- **Firma de motion** (`use-ethereal-motion.ts`): `reveal` (fade-up lento, easing expo, 1.05s), `maskReveal` (type mask reveal — clip-path wipe descendente sobre el texto), `drift` (entrada lateral lenta), `useCursorTilt` (desplazamiento elástico spring según mouse), `useScrollParallax` (parallax leve atado a `scrollY`). Lento y atmosférico, lo opuesto a snappy. Reduced-motion estricto: degrada a fade simple, cursor/parallax = 0, hover-variants neutralizadas — no rompe.
+- Build verde (`next build` exit 0), `/ethereal` estática. No deploy (instrucción del usuario). Sin verificación en browser (modo batch, dev 3000 reservado para la sesión final).
+
+**Decisiones:**
+- **Se eliminó `InternalNav` del interno** (era el caso testigo del gap: 5 sub-vistas escondidas tras `editorial-sidebar`). Reinterpretado como "backstage del estudio" scrolleable coherente con el mood (no admin corporativo): las 4 piezas mapean 1:1 al brief interno del plan (obras / briefs / galería / agenda). Mismo criterio airbnb/operativo/web-first, ahora aplicado al estilo más "artístico" sin matar la estética.
+- **Índice editorial se conserva como pieza distinta del showcase grid**: uno es galería visual (hover reveal), el otro es archivo enumerado (line-reveal gestual) — funciones distintas, ambas firma ethereal. Da paridad real (hero+4 / 4).
+
+**Próximos pasos:**
+- `ui-viewer-10-ethereal` → `status: completed`. Sigue el resto del cluster según orden sugerido en `ui-viewer-00-pipeline` (11-monopo y el resto de landings/apps/dashboards).
+
 ### [2026-05-17] - Sesión 9 (dimes — descomposición SOLID del benchmark + firma canónica)
 
 **Objetivo:** ejecutar `ui-viewer-08-dimes`. El plan traía framing viejo ("ya rica, sólo auditar") — el usuario indicó ignorarlo: dimes hoy era un monolito del re-skin (742 líneas). Aplicar la MISMA descomposición SOLID + piezas visibles que la tanda A, y consolidar su firma de motion como la canónica del cluster.
