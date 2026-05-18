@@ -36,6 +36,23 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 9 (dimes — descomposición SOLID del benchmark + firma canónica)
+
+**Objetivo:** ejecutar `ui-viewer-08-dimes`. El plan traía framing viejo ("ya rica, sólo auditar") — el usuario indicó ignorarlo: dimes hoy era un monolito del re-skin (742 líneas). Aplicar la MISMA descomposición SOLID + piezas visibles que la tanda A, y consolidar su firma de motion como la canónica del cluster.
+
+**Hecho:**
+- Descomposición: `page.tsx` 742 → ~90 líneas (composición). `_data.ts` con tipos del dominio + mock argentino (estudio de diseño: Cervecería Bestia, Studio Roma, Beat Records, etc.) + helper `inkOn()` que centraliza la tinta legible sobre rellenos saturados (WCAG 2.2 — el contraste extremo no rompe a11y). 10 piezas + 3 helpers en `_components/`.
+- **Chrome alineado al cluster**: dimes era el outlier que hand-rolleaba su top-nav y una sección "Meta info" hardcodeada (duplicaba `estilos.ts`). Ahora usa `StyleHeader`/`StyleFooter` (como airbnb/clinico/medico) + `DividerReveal` variant `brutalist-stamp`. La paleta/tipografía/cuándo-usar salen de `estilos.ts`, sin duplicar.
+- Externo (ESTUDIO) = `Hero` (bloque gigante) + `StatsBrutal` (color-flip duro) + `ProjectsShowcase` + `Manifiesto` (**pieza nueva** — tipografía protagonista, lo que faltaba para parear) + `CtaStrip`. Interno (ADENTRO) = se eliminó el `InternalNav` que escondía 5 sub-vistas (= 1 pieza oculta); ahora panel scrolleable con `WorkspaceHeader` + `Pipeline` (kanban 4 col) + `Horas` (timesheet + actividad + nota) + `Clientes` + `Facturas`.
+- **Firma de motion canónica consolidada** en `useBrutalMotion`: hard-shadow-shift **snappy tween (`duration 0.1`, NO spring blando)** + color-flip duro + nudge seco. El monolito mezclaba `spring stiffness 400-500` con `duration 0.05/0.08` inconsistentes; ahora un solo hook define la firma y `HardButton`/`StatusChip` la propagan idéntica a TODO botón/card/fila/tab. Reduced-motion conserva la sombra dura estática (es identidad, no decoración) sin desplazamiento. Build verde (exit 0), estática. Sin deploy.
+
+**Decisiones:**
+- Interno bajó de 5 a 4 piezas (se descartó `Equipo`): mismo criterio que el retrofit de operativo-calido — la rúbrica prefiere 4 grosas y distintas, parejas con el externo (hero + 4), antes que 5 (una además escondida). Pipeline/Horas/Clientes/Facturas son las 4 más representativas de un ops de estudio.
+- `dimes` deja de ser "la excepción ya armada": ahora es el benchmark **y** cumple el patrón SOLID como el resto. La firma canónica vive en un solo archivo reutilizable, lista para que los próximos briefs la referencien sin copiar valores a ojo.
+
+**Próximos pasos:**
+- Seguir el cluster (orden sugerido en `ui-viewer-00-pipeline`): modern-saas, ethereal, monopo, etc.
+
 ### [2026-05-17] - Sesión 8 (Tanda A — medico-amigable / clinico-calmado / web-first-mobile)
 
 **Objetivo:** ejecutar la Tanda A del cluster (plans `ui-viewer-05/06/07`) ya con el patrón corregido del pipeline (no requieren retrofit: nacen SOLID). Las 3 eran monolitos del re-skin inicial con externo flaco y/o piezas escondidas tras `InternalNav`.
