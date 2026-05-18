@@ -15,6 +15,7 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - `/linear` — command center refero (dark + neon lime), SOLID; externo landing dev-tool + interno scrolleable con ⌘K palette
 - `/calm` — wellness premium minimal SOLID; externo landing serena (hero orbe que respira · programas · cómo funciona · testimonios · planes) + interno app calma scrolleable (today + mood selector interactivo · meditation · sleep · mood journal · settings), firma fades lentos + breathing scale
 - `/dimes` — brutalist juvenil, bordes negros gruesos, sombras duras, color flat saturado
+- `/steep` — BI/analytics refero (white canvas + warm mist #fbe1d1 + serif Cormorant), SOLID; externo landing BI con gravitas + interno plataforma analytics scrolleable (tablero · query builder · reportes · detalle de métrica), firma draw-in de charts + mist cálido
 - `/sin-estilo` — default placeholder B/N + Roboto Mono, comunica "falta decisión"
 
 ## Tareas Activas
@@ -35,6 +36,23 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - **Scrollable-visible aplica también a estilos profesional-facing**: clinico-calmado es la vista del profesional (workspace) — se podría argumentar que un shell `InternalNav` es la metáfora correcta. Pero la regla del viewer (las piezas se ven de un vistazo, el evaluador no toca sub-nav) tiene prioridad, y el precedente operativo-calido (también panel profesional) ya resolvió así. Default del cluster = scroll con piezas visibles para AMBOS lados, profesional o paciente. `InternalNav` queda disponible sólo si una pieza puntual lo justifica, nunca como contenedor que esconde la cuota.
 
 ## Sesiones
+
+### [2026-05-17] - Sesión 20 (steep — rework SOLID + eliminar InternalNav + firma draw-in, refero EXACT)
+**Objetivo:** Ejecutar `ui-viewer-18-steep`. Antes: monolito de 567 líneas con `InternalNav editorial-sidebar` escondiendo 5 sub-vistas (reports/datasets/boards/metrics/settings) tras un sidebar — el evaluador abría "Workspace" y veía 1 sola pieza. Tokens refero exactos.
+**Hecho:**
+- Descompuesto en SOLID: `page.tsx` 567 → ~90 líneas (composición pura). `_data.ts` tipado (`tokens` refero literal + `elevation` + 9 tipos del dominio + mock analytics realista en español, datos argentinos). `_components/` 9 piezas con props tipadas (SRP) + `charts.ts` (helpers SVG derivados de datos) + `use-steep-motion` (hook firma).
+- **Eliminado `InternalNav`** (regla dura). `grep -rn "InternalNav" src/app/steep/` → vacío (rc=1), cero uso real ni en comentarios.
+- **Externo (Marketing) = hero + 3 piezas**: Hero (serif Cormorant gravitas + mini-dashboard con área draw-in) · Capabilities (3 cards, número mono + título serif itálico) · DashboardShowcase (tablero mock con 4 tipos de chart: área/barras/big/ring, todos draw-in) · TrustBand (stats + cita serif + CTA con restraint).
+- **Interno (Workspace) = 4 piezas TODAS apiladas en scroll** + header: WorkspaceBar (chrome, no pieza) · DashboardGrid (6 KPIs line/bars/big + filtros rango/segmento interactivos, estado local) · QueryBuilder (builder visual métrica×dimensión×filtro + preview vivo: cambiar dimensión recomputa tabla+barras desde el mock) · SavedReports (lista + compartir-look, hover mist en fila) · MetricDetail (drill-down: total grande + serie temporal 12m área draw-in + breakdown por componente).
+**Decisiones:**
+- Signifier es propietaria de Klim (no está en Google Fonts) → se mantiene Cormorant Garamond como sustituto serif establecido del proyecto (misma convención que stripe-real con Sohne→Inter). Tokens de color refero intactos y literales en `_data.ts` (white #ffffff · mist #fbe1d1 · ink #17191c · terracotta #5d2a1a). No "mejorar a ojo".
+- Firma de motion = draw-in de paths (`pathLength` con `whileInView`) + reveal de serif sobrio + hover mist cálido (#fbe1d1 invade fondo de botón secundario y fila de tabla, nunca color de marca duro). Contenido: easing largo `[0.22,0.61,0.36,1]`, cero rebote. Reduced-motion conserva elevación estática, quita draw-in/desplazamiento.
+- Diferenciable de stripe-dashboard: steep = serif/analytics/mist cálido vs stripe-dash = sans/amigable/violeta.
+**Problemas encontrados:**
+- Primer `next build` chocó con sesión paralela ("Another next build process is already running") — colisión esperada del modo batch. Reintento posterior: rojo por error de tipos en `src/app/calm/_components/Hero.tsx` (sesión PARALELA, no steep; `next build` corta en el primer error alfabético, calm < steep). `tsc --noEmit` aislado confirma **cero errores en `src/app/steep/`**; al recorrer, calm ya estaba arreglado → `next build` exit 0 limpio.
+- DEVLOG.md modificado por la sesión calm (Sesión 19 + línea Estructura). Commit con pathspec del usuario `-- src/app/steep/ DEVLOG.md`: la entrada de calm en DEVLOG queda co-commiteada (cross-attribution tolerada por el pipeline, sin pérdida de trabajo — el código de calm está fuera del pathspec e intacto para su propio commit). NO se hizo cirugía de historia.
+**Próximos pasos:**
+- Sin deploy ni push (instrucción explícita del usuario: commit + verificar con git log). Verificación visual en browser pendiente para la pasada final del cluster.
 
 ### [2026-05-17] - Sesión 19 (calm — rework SOLID + eliminar InternalNav + firma breathing)
 **Objetivo:** Ejecutar `ui-viewer-19-calm`. Antes: monolito de 535 líneas con `InternalNav editorial-sidebar` en el tab "Today" escondiendo 5 sub-vistas tras un sidebar (= 1 pieza para un viewer; el evaluador no clickea sub-nav).
