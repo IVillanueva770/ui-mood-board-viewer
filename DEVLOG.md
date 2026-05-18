@@ -16,7 +16,7 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - `/calm` — wellness premium minimal SOLID; externo landing serena (hero orbe que respira · programas · cómo funciona · testimonios · planes) + interno app calma scrolleable (today + mood selector interactivo · meditation · sleep · mood journal · settings), firma fades lentos + breathing scale
 - `/dimes` — brutalist juvenil, bordes negros gruesos, sombras duras, color flat saturado
 - `/steep` — BI/analytics refero (white canvas + warm mist #fbe1d1 + serif Cormorant), SOLID; externo landing BI con gravitas + interno plataforma analytics scrolleable (tablero · query builder · reportes · detalle de métrica), firma draw-in de charts + mist cálido
-- `/sin-estilo` — default placeholder B/N + Roboto Mono, comunica "falta decisión"
+- `/sin-estilo` — CONTROL NEGATIVO SOLID; mismo esqueleto que el resto (chrome + 2 tabs + hero + 3-4 piezas/lado + divider + footer) pero crudo B/N + Roboto Mono, border-radius 0, sin sombra/gradiente/acento y CERO motion. Externo: hero + falta-decidir + stats `00` + cards. Interno: workspace-bar (anclas) + items + gente + notas + ajustes APILADOS en scroll (sin `InternalNav`/switcher). Comunica "falta decisión"
 
 ## Tareas Activas
 
@@ -404,3 +404,25 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 **Próximos pasos:**
 - Rework de los planes `ui-viewer-NN` con el bar real: hero + 3-4 piezas funcionales DISTINTAS y visibles por lado, código SOLID/mantenible (decomposición por estilo, data separada de presentación) para que aguante backend real sin volverse pesado.
 - Retrofit airbnb/comercio/operativo (tanda 1) al nuevo bar.
+
+### [2026-05-17] - Sesión: rework sin-estilo (control negativo, último de la tanda)
+**Objetivo:** llevar `sin-estilo` al esqueleto de la tanda (paridad estructural) pero como CONTROL NEGATIVO: cero estética, cero motion. Aplicar descomposición SOLID y eliminar el `InternalNav` viejo.
+
+**Hecho:**
+- Descompuesto: `page.tsx` 380→97 líneas (composición delgada). `_data.ts` tipado (tipos del dominio + datos placeholder genéricos, swap a backend = un archivo). 9 piezas en `_components/` con props tipadas.
+- Externo: Hero + FaltaDecidir + StatsPlaceholder + CardsPlaceholder (hero + 3).
+- Interno: WorkspaceBar + ItemsTable + GenteTable + NotasList + AjustesList — las 4 piezas APILADAS en scroll.
+- `InternalNav` ELIMINADO (era switcher, prohibido por rúbrica). Nav = anclas in-page.
+- `DividerReveal` (motion decorativo) reemplazado por `PlaceholderDivider` estático.
+- `grep InternalNav src/app/sin-estilo/` = solo 2 comentarios; cero `motion/react` en la carpeta.
+
+**Decisiones:**
+- Se mantienen `StyleHeader/StyleFooter/StyleTabs`: esqueleto compartido inmutable (no se tocan componentes shared) — el micro-fade de tab de StyleTabs es lo único no removible y es justo lo que hace comparable la página vs el resto. El motion decorativo que SÍ controla la composición (DividerReveal) se quitó, fiel al plan ("si tiene motion decorativo, quitarlo").
+- Datos genéricos a propósito (lorem-ish permitido acá): el punto del control negativo es que se vea sin terminar.
+
+**Problemas encontrados:**
+- `next build` sale exit 1 PERO por error de typecheck PRE-EXISTENTE y AJENO en `src/app/sport-dinamico/_components/CtaFinal.tsx:49` (`whileTap` con tuple `as const` readonly incompatible con `HTMLMotionProps`). `tsc --noEmit` confirma: los 2 únicos errores son de sport-dinamico, **CERO en sin-estilo**. `✓ Compiled successfully` — sin-estilo compila limpio. No se toca sport-dinamico (regla batch: no cirugía sobre trabajo vivo de otra sesión; queda para esa sesión/owner).
+
+**Próximos pasos:**
+- Sesión sport-dinamico (u owner) debe arreglar el `as const` de CtaFinal.tsx para que el build del cluster quede verde.
+- Con sin-estilo cerrado están los 20 estilos + index → listo para el cierre del cluster en el Exo (CONTEXT.md + TODOs L47/L74/L93/L97 + archivar).
