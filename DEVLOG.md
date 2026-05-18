@@ -12,7 +12,7 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 ## Estructura
 
 - `/` — index con grid de 4 cards-preview, click para entrar al estilo
-- `/linear` — productivity dark, sidebar+table+stats con monospace
+- `/linear` — command center refero (dark + neon lime), SOLID; externo landing dev-tool + interno scrolleable con ⌘K palette
 - `/calm` — wellness premium minimal, serif Cormorant + cards de programas
 - `/dimes` — brutalist juvenil, bordes negros gruesos, sombras duras, color flat saturado
 - `/sin-estilo` — default placeholder B/N + Roboto Mono, comunica "falta decisión"
@@ -35,6 +35,41 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - **Scrollable-visible aplica también a estilos profesional-facing**: clinico-calmado es la vista del profesional (workspace) — se podría argumentar que un shell `InternalNav` es la metáfora correcta. Pero la regla del viewer (las piezas se ven de un vistazo, el evaluador no toca sub-nav) tiene prioridad, y el precedente operativo-calido (también panel profesional) ya resolvió así. Default del cluster = scroll con piezas visibles para AMBOS lados, profesional o paciente. `InternalNav` queda disponible sólo si una pieza puntual lo justifica, nunca como contenedor que esconde la cuota.
 
 ## Sesiones
+
+### [2026-05-17] - Sesión 16 (linear — paridad externo/interno + SOLID + firma refero; candidato a dashboard del Exo)
+
+**Objetivo:** ejecutar `ui-viewer-14-linear` (batch paralelo). Antes: monolito 517 líneas, data inline (`ISSUES` + arrays inline en cada sub-vista); externo = **sólo hero** (flaco, sin features/showcase/CTA); interno = `InternalNav tech-sidebar` con 5 sub-vistas escondidas tras sub-nav (= 1 pieza oculta para un viewer). Es el candidato a dashboard del propio Exo → tiene que quedar ejemplar.
+
+**Hecho:**
+- Descomposición SOLID: `page.tsx` 517 → ~60 líneas (composición pura). `_data.ts` con **tokens refero EXACTOS** centralizados (`tokens`: #08090a/#0f1011/#0c0d0e/#1a1b1d/#2a2b2e/#e4f222/#a3c40d/#f7f8f8/#a4a5ad/#8a8f98/#62666d) + mapas `statusColor`/`priorityColor` + 8 tipos del dominio + mock que **espeja el propio Exo** (issues EXO-NNN sobre el viewer/vault/diplomatura, equipo IV/AI/MR — no lorem). Swap a backend = tocar `_data.ts`.
+- 14 piezas en `_components/` (props tipadas, SRP) + `use-linear-motion` (firma) + `use-command-center` (estado del workspace, SRP) + `StatusDot` (DRY).
+- **Externo (Marketing) = hero + 4 piezas**: `HeroLanding` (headline afilado + doble CTA + mock estático del board) + `FeaturesGrid` (4 features power-user, iconos SVG inline, fade-up escalonado por variants) + `ProductShowcase` (captura rica del command center: sidebar + lista) + `MetricsBand` (social proof: números duros + logos) + `CtaBand` (CTA final + cierre minimal). Restraint total — Linear no grita.
+- **Interno (Workspace) = command center scrolleable, piezas VISIBLES** (se eliminó el `InternalNav`): `WorkspaceBar` (chrome + trigger ⌘K **prominente** + nueva issue) + `CycleOverview` (KPIs + progreso + burndown SVG sin libs) + `IssuesList` (lista densa, **dimming de siblings** + focus ring lime keyboard-first, abre detalle) + `KanbanBoard` (5 columnas por estado, cards abren detalle) + `IssueDetail` (drawer lateral anclado al contenedor con props/descr/labels/actividad) + `CommandPalette` (⌘K overlay, **fade+scale**, navegable 100% por teclado: escribir filtra, ↑/↓, ⏎, Esc).
+- Firma de motion (`use-linear-motion`): focus ring neon-lime keyboard-first + dimming de siblings al hover + ⌘K fade+scale + transiciones **instantáneas** (velocidad ES la firma; lime raro y duro). Atajo global ⌘K/Ctrl+K cableado en `useCommandCenter`. Reduced-motion: focus ring estático conservado (identidad), sin transforms. Build verde (`next build` exit 0), `/linear` estática. Sin deploy (modo batch).
+
+**Decisiones:**
+- Se eliminó `InternalNav tech-sidebar` pese a que el per-page pedía literal "InternalNav + 3-4 módulos": la decisión de arquitectura del cluster (DEVLOG, Sesión 8+) manda sobre el texto viejo del per-page — para un viewer las piezas se ven de un vistazo. Mismo criterio que dimes/modern-saas/ethereal. El ⌘K (firma power-user) se hace VISIBLE con un trigger prominente en `WorkspaceBar`, no enterrado.
+- Overlays (`IssueDetail`, `CommandPalette`) anclados `absolute` al contenedor del workspace, NO `fixed` al viewport — misma lección que ios-native/material-3 (no flotar sobre el footer del viewer). El ⌘K es transitorio y disparado por el usuario, así que el overlay contenido lee bien como modal.
+- Chrome alineado al cluster: linear era outlier (top-nav + "Meta info" hardcodeada que duplicaba `estilos.ts`). Ahora usa `StyleHeader`/`StyleFooter` + `DividerReveal tech-line-draw` (como dimes Sesión 9), themados dark. Paleta/tipografía/cuándo-usar salen de `estilos.ts`, sin duplicar.
+- Fuente mono = `var(--font-geist-mono)` (la disponible). El plan menciona "Berkeley Mono" pero agregarla toca `layout.tsx`/`globals.css`, fuera del scope batch (`git add` scopeado a `src/app/linear/`). Mismo criterio que material-3/stripe-dashboard. La identidad refero la dan tokens+restraint+lime, no la mono puntual.
+
+**Problemas encontrados:**
+- **Race del índice git compartido en modo batch** (no previsto del todo por el pipeline): la sesión paralela `stripe-real` tenía sus archivos staged en el índice compartido; mi `git commit` sin pathspec barrió linear+stripe-real en un commit con mensaje "linear" (atribución cruzada, Patrón 5/7). Recuperado **sin pérdida y sin push previo**: `git reset --soft HEAD~1` + `git commit -- src/app/linear/` (pathspec) → commit de linear correcto y aislado; `stripe-real` quedó staged intacto para que su sesión lo commitee con su mensaje. **Lección para el pipeline: en batch, el commit DEBE ser `git commit -- src/app/<slug>/` con pathspec, no sólo `git add` scopeado — el índice es compartido entre worktrees de la misma copia.**
+
+### [2026-05-17] - Sesión 15 (stripe-real — infra fintech refero EXACT, SOLID, firma restraint)
+
+**Objetivo:** ejecutar `ui-viewer-16-stripe-real` (batch paralelo). Antes: monolito 479 líneas; externo = hero + logos + 3 feature cards (flaco, sin code/integración ni confianza enterprise ni CTA final); interno = `InternalNav tech-sidebar` con 5 sub-vistas (home/payments/customers/connect/radar) escondidas = 1 pieza oculta para un viewer.
+
+**Hecho:**
+- Descomposición SOLID: `page.tsx` 479 → ~95 líneas (composición pura, sin `useState`/`InternalNav`). `_data.ts` con **tokens refero EXACTOS** (`tokens`: Deep Violet `#533afd`, Midnight Ink `#061b31`, bg `#f6f9fc`, + `elevation` sutil) + 14 tipos del dominio + mock fintech preciso (IDs `pi_3M…`, montos USD/EUR/GBP/BRL, webhooks, logs, compliance). 12 piezas + hook de motion en `_components/` (props tipadas, SRP; swap a backend = tocar `_data.ts`).
+- **Externo (Marketing) = hero + 4 piezas**: `Hero` (headline preciso + gradiente sutil violet + visual = mock real de la API `POST /v1/payment_intents`, doble CTA, strip de partners) + `Features` (grid técnico, iconos line SVG `LineIcon`, copy con cifras no marketing) + `IntegrationCode` (**tabs de lenguaje cURL/Node/Python** estilo docs Stripe, mono, syntax color por token, estado local) + `EnterpriseTrust` (stats duras uptime/volumen/latencia + badges PCI/SOC2/ISO) + `CtaBand` (restraint, fondo ink + un acento violet).
+- **Interno (Console) = header + 4 piezas VISIBLES en scroll** (se eliminó `InternalNav`, benchmark dimes): `ConsoleHeader` (chrome: workspace + switch live/test) + `BalanceOverview` (KPIs + gráfico de volumen neto con **draw-in computado de los puntos**, no path hardcodeado, + payouts) + `TransactionsTable` (tabla densa, **filtro por estado** funcional, IDs mono, `StatusDot`) + `PaymentDetail` (timeline del PaymentIntent fallido + metadata + cliente/Radar, visible como panel no drawer) + `DevelopersPanel` (API keys con **revelar secret**, webhooks, request logs en bloque ink mono).
+- Firma de motion (`use-stripe-motion.ts`) = **restraint**: `lift` (y:-2 + sombra suave tinte violet), `press` (tap firme sin rebote), `row` (hover de fila casi imperceptible), `focusRing` deep-violet (`focus-visible`), draw-in preciso del gráfico **sin count-up festivo** (lo diferencia de stripe-dashboard; y es light/preciso vs linear dark). Reduced-motion conserva elevación estática. Build verde (exit 0), `/stripe-real` estática. Sin deploy (modo batch).
+
+**Decisiones:**
+- El per-page pedía literal "Interno — InternalNav + 3-4 módulos", pero la decisión de arquitectura (regla más nueva, DEVLOG) y el plan ("leé dimes (bar)") mandan: `InternalNav` con N sub-vistas = 1 pieza oculta en un viewer. Reconvertido a console scrolleable con 4 piezas a la vista + `ConsoleHeader` con switch live/test como chrome (no cuenta como pieza). Se descartaron Customers/Connect/Radar del monolito: el brief preciso es "command center financiero" (Balance/Transactions/Detalle/Developers) — 4 grosas y distintas > 7 flojas.
+- **Sohne/Source Code Pro**: Sohne es propietaria de Stripe, no cargable desde Google Fonts. Se mantiene la convención del proyecto (`font-inter` + `var(--font-roboto-mono)`), documentado en `_data.ts`. Los tokens refero que el usuario marcó "exacto" son los COLORES (#533afd / #061b31 / #f6f9fc) y el restraint — eso sí literal. Cambiar la grotesque tocaría `layout.tsx`/`globals.css`, fuera del scope del batch.
+- `Card.tsx` se creó y luego se borró (YAGNI): las piezas usan superficies inline más específicas (pad/overflow/borders de cabecera variables); un wrapper genérico no aportaba.
 
 ### [2026-05-17] - Sesión 14 (stripe-dashboard — servicio confiable + dashboard amigable, SOLID, firma count-up+draw-in)
 
