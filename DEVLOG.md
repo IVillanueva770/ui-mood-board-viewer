@@ -42,9 +42,10 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 **Hecho:**
 - **medico-amigable** (paciente-facing): monolito 332 líneas → `page.tsx` ~75 (composición). `_data.ts` con 14 tipos del dominio + mock argentino (paciente Lucas, kine Lic. Romina Vázquez, OSDE/Swiss/IOMA, ejercicios reales de rehab). 9 piezas + 3 helpers en `_components/`. Externo (El programa) = hero confiable-cálido + `ComoFunciona` (4 pasos con línea de progreso) + `Credenciales` (métricas + avales) + `Testimonios` + `FaqCta` (accordion + CTA reaseguro). Interno (Mi cuenta) = `HoyPlan` (anillo de progreso que se llena EN VIVO al marcar ejercicios = firma) + `Biblioteca` (filtro por zona funcional + marcar hecho) + `Evolucion` (SVG dolor/movilidad + logros) + `MiKine` (chat + notas del plan). Firma de motion = confianza gentil (`useGentleMotion`: reveal lento, softLift sin rebote, calmTap) + `ProgressRing` spring calmo + `CheckExercise` bounce contenido. Reduced-motion estricto. Build verde (exit 0), estática. Sin deploy.
+- **clinico-calmado** (profesional-facing): monolito 459 líneas → `page.tsx` ~80 (composición). `_data.ts` con tipos del dominio + mock argentino (kine, pacientes con obra social OSDE/Swiss/IOMA/Galeno, montos $, motivos de consulta). 9 piezas + 1 helper. Externo (Servicio) = hero "El consultorio, ordenado" + captura del workspace + `Features` (4 aireadas) + `Pricing` (3 planes, Consultorio destacado) + `ConfianzaPro` (métricas + testimonios de kines/médicos + seguridad de datos) + `CtaFinal`. Interno (Workspace) = `AgendaDia` (KPIs + turnos del día con estados) + `PacientesTabla` (**buscador funcional** por nombre/obra/plan + fila expandible a detalle) + `Planes` (plantillas de tratamiento + asignar) + `Reportes` (KPIs derivados + barras de sesiones + línea de ingresos SVG + por motivo). Firma de motion = aireado/restraint (`useAiryMotion`) + **focus ring celeste** (`focusRing`, `focus-visible`) en todo interactivo — keyboard-first = parte del mood "clínico prolijo". Build verde (exit 0), estática. Sin deploy.
 
 **Próximos pasos:**
-- clinico-calmado y web-first-mobile en esta misma tanda.
+- web-first-mobile cierra la Tanda A.
 
 ### [2026-05-17] - Sesión 7 (RETROFIT tanda 1 — operativo-calido SOLID · cierra tanda 1)
 
