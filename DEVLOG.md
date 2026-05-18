@@ -13,7 +13,7 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 - `/` — index con grid de 4 cards-preview, click para entrar al estilo
 - `/linear` — command center refero (dark + neon lime), SOLID; externo landing dev-tool + interno scrolleable con ⌘K palette
-- `/calm` — wellness premium minimal, serif Cormorant + cards de programas
+- `/calm` — wellness premium minimal SOLID; externo landing serena (hero orbe que respira · programas · cómo funciona · testimonios · planes) + interno app calma scrolleable (today + mood selector interactivo · meditation · sleep · mood journal · settings), firma fades lentos + breathing scale
 - `/dimes` — brutalist juvenil, bordes negros gruesos, sombras duras, color flat saturado
 - `/sin-estilo` — default placeholder B/N + Roboto Mono, comunica "falta decisión"
 
@@ -35,6 +35,23 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - **Scrollable-visible aplica también a estilos profesional-facing**: clinico-calmado es la vista del profesional (workspace) — se podría argumentar que un shell `InternalNav` es la metáfora correcta. Pero la regla del viewer (las piezas se ven de un vistazo, el evaluador no toca sub-nav) tiene prioridad, y el precedente operativo-calido (también panel profesional) ya resolvió así. Default del cluster = scroll con piezas visibles para AMBOS lados, profesional o paciente. `InternalNav` queda disponible sólo si una pieza puntual lo justifica, nunca como contenedor que esconde la cuota.
 
 ## Sesiones
+
+### [2026-05-17] - Sesión 19 (calm — rework SOLID + eliminar InternalNav + firma breathing)
+**Objetivo:** Ejecutar `ui-viewer-19-calm`. Antes: monolito de 535 líneas con `InternalNav editorial-sidebar` en el tab "Today" escondiendo 5 sub-vistas tras un sidebar (= 1 pieza para un viewer; el evaluador no clickea sub-nav).
+**Hecho:**
+- Descompuesto en SOLID: `page.tsx` 535 → ~95 líneas (composición pura). `_data.ts` tipado (palette + 11 tipos del dominio + mock realista en español, voz cálida sin lorem). `_components/` 11 piezas con props tipadas (SRP) + `use-calm-motion` (hook firma).
+- **Eliminado `InternalNav`** (regla dura). `grep "InternalNav" src/app/calm/` → sólo 2 comentarios que documentan la remoción, cero uso real.
+- **Externo (Library) = hero + 4 piezas**: Hero (serif Cormorant gigante + orbe que respira detrás del claim) · Programas (4 cards aireadas, qué incluye) · ComoFunciona (3 pasos serenos) · Testimonios (citas emocionales, "cómo se siente", sin métricas) · Planes (3, premium suave, destacado por borde no por escala).
+- **Interno (Today) = 5 piezas TODAS apiladas en scroll**: TodayHeader (saludo + anclas in-page, reemplaza al sidebar) · TodaySection (programa de hoy + **mood selector interactivo** con estado local + racha SVG) · MeditationLibrary (categorías + nudge lateral) · SleepStories (grid look-player) · MoodJournal (registro semanal, barras suaves) · Settings.
+**Decisiones:**
+- Nav del interno = jumplinks `#calm-*` a secciones todas montadas (lo único que la rúbrica permite como nav), no switcher. `scroll-smooth` en el wrapper.
+- Breathing scale (firma) reservado a 2 elementos ancla — orbe del hero + aro del play de hoy — no a todo, para que respire sin distraer. Reduced-motion quita el loop y los desplazamientos, mantiene legible.
+- Labels de marca en inglés (Library/Today/Meditation/Sleep/Mood/Settings) por identidad del estilo; copy del cuerpo en español cálido (consistente con lo que había).
+**Problemas encontrados:**
+- `next build` rojo por `as const` en el hook: volvía `scale: [1,1.03,1]` un tuple readonly que los tipos de `motion` rechazan. Fix: keyframe como `number[]` mutable explícito en `breathing` (los demás helpers no tienen arrays de keyframes, `as const` ahí es válido). Build exit 0 tras el fix.
+- Lock stale `.next/lock` de un primer build interrumpido (no había proceso real corriendo, verificado por PID) — removido, no era sesión paralela.
+**Próximos pasos:**
+- Sin deploy (instrucción explícita del usuario). Verificación visual en browser pendiente para una pasada final del cluster.
 
 ### [2026-05-17] - Sesión 18 (cursor — paridad + SOLID + firma sombra-multicapa, refero EXACT)
 **Objetivo:** Llevar `cursor` al bar corregido: era monolito de 445 líneas con `InternalNav` escondiendo 5 sub-vistas (el evaluador abría "IDE" y veía 1 sola pieza). Tokens refero exactos.
