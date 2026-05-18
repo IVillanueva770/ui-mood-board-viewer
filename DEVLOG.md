@@ -36,6 +36,23 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 13 (material-3 — Play Store + app Material, SOLID, firma ripple+elevation)
+
+**Objetivo:** ejecutar `ui-viewer-13-material-3` (batch paralelo). Antes: monolito 531 líneas; negocio rehabilitación/kine; externo = hero + 3 feature cards (flaco, no Play Store); interno = `InternalNav m3-bottom` con 5 sub-vistas inline, sin FAB, sin swipe, sin app bar colapsable, sin controles Material You.
+
+**Hecho:**
+- Negocio reorientado a **"Mango" — app de control de gastos personales (Android mainstream argentino)**, datos AR sin lorem (Carrefour, SUBE, Edenor, Rappi, YPF, Mercado Pago; pesos con `toLocaleString("es-AR")`).
+- Descomposición SOLID: `page.tsx` 531 → ~120 líneas (composición pura). `_data.ts` con tokens M3 (`m3` color roles + `elevation()` niveles 1–5 + `pesos`) + 12 tipos del dominio + mock. 15 piezas en `_components/` (props tipadas, SRP) + `use-m3-motion` (tokens de firma).
+- **Externo (Play Store) = hero + 3 piezas**: `StoreHero` (ícono, claim, rating Play Store, Instalar con Ripple, mock Android) + `FeatureCards` (elevación tonal, hover sube de nivel) + `ScreenshotCarousel` (capturas scroll-snap, reusa `ScreenMock`) + `StoreReviews` (puntaje + barras 5★→1★ animadas + reseñas).
+- **Interno (app Material) = phone frame + bottom nav M3 + FAB persistente + 4 vistas**: `PhoneFrame` (chrome Android, alto fijo, cada vista scrollea adentro) + `M3BottomNav` (state-layer pill con `layoutId` + Ripple por ítem — consolida el patrón m3-bottom de ola 1 dentro del frame) + `Fab` (extended FAB que **morfea** con `layoutId` a bottom sheet de carga rápida + toast) + `InicioView` (saldo filled tonal, presupuesto, categorías) + `MovimientosView` (**swipe-to-delete** con drag x + filtros) + `DetalleView` (**app bar colapsable** con `useScroll`/`useTransform` + donut SVG sin libs) + `AjustesView` (`Controls`: M3Switch/M3Slider/M3Segmented Material You).
+- Firma de motion = ripple en todo lo táctil (`Ripple` compartido) + emphasized easing + elevación tonal + state-layer pill. Diferenciada dura de ios-native (spring/dot) y web-first. Build verde (exit 0, TS OK), `/material-3` estática. Sin deploy (modo batch).
+
+**Decisiones:**
+- Como ios-native (excepción de mobile), el phone frame con bottom nav M3 **se mantiene** — es la firma del mood, no sub-nav que esconde. Se cumple la rúbrica haciendo cada vista una pieza funcional distinta + FAB persistente visible + nav M3 prominente con pill animado.
+- NO se reusó `InternalNav variant=m3-bottom`: usa `position: fixed` al viewport (flotaría sobre footer/divider en el viewer). `M3BottomNav` dedicado anclado al frame es legítimo (identidad Material, análogo a TabBar de ios-native). `Ripple` SÍ reusado (compartido, mandato del plan).
+- Fuente: se mantiene `font-inter` (no se agregó Roboto). Agregar Google font toca `layout.tsx`/`globals.css`, fuera del scope del batch (`git add` scopeado a `src/app/material-3/` + DEVLOG). La identidad Material la dan forma/elevación/ripple/color roles, no la grotesque puntual. Pendiente menor si se quiere Roboto exacto: hacerlo en una pasada de index/layout, no per-page.
+- FAB morph implementado con `layoutId` compartido entre el extended FAB y el sheet (mismo `layoutId`, sin AnimatePresence en el par para evitar conflicto de exit) — patrón shared-layout robusto.
+
 ### [2026-05-17] - Sesión 12 (ios-native — App Store + app con tab bar, SOLID; desbloquea build)
 
 **Objetivo:** ejecutar `ui-viewer-12-ios-native` (batch paralelo). Antes: monolito 544 líneas; externo = hero App Store + carousel de capturas (hero + ~1, faltaba onboarding/features/ratings); interno = phone frame con 4 sub-vistas inline. **Excepción explícita del usuario para este estilo: el tab bar abajo ES la firma iOS — NO se elimina como "sub-nav escondido"; se mantiene, pero cada tab debe ser una pieza distinta real + descomposición SOLID igual.**
