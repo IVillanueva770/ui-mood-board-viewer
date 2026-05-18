@@ -36,6 +36,21 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 11 (monopo — paridad + SOLID + firma frosted performante)
+**Objetivo:** Retrofit de monopo: monolito 668 líneas → SOLID, paridad externo/interno, firma frosted/gradient impecable y performante.
+**Hecho:**
+- Descompuesto: `page.tsx` ~95 líneas (composición), `_data.ts` (tokens refero + tipos + mock), 13 piezas en `_components/`.
+- Externo (Work): Hero + FeaturedWork + WorkGrid + Capabilities + ContactBand (era hero + 1 featured = flaco).
+- Interno (Studio): se eliminó `InternalNav` (escondía 5 sub-vistas = 1 pieza oculta, mismo criterio que dimes). Ahora WorkspaceHeader + ProjectsTable + ClientsGrid + InvoicesPanel + TeamPanel, visibles en scroll con `DividerReveal glass-shimmer` entre piezas.
+- Firma centralizada en `use-frost-motion.ts` + `GhostButton` (sweep, radius 75.024px exacto) + `FrostSweep` (shimmer multicapa) + `AtmosphericBg`.
+**Decisiones:**
+- `AtmosphericBg` reescrito: el shifting gradient ya NO interpola la prop `background` (repaint pesado por frame). Ahora son 2 blobs radiales blureados animados sólo por transform (`x/y/scale`, `willChange: transform`), loop lento orgánico 26/32s. Cumple el requisito de performance del plan. Reduced-motion: blobs estáticos.
+- Tokens refero exactos centralizados en `frost` (_data.ts): radius 75.024px, surface 0.02/blur(20px), border 0.08, accents violeta/azul. No "mejorados a ojo".
+**Problemas encontrados:**
+- `next build` sale 1 por type error AJENO: `src/app/ios-native/_components/HoyTab.tsx:76` (`animate={{ scale: 1 }}` vs keyframes `[1,1.18,1]` en otra prop — bug de otra sesión batch). `tsc --noEmit` aislado confirma **0 errores en monopo** y es el ÚNICO error del proyecto. No se toca ios-native (scope ajeno, regla dura anti atribución-cruzada). Turbopack compiló todos los módulos OK.
+**Próximos pasos:**
+- Quien tome ios-native: arreglar HoyTab.tsx:76 desbloquea el build verde de todo el proyecto.
+
 ### [2026-05-17] - Sesión 9 (modern-saas — landing SaaS canónica + dashboard visible, SOLID)
 
 **Objetivo:** ejecutar `ui-viewer-09-modern-saas` (batch paralelo). Antes: monolito 410 líneas; externo = hero + logos + 3 features (sin pricing ni CTA final, footer sólo el genérico del chrome); interno = `InternalNav tech-sidebar` con 5 sub-vistas Vercel-like escondidas tras sub-nav (= 1 pieza oculta, contra la regla del viewer y la decisión de arquitectura de Sesión 8).
