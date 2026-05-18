@@ -16,6 +16,7 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - `/calm` — wellness premium minimal SOLID; externo landing serena (hero orbe que respira · programas · cómo funciona · testimonios · planes) + interno app calma scrolleable (today + mood selector interactivo · meditation · sleep · mood journal · settings), firma fades lentos + breathing scale
 - `/dimes` — brutalist juvenil, bordes negros gruesos, sombras duras, color flat saturado
 - `/steep` — BI/analytics refero (white canvas + warm mist #fbe1d1 + serif Cormorant), SOLID; externo landing BI con gravitas + interno plataforma analytics scrolleable (tablero · query builder · reportes · detalle de métrica), firma draw-in de charts + mist cálido
+- `/sport-dinamico` — app fitness alto compromiso (Nike Training / Strava), dark `#0a0a0a` + naranja `#ff5722` + Bebas, SOLID; externo landing deportiva (hero gigante + planes + resultados/testimonios + CTA full-bleed) + interno la app scrolleable (workout de hoy · progreso/PRs/volumen · plan 4 semanas · ranking comunidad), firma slide-in agresivo + scale-punch + counter sprint + wipe diagonal. Negocio re-encuadrado: era dashboard de gestión de club, ahora app del atleta individual
 - `/sin-estilo` — CONTROL NEGATIVO SOLID; mismo esqueleto que el resto (chrome + 2 tabs + hero + 3-4 piezas/lado + divider + footer) pero crudo B/N + Roboto Mono, border-radius 0, sin sombra/gradiente/acento y CERO motion. Externo: hero + falta-decidir + stats `00` + cards. Interno: workspace-bar (anclas) + items + gente + notas + ajustes APILADOS en scroll (sin `InternalNav`/switcher). Comunica "falta decisión"
 
 ## Tareas Activas
@@ -36,6 +37,21 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - **Scrollable-visible aplica también a estilos profesional-facing**: clinico-calmado es la vista del profesional (workspace) — se podría argumentar que un shell `InternalNav` es la metáfora correcta. Pero la regla del viewer (las piezas se ven de un vistazo, el evaluador no toca sub-nav) tiene prioridad, y el precedente operativo-calido (también panel profesional) ya resolvió así. Default del cluster = scroll con piezas visibles para AMBOS lados, profesional o paciente. `InternalNav` queda disponible sólo si una pieza puntual lo justifica, nunca como contenedor que esconde la cuota.
 
 ## Sesiones
+
+### [2026-05-17] - Sesión 21 (sport-dinamico — rework SOLID + eliminar InternalNav + re-encuadre de negocio + firma sport)
+**Objetivo:** Paridad externo/interno + SOLID + matar el `InternalNav` viejo (firma sport: slide-in agresivo / counter sprint / scale-punch).
+**Hecho:**
+- Monolito 517 líneas → `page.tsx` delgado (~95) + `_data.ts` tipado + 11 `_components/`.
+- Eliminado `InternalNav` (escondía 5 sub-vistas tras sidebar = 1 pieza oculta). Interno = 4 piezas APILADAS en scroll.
+- Externo: Hero gigante + Programas (planes, barra intensidad) + Resultados (counters + testimonios atletas AR) + CtaFinal full-bleed.
+- Interno: WorkoutHoy (ejercicios + progreso de serie + EMPEZAR) + Progreso (PRs/racha/volumen, barras que corren) + Programa (plan 4 semanas, % completo) + Ranking (leaderboard tipo Strava, tu posición).
+- Firma en `use-sport-motion` (slideIn/punch/charge/liftHard) + `Counter` (sprint con ease-out fuerte, reduced-motion = valor final) + `SectionHead` (wipe diagonal).
+**Decisiones:**
+- **Re-encuadre de negocio**: la versión vieja vendía una app de entreno en la landing pero el interno era gestión de club (plantilla/partidos/cuerpo técnico) — dos negocios distintos. estilos.ts dice "Nike Training / Strava, app fitness, atleta joven activo". Se unificó al atleta individual (lo que el plan pedía).
+**Problemas encontrados:**
+- Build rojo: `as const` en `punch` hacía `readonly` el array de keyframes `scale`; motion exige array mutable. Fix: sin `as const` en `punch`, ease vía `SPRINT.ease`.
+**Próximos pasos:**
+- Verificación visual en browser (no se hizo en esta sesión: modo batch, no se levantó dev). Build verde exit 0, ruta estática OK.
 
 ### [2026-05-17] - Sesión 20 (steep — rework SOLID + eliminar InternalNav + firma draw-in, refero EXACT)
 **Objetivo:** Ejecutar `ui-viewer-18-steep`. Antes: monolito de 567 líneas con `InternalNav editorial-sidebar` escondiendo 5 sub-vistas (reports/datasets/boards/metrics/settings) tras un sidebar — el evaluador abría "Workspace" y veía 1 sola pieza. Tokens refero exactos.
