@@ -36,6 +36,22 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 18 (cursor — paridad + SOLID + firma sombra-multicapa, refero EXACT)
+**Objetivo:** Llevar `cursor` al bar corregido: era monolito de 445 líneas con `InternalNav` escondiendo 5 sub-vistas (el evaluador abría "IDE" y veía 1 sola pieza). Tokens refero exactos.
+**Hecho:**
+- Descompuesto en SOLID: `page.tsx` 89 líneas (composición), `_data.ts` tipado (palette + 9 tipos del dominio + mock dev), `_components/` 11 piezas + hook de motion firma. Swap a backend = tocar `_data.ts`.
+- **Eliminado `InternalNav` del interno** (regla dura). `grep -rn "InternalNav" src/app/cursor/` → sólo el comentario que documenta la remoción.
+- Externo (landing dev-tool cálida): Hero+editor mock · Features (4 dev) · Showcase (código+AI lado a lado) · Pricing (Hobby/Pro/Business) · CtaFooter+Changelog.
+- Interno (IDE, TODO apilado en scroll): WorkspaceBar · Editor (file-tree expand/collapse animado + tabs + código) · AiChat (conversación + diff con apply/reject real) · SettingsPanel (toggles reales) · CommandPalette (overlay ⌘P abierto, input filtra de verdad).
+**Decisiones:**
+- Showcase del externo = 2 paneles visibles lado a lado, NO un switcher (la regla del viewer aplica también al externo por consistencia).
+- CommandPalette se renderiza ABIERTA sobre editor atenuado: el viewer la muestra sin que haya que invocarla; firma fade+scale.
+- Tokens refero intactos (Parchment #f7f7f4 / Inkwell #262510 / accent #f54e00); paleta de sintaxis cálida nueva en `_data.ts` (todo ≥4.5:1 sobre blanco).
+**Problemas encontrados:**
+- `next build` rojo (exit 1) por error de tipos en `src/app/calm/_components/Hero.tsx:20` (`{...breathing}`) — sesión PARALELA, NO cursor. `tsc -p` completo confirma: **cero errores en `src/app/cursor/`**, los 2 únicos errores TS del proyecto son de calm. No se tocó calm (cross-session = anti-patrón del pipeline). cursor tipa 100% limpio aislado.
+**Próximos pasos:**
+- Sin deploy (instrucción explícita). El build global queda verde cuando la sesión de calm arregle su Hero. Verificación visual en browser pendiente al levantar dev.
+
 ### [2026-05-17] - Sesión 17 (stripe-dashboard FIX — eliminar InternalNav del interno)
 **Objetivo:** Cerrar el loophole "sidebar/metáfora del negocio" (3er caso) — el interno usaba `InternalNav` en `Workspace.tsx` escondiendo 3 de 4 paneles tras sidebar (default "resumen"); el usuario abrió Dashboard y vio "un solo componente".
 **Hecho:**
