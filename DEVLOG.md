@@ -36,6 +36,24 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 14 (stripe-dashboard — servicio confiable + dashboard amigable, SOLID, firma count-up+draw-in)
+
+**Objetivo:** ejecutar `ui-viewer-15-stripe-dashboard` (batch paralelo). Antes: monolito 497 líneas, data inline; externo = hero + logos + 3 feature cards (flaco); interno = `InternalNav` con 5 sub-vistas **demasiado técnicas** (`ch_3O8a2dF7gK`, `price_1...`, "Volumen 24h") — eso era stripe-real, no el dashboard amigable para no-técnicos (Guadalupe inmobiliaria / Fátima comercio) que pide el brief.
+
+**Hecho:**
+- Descomposición SOLID: `page.tsx` 497 → 78 líneas (composición pura). `_data.ts` con `palette` (tokens + estados a11y) + `pesos()` (Intl es-AR) + 12 tipos del dominio + mock argentino de negocio real (alquileres, comisiones, expensas; clientes Inmobiliaria Norte / Kiosco El Sol / Estudio Lobo; sin charge IDs). Swap a backend = tocar `_data.ts`.
+- 12 piezas en `_components/` con props tipadas (SRP) + `use-premium-motion` (tokens de firma).
+- **Externo (servicio confiable, claro no oscuro) = hero + 3 piezas**: `Hero` (claim de negocio + CTA + preview de dashboard limpio con mini-spark que se dibuja) + `Benefits` (4, lenguaje de negocio: "ves tu plata clara", "cobrás online") + `Pricing` (3 planes simples, sin letra chica, plan destacado) + `TrustWall` (testimonios de dueños reales + sellos de seguridad).
+- **Interno (dashboard amigable) = `InternalNav tech-sidebar` + 4 paneles**: `OverviewPanel` (default, densa y visible en scroll: KPIs con **count-up** + `RevenueChart` con **draw-in** + comparativa año anterior + últimos cobros) + `MovimientosPanel` (tabla clara, estados con color, **filtro por fecha** interactivo) + `ClientesPanel` (mejor cuenta destacada + cards con métricas por cliente) + `ReportesPanel` (barras ingresos por rubro animadas + donut SVG medios de cobro + look exportable PDF/Excel).
+- Firma de motion = `CountUp` (cuenta 0→valor al entrar en viewport, no a ciegas) + `RevenueChart` (path Catmull-Rom suave que se dibuja, área fade-in, comparativa punteada tenue) + softLift premium + easing `[0.22,1,0.36,1]` (entra rápido, asienta lento). Nada brusco. Diferenciada de linear (instantáneo/dark/denso) y stripe-real (restraint frío). Build verde (exit 0), `/stripe-dashboard` estática. Sin deploy (modo batch).
+
+**Decisiones:**
+- `InternalNav` se mantiene como contenedor del lado interno (lo pide el plan per-page explícito) pero la rúbrica de visibilidad se cumple haciendo la vista default "Resumen" densa y scrolleable (KPIs + chart + comparativa + actividad a la vista sin tocar nav) + sidebar prominente siempre visible. No es "cuota escondida tras sub-nav".
+- Negocio reorientado a no-técnico: el caso testigo del brief (Guadalupe inmobiliaria, Fátima comercio) define el lenguaje — conceptos en castellano de negocio ("Alquiler depto Güemes 1240", "Comisión venta"), no jerga de pasarela. Esa es la diferencia dura contra stripe-real.
+- `CountUp` gatea con `useInView` (no anima al montar fuera de viewport): un dashboard premium "se llena" cuando lo mirás. Respeta `prefers-reduced-motion` (salta al valor).
+- Fuente: se mantiene `font-inter` (la del proyecto). Cambiar a Söhne tocaría `layout.tsx`/`globals.css`, fuera del scope batch (`git add` scopeado a `src/app/stripe-dashboard/` + DEVLOG).
+- No se tocaron APIs de Next/React (sin routing/fonts/ViewTransition nuevos): todo client components + motion + Tailwind, espejando el patrón ya aprobado de airbnb-friendly. No hizo falta leer `node_modules/next/dist/docs/`.
+
 ### [2026-05-17] - Sesión 13 (material-3 — Play Store + app Material, SOLID, firma ripple+elevation)
 
 **Objetivo:** ejecutar `ui-viewer-13-material-3` (batch paralelo). Antes: monolito 531 líneas; negocio rehabilitación/kine; externo = hero + 3 feature cards (flaco, no Play Store); interno = `InternalNav m3-bottom` con 5 sub-vistas inline, sin FAB, sin swipe, sin app bar colapsable, sin controles Material You.
