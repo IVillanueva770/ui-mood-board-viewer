@@ -32,8 +32,19 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - **Dark mode global removido**: no usamos `prefers-color-scheme` global. Cada página define su propio fondo (Linear es dark, Calm/Dimes/Sin-estilo son light).
 - **Decomposición SOLID por estilo (rúbrica corregida 2026-05-17)**: cada estilo se descompone DENTRO de su carpeta — `page.tsx` delgado (composición, <~150 líneas), piezas en `<slug>/_components/*.tsx` con props tipadas (SRP), data + tipos del dominio en `<slug>/_data.ts` (swap a backend = tocar 1 archivo). NO contradice "no compartir entre estilos": es decomposición intra-estilo. Métrica de calidad = piezas funcionales distintas y visibles, NO líneas.
 - **InternalNav con sub-vistas = 1 pieza, no N (y esconde)**: para un *viewer* las piezas tienen que VERSE de un vistazo. Lados internos que eran un sidebar con N sub-vistas ocultas se convierten en home scrolleable con las piezas a la vista (caso airbnb-friendly retrofit).
+- **Scrollable-visible aplica también a estilos profesional-facing**: clinico-calmado es la vista del profesional (workspace) — se podría argumentar que un shell `InternalNav` es la metáfora correcta. Pero la regla del viewer (las piezas se ven de un vistazo, el evaluador no toca sub-nav) tiene prioridad, y el precedente operativo-calido (también panel profesional) ya resolvió así. Default del cluster = scroll con piezas visibles para AMBOS lados, profesional o paciente. `InternalNav` queda disponible sólo si una pieza puntual lo justifica, nunca como contenedor que esconde la cuota.
 
 ## Sesiones
+
+### [2026-05-17] - Sesión 8 (Tanda A — medico-amigable / clinico-calmado / web-first-mobile)
+
+**Objetivo:** ejecutar la Tanda A del cluster (plans `ui-viewer-05/06/07`) ya con el patrón corregido del pipeline (no requieren retrofit: nacen SOLID). Las 3 eran monolitos del re-skin inicial con externo flaco y/o piezas escondidas tras `InternalNav`.
+
+**Hecho:**
+- **medico-amigable** (paciente-facing): monolito 332 líneas → `page.tsx` ~75 (composición). `_data.ts` con 14 tipos del dominio + mock argentino (paciente Lucas, kine Lic. Romina Vázquez, OSDE/Swiss/IOMA, ejercicios reales de rehab). 9 piezas + 3 helpers en `_components/`. Externo (El programa) = hero confiable-cálido + `ComoFunciona` (4 pasos con línea de progreso) + `Credenciales` (métricas + avales) + `Testimonios` + `FaqCta` (accordion + CTA reaseguro). Interno (Mi cuenta) = `HoyPlan` (anillo de progreso que se llena EN VIVO al marcar ejercicios = firma) + `Biblioteca` (filtro por zona funcional + marcar hecho) + `Evolucion` (SVG dolor/movilidad + logros) + `MiKine` (chat + notas del plan). Firma de motion = confianza gentil (`useGentleMotion`: reveal lento, softLift sin rebote, calmTap) + `ProgressRing` spring calmo + `CheckExercise` bounce contenido. Reduced-motion estricto. Build verde (exit 0), estática. Sin deploy.
+
+**Próximos pasos:**
+- clinico-calmado y web-first-mobile en esta misma tanda.
 
 ### [2026-05-17] - Sesión 7 (RETROFIT tanda 1 — operativo-calido SOLID · cierra tanda 1)
 
