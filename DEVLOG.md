@@ -36,6 +36,21 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 12 (ios-native — App Store + app con tab bar, SOLID; desbloquea build)
+
+**Objetivo:** ejecutar `ui-viewer-12-ios-native` (batch paralelo). Antes: monolito 544 líneas; externo = hero App Store + carousel de capturas (hero + ~1, faltaba onboarding/features/ratings); interno = phone frame con 4 sub-vistas inline. **Excepción explícita del usuario para este estilo: el tab bar abajo ES la firma iOS — NO se elimina como "sub-nav escondido"; se mantiene, pero cada tab debe ser una pieza distinta real + descomposición SOLID igual.**
+
+**Hecho:**
+- Descomposición: `page.tsx` 544 → ~70 líneas (composición pura). `_data.ts` con 16 tipos del dominio + mock AR (app "Constancia" salud/hábitos recomendada por kine; hábitos de rehab, turnos con Lic. Romina Vázquez/Dr. Roldán/Nutr. Méndez, anillos Actividad, reseñas). 13 piezas + hook de motion en `_components/`.
+- **Externo (App Store) = hero + 3 piezas**: `AppStoreHero` (ficha App Store real: ícono+claim+Obtener+rating/descargas + mockup iPhone con captura de "Hoy") + `OnboardingSlides` (3 slides **swipeables** con drag x + dots paging, patrón onboarding iOS) + `FeaturesList` (lista agrupada estilo iOS Settings, no landing web) + `RatingsReviews` (promedio + distribución + reseñas estilo App Store). NO es landing web (eso es web-first-mobile).
+- **Interno (La app) = phone frame + TAB BAR ABAJO mantenido**: `PhoneShell` (frame iPhone + status bar + orquesta tab activo; `relative` ancla TabBar/sheets al teléfono, no al viewport) + `TabBar` (firma iOS, archivo propio) + 4 tabs cada uno pieza distinta real: `HoyTab` (hábitos + bounce al completar + sheet de instrucciones/acciones), `TurnosTab` (turnos + sheet confirmar/reprogramar/cancelar), `ProgresoTab` (anillos Actividad iOS SVG con fill spring + barras semana + insights), `PerfilTab` (ajustes agrupados iOS) + `BottomSheet` reusable (**slide-up + drag handle + drag-to-dismiss** = firma de acción iOS que faltaba).
+- Firma de motion = springs nativos (`useIosMotion`: tabSwitch slide, sheet spring slide-up, enter spring, tap rubber) — diferenciada dura de material-3 (ripple) y web-first (sin spring). Reduced-motion estricto. Build verde (exit 0), estática. Sin deploy.
+
+**Decisiones:**
+- A diferencia del resto del cluster (que elimina InternalNav/sub-nav por la regla "piezas visibles de un vistazo"), ios-native **mantiene el tab bar** por instrucción explícita del usuario: es la firma del mood, no un sub-nav que esconde. Se cumple el espíritu de la rúbrica haciendo cada tab una pieza funcional genuinamente distinta + el bottom-sheet como pieza/firma extra visible.
+- No se reusó `InternalNav variant=ios-bottom`: usa `position: fixed` al viewport (flotaría sobre el footer/página en el viewer). El frame de iPhone necesita el tab bar `absolute` anclado al frame. `TabBar` dedicado es legítimo: es la identidad iOS (análogo a los bloques de negocio per-style), no nav genérica.
+- Bug de build del proyecto entero (reportado por Sesión 11 monopo: `HoyTab.tsx:76` keyframe `[1,1.18,1]` vs `scale:1` por spread de `pop` pisando `animate`) **resuelto**: reescrito a un único `animate` con keyframes en la rama `done` (sin spread frágil), `pop` eliminado del hook (YAGNI). `next build` del proyecto entero vuelve a salir exit 0.
+
 ### [2026-05-17] - Sesión 11 (monopo — paridad + SOLID + firma frosted performante)
 **Objetivo:** Retrofit de monopo: monolito 668 líneas → SOLID, paridad externo/interno, firma frosted/gradient impecable y performante.
 **Hecho:**
