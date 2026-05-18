@@ -36,6 +36,21 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 9 (modern-saas — landing SaaS canónica + dashboard visible, SOLID)
+
+**Objetivo:** ejecutar `ui-viewer-09-modern-saas` (batch paralelo). Antes: monolito 410 líneas; externo = hero + logos + 3 features (sin pricing ni CTA final, footer sólo el genérico del chrome); interno = `InternalNav tech-sidebar` con 5 sub-vistas Vercel-like escondidas tras sub-nav (= 1 pieza oculta, contra la regla del viewer y la decisión de arquitectura de Sesión 8).
+
+**Hecho:**
+- Descomposición: `page.tsx` 410 → ~95 líneas (composición pura, sin `useState`/`InternalNav`). `_data.ts` con 13 tipos del dominio + mock SaaS creíble (clientes AR/LATAM: Naventa/Pulpo/Lumina/Delta Health/Tienda Norte/Corteza; métricas MRR/churn/NRR; equipo). 11 piezas + hook de motion + helper `CountUp` en `_components/`.
+- **Externo (Producto) = hero + 5 piezas**: `LandingHero` (eyebrow + headline con palabra en gradient + doble CTA + mock dashboard con gradient sheen en movimiento) + `LogosBand` (social proof + stat, reveal escalonado) + `Features` (4 con iconos SVG inline, fade-up escalonado por variants = firma concreta) + `Pricing` (3 tiers + toggle mensual/anual REAL con −17% calculado, plan destacado) + `CtaBand` (full-width gradient radial + doble CTA) + `SaasFooter` (footer SaaS multi-columna real, refuerza producto terminado).
+- **Interno (Plataforma) = dashboard scrolleable, piezas VISIBLES** (sin `InternalNav`): `WorkspaceBar` (identidad + entorno + healthy) + `MetricsOverview` (KPI cards con **count-up** al entrar en viewport + gráfico de área MRR 12m con **draw-in** del trazo) + `ClientesTabla` (**ordenable** por columna + **filtro por plan** + fila abre `ClienteDrawer` slide-in con detalle/uso/timeline) + `EquipoBilling` (plan + uso con barras + miembros con rol). Tabla + drawer = 2 escenarios; 4 piezas distintas a la vista.
+- Firma de motion = scroll-reveal fade-up **escalonado** (`useSaasMotion`: variants group/groupItem whileInView) + gradient sheen sutil en el mock del hero + count-up en KPIs + draw-in del chart + hover de card = elevación soft + borde accent. Reduced-motion estricto en todo. Tipografía Geist (mood Vercel). Build verde (exit 0), estática. Sin deploy.
+
+**Decisiones:**
+- Se eliminó el `InternalNav tech-sidebar` del re-skin: para el viewer las 5 sub-vistas ocultas valían 1 pieza. Reconvertido a panel scrolleable con 4 piezas a la vista — mismo criterio que toda la tanda reciente (medico/clinico/web-first/ethereal), aplicado de fábrica.
+- El plan de página pedía literal "Interno — InternalNav + 3-4 módulos", pero la decisión de arquitectura de Sesión 8 (DEVLOG, regla más nueva) manda sobre el texto del per-page escrito antes del rework. Piezas visibles > nav que esconde.
+- MRR/churn/NRR en USD (jerga SaaS universal, no se fuerza $ ARS); el toque local va en los nombres de clientes/contactos AR/LATAM — realismo sin romper el negocio del estilo.
+
 ### [2026-05-17] - Sesión 10 (ethereal — paridad + descomposición SOLID + firma experimental)
 
 **Objetivo:** ejecutar `ui-viewer-10-ethereal`. Antes: monolito 467 líneas; externo = hero + manifiesto + lista índice (hero + 2); interno = `InternalNav editorial-sidebar` con 5 sub-vistas escondidas tras sub-nav (= 1 pieza oculta, contra la regla del viewer). Motion genérico (fades), sin la firma experimental que el mood ethereal exige.
