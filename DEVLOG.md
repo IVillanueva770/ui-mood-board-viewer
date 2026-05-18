@@ -36,6 +36,19 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 
 ## Sesiones
 
+### [2026-05-17] - Sesión 17 (stripe-dashboard FIX — eliminar InternalNav del interno)
+**Objetivo:** Cerrar el loophole "sidebar/metáfora del negocio" (3er caso) — el interno usaba `InternalNav` en `Workspace.tsx` escondiendo 3 de 4 paneles tras sidebar (default "resumen"); el usuario abrió Dashboard y vio "un solo componente".
+**Hecho:**
+- Reescrito `_components/Workspace.tsx`: fuera `InternalNav` + `useState`. Ahora stack vertical (`space-y-14`) que renderiza los 4 paneles (Overview/Movimientos/Clientes/Reportes) TODOS apilados en scroll, separados por divisor fino. Mismo patrón que airbnb-friendly retrofiteado.
+- `grep -rn "InternalNav" src/app/stripe-dashboard/` → vacío (reescrito hasta el comentario para que el grep mecánico del loop dé nada).
+**Decisiones:**
+- Workspace se mantiene como composición delgada del lado interno (SRP): sólo orquesta e inyecta el slice de datos por props. No se disuelve en page.tsx para no engordarlo.
+- Firma de motion intacta: count-up (CountUp) y draw-in del gráfico (RevenueChart) viven dentro de OverviewPanel; se preservan al montarlo sin tocar.
+**Problemas encontrados:**
+- Ninguno. Build `npx next build` exit 0. SOLID intacto (data sigue en `_data.ts`, piezas tipadas por props).
+**Próximos pasos:**
+- Sin deploy (instrucción explícita del usuario). Pendiente verificación visual en browser al levantar dev.
+
 ### [2026-05-17] - Sesión 16 (linear — paridad externo/interno + SOLID + firma refero; candidato a dashboard del Exo)
 
 **Objetivo:** ejecutar `ui-viewer-14-linear` (batch paralelo). Antes: monolito 517 líneas, data inline (`ISSUES` + arrays inline en cada sub-vista); externo = **sólo hero** (flaco, sin features/showcase/CTA); interno = `InternalNav tech-sidebar` con 5 sub-vistas escondidas tras sub-nav (= 1 pieza oculta para un viewer). Es el candidato a dashboard del propio Exo → tiene que quedar ejemplar.

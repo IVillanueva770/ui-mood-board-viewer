@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { InternalNav } from "@/components/internal-nav";
 import { palette, type StripeData } from "../_data";
 import { OverviewPanel } from "./OverviewPanel";
 import { MovimientosPanel } from "./MovimientosPanel";
@@ -9,56 +7,37 @@ import { ClientesPanel } from "./ClientesPanel";
 import { ReportesPanel } from "./ReportesPanel";
 
 /**
- * Lado interno: el dashboard amigable. Posee el estado de la vista activa
- * y monta `InternalNav` (sidebar prominente, siempre visible) con los 4
- * paneles. La vista por defecto "Resumen" ya es densa y se ve en scroll,
- * así que la riqueza no queda escondida tras la navegación.
+ * Lado interno: el dashboard amigable. Composición delgada del lado interno
+ * (SRP) — sólo orquesta las 4 piezas y les inyecta su slice de datos por
+ * props. Las 4 se renderizan TODAS, apiladas en scroll: sin shell de nav
+ * interna, sin switcher, sin `useState` de vista. En un viewer el evaluador
+ * no clickea sub-nav: tiene que ver Resumen + Movimientos + Clientes + Reportes
+ * scrolleando. La firma de motion (count-up de KPIs, draw-in del gráfico)
+ * vive dentro de OverviewPanel y se preserva al montarlo.
  */
 export function Workspace({ data }: { data: StripeData }) {
-  const [view, setView] = useState("resumen");
+  return (
+    <div className="space-y-14">
+      <OverviewPanel
+        kpis={data.kpis}
+        ingresos={data.ingresos}
+        movimientos={data.movimientos}
+      />
 
-  const paneles: Record<string, React.ReactNode> = {
-    resumen: (
-      <OverviewPanel kpis={data.kpis} ingresos={data.ingresos} movimientos={data.movimientos} />
-    ),
-    movimientos: <MovimientosPanel movimientos={data.movimientos} />,
-    clientes: <ClientesPanel clientes={data.clientes} />,
-    reportes: (
+      <div style={{ borderTop: `1px solid ${palette.border}` }} />
+
+      <MovimientosPanel movimientos={data.movimientos} />
+
+      <div style={{ borderTop: `1px solid ${palette.border}` }} />
+
+      <ClientesPanel clientes={data.clientes} />
+
+      <div style={{ borderTop: `1px solid ${palette.border}` }} />
+
       <ReportesPanel
         ingresosPorRubro={data.ingresosPorRubro}
         mediosDeCobro={data.mediosDeCobro}
       />
-    ),
-  };
-
-  const pendientes = data.movimientos.filter((m) => m.estado === "Pendiente").length;
-
-  return (
-    <div
-      className="rounded-2xl overflow-hidden"
-      style={{ border: `1px solid ${palette.border}`, backgroundColor: palette.card, minHeight: "640px" }}
-    >
-      <InternalNav
-        variant="tech-sidebar"
-        items={[
-          { id: "resumen", label: "Resumen", icon: "◇" },
-          { id: "movimientos", label: "Movimientos", icon: "↗", badge: pendientes || undefined },
-          { id: "clientes", label: "Clientes", icon: "♦" },
-          { id: "reportes", label: "Reportes", icon: "▤" },
-        ]}
-        active={view}
-        onChange={setView}
-        accent={palette.accent}
-        bgContainer={palette.surface}
-        bgActive={palette.accentSoft}
-        textActive={palette.text}
-        textInactive={palette.muted}
-        borderColor={palette.border}
-        workspaceLabel="Inmobiliaria Norte"
-        workspaceInitial="N"
-      >
-        {paneles[view]}
-      </InternalNav>
     </div>
   );
 }
