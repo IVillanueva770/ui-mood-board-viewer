@@ -5,7 +5,7 @@
 App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board del usuario con paleta y tipografía aplicadas, en vez de leer descripciones markdown.
 
 - **Live**: https://ui-mood-board-viewer.vercel.app
-- **Local**: `C:\Users\Ignacio Villanueva\Desktop\Karpathy\ui-mood-board-viewer`
+- **Local**: `C:\Users\Ignacio Villanueva\Desktop\Karpathy\portfolio\ui-mood-board-viewer`
 - **Stack**: Next.js 16 + Tailwind v4 + App Router + Google Fonts (Geist, Roboto Mono, Cormorant, Bebas Neue, Inter)
 - **Deploy**: `npx vercel --prod` desde la raíz del proyecto
 
@@ -392,7 +392,7 @@ App Next.js 16 (Turbopack) que renderiza los estilos aprobados del mood board de
 - Scaffold Next.js 16 + Tailwind v4
 - 5 rutas funcionales con build OK (3.0s)
 - Deploy a Vercel: https://ui-mood-board-viewer.vercel.app
-- Mood boards en `Karpathy/ui-mood-board/` actualizados marcando estilos descartados (Warm boutique, Barbershop clásico, Editorial cálido).
+- Mood boards en `Karpathy/herramientas/ui-mood-board/` actualizados marcando estilos descartados (Warm boutique, Barbershop clásico, Editorial cálido).
 
 **Decisiones:**
 - Solo 4 estilos en V1 (los 3 confirmados + el default sin-estilo). El resto del mood board se incorpora cuando el usuario los apruebe/descarte ad-hoc.
