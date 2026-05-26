@@ -1,0 +1,7 @@
+# Excepciones a la regla "pnpm no ejecuta scripts por default"
+# (parte del hardening de cadena de suministro — ver .npmrc para contexto)
+#
+# Paquetes legítimos que SÍ pueden ejecutar postinstall:
+allowBuilds:
+  sharp: true          # procesamiento de imágenes (Next.js Image optimization)
+  unrs-resolver: true  # resolver Rust-native usado por ESLint
